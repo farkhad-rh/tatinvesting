@@ -1,0 +1,14 @@
+{
+  "tailwindConfig": "./tailwind.config.cjs",
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "trailingComma": "es5",
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": false,
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "singleAttributePerLine": true,
+  "arrowParens": "avoid",
+  "endOfLine": "lf"
+}

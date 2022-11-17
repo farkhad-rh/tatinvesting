@@ -1,0 +1,15 @@
+.header {
+  @apply sticky top-4 z-40 flex w-full max-w-full justify-between rounded-xl border border-white/80 bg-white bg-opacity-80 px-4 py-3 text-white shadow-md shadow-blue-gray-500/5 backdrop-blur-2xl backdrop-saturate-200 transition-all;
+}
+
+.logo {
+  @apply h-12 w-12;
+}
+
+.button {
+  @apply flex items-center gap-1 px-4;
+}
+
+.icon {
+  @apply h-5 w-5;
+}

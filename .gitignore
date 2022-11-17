@@ -1,0 +1,27 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+node_modules
+build
+
+# Important directories and files
+.husky/pre-commit
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea
+.pnpm-store
+.DS_Store
+.eslintcache
+.stylelintcache
+.env
+*.production
+*.local
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

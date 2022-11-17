@@ -1,0 +1,15 @@
+.overlay {
+  @apply absolute inset-0 z-0 h-full w-full before:absolute before:inset-0 before:z-0 before:bg-gradient-to-r before:from-sapphire-blue/70 before:to-dark-cornflower-blue/70;
+}
+
+.image {
+  @apply h-full w-full object-cover;
+}
+
+.wrapper {
+  @apply container mx-auto flex min-h-screen items-center justify-center p-4;
+}
+
+.logo {
+  @apply absolute top-0 m-auto h-28 w-28;
+}
