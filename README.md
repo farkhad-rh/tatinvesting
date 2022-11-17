@@ -1,4 +1,6 @@
-<img src='./public/TiNG.svg' title='TiNG'>
+<p align='center'>
+  <img src='./public/TiNG.svg' alt='TiNG' width='300'>
+<p>
 
 # TiNG
 
