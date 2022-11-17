@@ -1,4 +1,4 @@
-<img src='./public/TiNG.png' title='TiNG'>
+<img src='./public/TiNG.svg' title='TiNG'>
 
 # TiNG
 
