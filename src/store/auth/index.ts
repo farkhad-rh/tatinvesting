@@ -1,6 +1,6 @@
 import { atom, useRecoilState } from 'recoil'
 
-import { persistAtom } from '@/store/persist'
+import { persistAtom } from '@store/persist'
 
 import type { Actions } from './types'
 

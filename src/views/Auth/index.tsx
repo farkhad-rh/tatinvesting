@@ -1,7 +1,7 @@
-import { FormAuth } from '@/components/sections'
+import { FormAuth } from '@components/forms'
 
-import ImgLogo from '@/assets/img/logo-white.svg'
-import ImgBackground from '@/assets/img/bg.jpg'
+import ImgLogo from '@images/logo-white.svg'
+import ImgBackground from '@images/bg.jpg'
 
 import styles from './Auth.module.scss'
 

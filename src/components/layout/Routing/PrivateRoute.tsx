@@ -1,10 +1,10 @@
 import { FC, HTMLAttributes } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 
-import { AUTH_ROUTE } from '@/constants'
+import { AUTH_ROUTE } from '@constants'
 
-import { useAuth } from '@/store/auth'
-import { useUser } from '@/store/user'
+import { useAuth } from '@store/auth'
+import { useUser } from '@store/user'
 
 interface PrivateRouteProps extends HTMLAttributes<HTMLDivElement> {
   children?: JSX.Element

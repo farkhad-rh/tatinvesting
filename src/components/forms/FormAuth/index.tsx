@@ -13,9 +13,9 @@ import {
 } from '@material-tailwind/react'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
-import { useAuth } from '@/store/auth'
-import { useUser } from '@/store/user'
-import type { User } from '@/store/user/types'
+import { useAuth } from '@store/auth'
+import { useUser } from '@store/user'
+import type { User } from '@store/user/types'
 
 import styles from './FormAuth.module.scss'
 

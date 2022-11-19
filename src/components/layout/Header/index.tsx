@@ -1,10 +1,10 @@
 import { Button } from '@material-tailwind/react'
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 
-import { useAuth } from '@/store/auth'
-import { useUser } from '@/store/user'
+import { useAuth } from '@store/auth'
+import { useUser } from '@store/user'
 
-import ImgLogo from '@/assets/img/logo-color.svg'
+import ImgLogo from '@images/logo-color.svg'
 
 import styles from './Header.module.scss'
 

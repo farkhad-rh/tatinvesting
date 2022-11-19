@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
 
-import { Header, Main } from '@/components/layout'
+import { Header, Main } from '@components/layout'
 
 import styles from './Area.module.scss'
 
