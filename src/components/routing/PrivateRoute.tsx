@@ -1,7 +1,7 @@
 import { FC, HTMLAttributes } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 
-import { AUTH_ROUTE } from '@constants'
+import { Routes } from '@routes/routes.enum'
 
 import { useAuth } from '@store/auth'
 import { useUser } from '@store/user'
@@ -17,7 +17,7 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
   if (!auth && login !== import.meta.env.VITE_LOGIN && password !== import.meta.env.VITE_PASSWORD) {
     return (
       <Navigate
-        to={AUTH_ROUTE}
+        to={Routes.AUTH}
         replace
       />
     )

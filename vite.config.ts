@@ -53,6 +53,7 @@ export default defineConfig({
       { find: '@utils', replacement: '/src/utils' },
       { find: '@hooks', replacement: '/src/hooks' },
       { find: '@store', replacement: '/src/store' },
+      { find: '@services', replacement: '/src/services' },
       { find: '@components', replacement: '/src/components' },
       { find: '@views', replacement: '/src/views' },
       { find: '@images', replacement: '/src/assets/images' },

@@ -51,7 +51,7 @@ const Config = () => {
         <CardHeader
           variant='gradient'
           color='blue'
-          className='p-4'
+          className='py-2 px-4'
         >
           <Typography
             variant='h6'
@@ -99,7 +99,7 @@ const Config = () => {
         <CardHeader
           variant='gradient'
           color='blue'
-          className='p-4'
+          className='py-2 px-4'
         >
           <Typography
             variant='h6'
@@ -217,7 +217,7 @@ const Config = () => {
         <CardHeader
           variant='gradient'
           color='blue'
-          className='p-4'
+          className='py-2 px-4'
         >
           <Typography
             variant='h6'
@@ -268,7 +268,7 @@ const Config = () => {
         <CardHeader
           variant='gradient'
           color='blue'
-          className='p-4'
+          className='py-2 px-4'
         >
           <Typography
             variant='h6'
