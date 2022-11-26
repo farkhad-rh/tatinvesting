@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import {
   Card,
@@ -12,7 +12,6 @@ import {
 } from '@material-tailwind/react'
 
 import styles from './Config.module.scss'
-import { useState } from 'react'
 
 const Config = () => {
   const { register, control, watch, reset, resetField } = useForm({
