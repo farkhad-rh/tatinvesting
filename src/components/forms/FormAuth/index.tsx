@@ -13,9 +13,7 @@ import {
 } from '@material-tailwind/react'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
-import { useAuth } from '@store/auth'
-import { useUser } from '@store/user'
-import type { User } from '@store/user/types'
+import { useAuthService, useAuthGuard, useUserService, IUser } from '@services'
 
 import styles from './FormAuth.module.scss'
 
@@ -25,14 +23,15 @@ const FormAuth = () => {
     handleSubmit: onSubmit,
     formState: { errors },
     reset,
-  } = useForm<User>({ mode: 'onChange' })
+  } = useForm<IUser>({ mode: 'onChange' })
 
-  const [auth, { login }] = useAuth()
-  const [user, { createUser }] = useUser()
+  const [, { login }] = useAuthService()
+  const [, { createUser }] = useUserService()
+  const guard = useAuthGuard()
 
   const [error, setError] = useState(false)
 
-  const handleSubmit: SubmitHandler<User> = async user => {
+  const handleSubmit: SubmitHandler<IUser> = async user => {
     if (
       user?.login === import.meta.env.VITE_LOGIN &&
       user?.password === import.meta.env.VITE_PASSWORD
@@ -49,11 +48,7 @@ const FormAuth = () => {
     reset()
   }
 
-  if (
-    auth &&
-    user?.login === import.meta.env.VITE_LOGIN &&
-    user?.password === import.meta.env.VITE_PASSWORD
-  ) {
+  if (guard) {
     return (
       <Navigate
         to='/'
@@ -86,7 +81,7 @@ const FormAuth = () => {
             type='text'
             label='Логин'
             size='lg'
-            error={!!errors?.login}
+            error={Boolean(errors?.login)}
             {...register('login', { required: true })}
           />
 
@@ -94,7 +89,7 @@ const FormAuth = () => {
             type='password'
             label='Пароль'
             size='lg'
-            error={!!errors?.password}
+            error={Boolean(errors?.password)}
             {...register('password', { required: true })}
           />
 

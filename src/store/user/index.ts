@@ -1,23 +1,19 @@
-import { atom, useRecoilState } from 'recoil'
+import { atom } from 'recoil'
+import { recoilPersist } from 'recoil-persist'
 
-import type { User, Actions } from './types'
+import { IUser } from '@services'
 
-const initialState: User = {
+import { StorageService } from '@services'
+
+export const { persistAtom } = recoilPersist({ storage: StorageService('session') })
+
+export const initialUserState: IUser = {
   login: null,
   password: null,
 }
 
-export const userState = atom<User>({
+export const userState = atom<IUser>({
   key: 'user-state',
-  default: initialState,
+  default: initialUserState,
+  effects: [persistAtom],
 })
-
-export const useUser = (): [User, Actions] => {
-  const [user, setUser] = useRecoilState(userState)
-
-  const createUser = (payload: User) => setUser(payload)
-
-  const deleteUser = () => setUser(initialState)
-
-  return [user, { createUser, deleteUser }]
-}

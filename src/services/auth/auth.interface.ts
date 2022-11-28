@@ -1,6 +1,4 @@
-type Actions = {
+export interface IAuthActions {
   login: () => void
   logout: () => void
 }
-
-export type { Actions }

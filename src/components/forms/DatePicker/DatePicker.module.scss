@@ -1,0 +1,19 @@
+.form {
+  @apply w-full max-w-[24rem];
+}
+
+.head {
+  @apply mb-4 grid h-28 place-items-center;
+}
+
+.body {
+  @apply flex flex-col gap-4;
+}
+
+.icon {
+  @apply h-6 w-6;
+}
+
+.foot {
+  @apply pt-0;
+}

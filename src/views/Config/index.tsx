@@ -229,7 +229,7 @@ const Config = () => {
           <div className='flex gap-4'>
             <Input
               type='number'
-              label='Бюджет по освоению'
+              label='CAPEX'
               size='lg'
               min={0}
               {...register('CAPEX')}

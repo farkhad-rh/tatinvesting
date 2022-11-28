@@ -3,18 +3,16 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 import { Routes } from '@routes/routes.enum'
 
-import { useAuth } from '@store/auth'
-import { useUser } from '@store/user'
+import { useAuthGuard } from '@services'
 
 interface PrivateRouteProps extends HTMLAttributes<HTMLDivElement> {
   children?: JSX.Element
 }
 
 const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
-  const [auth] = useAuth()
-  const [{ login, password }] = useUser()
+  const guard = useAuthGuard()
 
-  if (!auth && login !== import.meta.env.VITE_LOGIN && password !== import.meta.env.VITE_PASSWORD) {
+  if (!guard) {
     return (
       <Navigate
         to={Routes.AUTH}
