@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-blue-gray-50/50;
+}
+
+::-webkit-scrollbar {
+  @apply h-2 w-2 rounded-md bg-blue-50/50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-sm bg-gradient-to-tr from-blue-600 to-blue-400;
+}
+
+::-webkit-outer-spin-button,
+::-webkit-inner-spin-button {
+  @apply m-0 appearance-none;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}

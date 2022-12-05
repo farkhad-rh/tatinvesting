@@ -5,7 +5,7 @@ import { RecoilRoot } from 'recoil'
 
 import { Routing } from '@components/routing'
 
-import '@styles/tailwind.css'
+import '@styles/main.css'
 
 const container = document.getElementById('root') as HTMLElement
 const root = createRoot(container)

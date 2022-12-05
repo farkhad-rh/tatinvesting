@@ -1,3 +1,4 @@
+import { recoilPersist } from 'recoil-persist'
 import { encode, decode } from 'js-base64'
 
 import type { TStorage, IStorageActions } from './storage.interface'
@@ -20,3 +21,5 @@ export const StorageService = (type: TStorage): IStorageActions => {
     },
   }
 }
+
+export const { persistAtom } = recoilPersist({ storage: StorageService('session') })
