@@ -1,6 +1,12 @@
 import { atom } from 'recoil'
+import { recoilPersist } from 'recoil-persist'
 
-import { persistAtom, IUser } from '@services'
+import { StorageService, IUser } from '@services'
+
+export const { persistAtom: persistUser } = recoilPersist({
+  key: 'recoil-persist-user',
+  storage: StorageService('local'),
+})
 
 export const initialUserState: IUser = {
   login: null,
@@ -10,5 +16,5 @@ export const initialUserState: IUser = {
 export const userState = atom<IUser>({
   key: 'user-state',
   default: initialUserState,
-  effects: [persistAtom],
+  effects: [persistUser],
 })

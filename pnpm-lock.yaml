@@ -11,6 +11,7 @@ specifiers:
   '@vitejs/plugin-react': ^2.2.0
   autoprefixer: ^10.4.13
   clsx: ^1.2.1
+  dayjs: ^1.11.7
   eslint: ^8.27.0
   eslint-plugin-react: ^7.31.10
   eslint-plugin-react-hooks: ^4.6.0
@@ -42,6 +43,7 @@ dependencies:
   '@heroicons/react': 2.0.13_react@18.2.0
   '@material-tailwind/react': 1.2.4_2zx2umvpluuhvlq44va5bta2da
   clsx: 1.2.1
+  dayjs: 1.11.7
   js-base64: 3.7.2
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -2398,6 +2400,10 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
+
+  /dayjs/1.11.7:
+    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
+    dev: false
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}

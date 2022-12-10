@@ -1,20 +1,14 @@
 import { Button } from '@material-tailwind/react'
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 
-import { useAuthService, useUserService } from '@services'
+import { useAuthController } from '@services'
 
 import ImgLogo from '@images/logo-color.svg'
 
 import styles from './Header.module.scss'
 
 const Header = () => {
-  const [, { logout }] = useAuthService()
-  const [, { deleteUser }] = useUserService()
-
-  const handleLogout = async () => {
-    await logout()
-    await deleteUser()
-  }
+  const { handleLogout } = useAuthController()
 
   return (
     <header className={styles.header}>

@@ -10,9 +10,9 @@ interface PrivateRouteProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
-  const guard = useAuthGuard()
+  const authGuard = useAuthGuard()
 
-  if (!guard) {
+  if (!authGuard) {
     return (
       <Navigate
         to={Routes.AUTH}

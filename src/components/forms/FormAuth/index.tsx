@@ -1,6 +1,5 @@
-import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useForm, SubmitHandler } from 'react-hook-form'
+
 import {
   Card,
   CardHeader,
@@ -13,42 +12,15 @@ import {
 } from '@material-tailwind/react'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
-import { useAuthService, useAuthGuard, useUserService, IUser } from '@services'
+import { useAuthGuard, useAuthController } from '@services'
 
 import styles from './FormAuth.module.scss'
 
 const FormAuth = () => {
-  const {
-    register,
-    handleSubmit: onSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<IUser>({ mode: 'onChange' })
+  const authGuard = useAuthGuard()
+  const { errors, register, handleSubmit, handleLogin, isErorr, setError } = useAuthController()
 
-  const [, { login }] = useAuthService()
-  const [, { createUser }] = useUserService()
-  const guard = useAuthGuard()
-
-  const [error, setError] = useState(false)
-
-  const handleSubmit: SubmitHandler<IUser> = async user => {
-    if (
-      user?.login === import.meta.env.VITE_LOGIN &&
-      user?.password === import.meta.env.VITE_PASSWORD
-    ) {
-      await login()
-      await createUser(user)
-
-      setError(false)
-
-      return
-    }
-
-    setError(true)
-    reset()
-  }
-
-  if (guard) {
+  if (authGuard) {
     return (
       <Navigate
         to='/'
@@ -60,7 +32,7 @@ const FormAuth = () => {
   return (
     <form
       className={styles.form}
-      onSubmit={onSubmit(handleSubmit)}
+      onSubmit={handleSubmit(handleLogin)}
     >
       <Card className={styles.form}>
         <CardHeader
@@ -82,6 +54,7 @@ const FormAuth = () => {
             label='Логин'
             size='lg'
             error={Boolean(errors?.login)}
+            onInput={() => setError(false)}
             {...register('login', { required: true })}
           />
 
@@ -90,6 +63,7 @@ const FormAuth = () => {
             label='Пароль'
             size='lg'
             error={Boolean(errors?.password)}
+            onInput={() => setError(false)}
             {...register('password', { required: true })}
           />
 
@@ -100,7 +74,7 @@ const FormAuth = () => {
                 className={styles.icon}
               />
             }
-            show={error}
+            show={isErorr}
             dismissible={{
               onClose: () => setError(false),
             }}

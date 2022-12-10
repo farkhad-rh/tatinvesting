@@ -1,11 +1,11 @@
+import { LOGIN, PASSWORD } from '@constants'
 import { useAuthService, useUserService } from '@services'
 
 export const useAuthGuard = () => {
   const [auth] = useAuthService()
   const [{ login, password }] = useUserService()
 
-  const guard =
-    auth && login === import.meta.env.VITE_LOGIN && password === import.meta.env.VITE_PASSWORD
+  const authGuard = auth && login === LOGIN && password === PASSWORD
 
-  return guard
+  return authGuard
 }
