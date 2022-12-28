@@ -1,1 +1,6 @@
 export { default as FormAuth } from './FormAuth'
+export { default as FormConfig } from './FormConfig'
+export { default as FormPeriod } from './FormPeriod'
+export { default as FormEffect } from './FormEffect'
+export { default as FormFinance } from './FormFinance'
+export { default as FormParams } from './FormParams'

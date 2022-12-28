@@ -8,6 +8,7 @@ import { PrivateRoute } from '@components/routing'
 
 const LazyAuth = lazy(() => import('@views/Auth'))
 const LazyConfig = lazy(() => import('@views/Config'))
+const LazyResult = lazy(() => import('@views/Result'))
 
 export const routes: NonIndexRouteObject[] = [
   { path: Routes.AUTH, element: <LazyAuth /> },
@@ -28,7 +29,7 @@ export const routes: NonIndexRouteObject[] = [
             ),
           },
           { path: Routes.CONFIG, element: <LazyConfig /> },
-          { path: Routes.RESULT, element: <p>Result</p> },
+          { path: Routes.RESULT, element: <LazyResult /> },
         ],
       },
       {

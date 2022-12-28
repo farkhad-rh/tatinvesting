@@ -1,0 +1,39 @@
+.row {
+  @apply flex gap-3;
+}
+
+.form {
+  @apply flex flex-col gap-3;
+}
+
+.name {
+  @apply w-[100%];
+}
+
+.params {
+  @apply flex w-[100%] gap-2;
+}
+
+.table {
+  @apply flex w-[100%] gap-3 overflow-x-auto pb-2;
+}
+
+.col {
+  @apply flex w-32 flex-shrink-0 flex-col gap-3;
+}
+
+.cell {
+  @apply flex h-11 items-center justify-center rounded-md;
+}
+
+.year {
+  @apply bg-gradient-to-tr from-blue-gray-400 to-blue-gray-200 font-bold text-white;
+}
+
+.result {
+  @apply border border-blue-gray-200;
+}
+
+.buttons {
+  @apply flex gap-2;
+}

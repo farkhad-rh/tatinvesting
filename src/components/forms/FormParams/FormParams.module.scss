@@ -1,0 +1,7 @@
+.row {
+  @apply flex gap-4;
+}
+
+.checkbox {
+  @apply w-full min-w-[200px];
+}

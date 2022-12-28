@@ -1,0 +1,274 @@
+import { Controller } from 'react-hook-form'
+
+import { Input, Select, Option, Button } from '@material-tailwind/react'
+import clsx from 'clsx'
+import dayjs from 'dayjs'
+
+import { formatNumber } from '@utils'
+
+import { Currencies, Powers, WeightUnits } from '@constants'
+
+import { useEffectController, usePeriodController } from '@services'
+
+import { FormConfig } from '@components/forms'
+
+import styles from './FormEffect.module.scss'
+
+const FormEffect = () => {
+  const { period } = usePeriodController()
+  const { register, control, handleAdd, handleRemove, effect } = useEffectController()
+
+  const { ST, PID } = period
+  const { PE, count } = effect
+
+  return (
+    <FormConfig title='Project Effect'>
+      {count?.map(n => {
+        const NPE = PE?.[`NPE${n}`]
+
+        return (
+          <div
+            key={n}
+            className={styles.row}
+          >
+            <div className={styles.form}>
+              <div className={styles.name}>
+                <Input
+                  type='text'
+                  label='Наименование продукции'
+                  size='lg'
+                  defaultValue={NPE?.NP}
+                  {...register(`PE.NPE${n}.NP`)}
+                />
+              </div>
+
+              <div className={styles.params}>
+                <Input
+                  type='number'
+                  min={0}
+                  label='Объем производства'
+                  size='lg'
+                  defaultValue={NPE?.NPET?.value || ''}
+                  {...register(`PE.NPE${n}.NPET.value`, { valueAsNumber: true })}
+                />
+
+                <Controller
+                  name={`PE.NPE${n}.NPET.power`}
+                  control={control}
+                  defaultValue={NPE?.NPET?.power}
+                  render={({ field: { value, onChange, ref } }) => (
+                    <Select
+                      ref={ref}
+                      label='Разрядность'
+                      size='lg'
+                      value={value}
+                      onChange={onChange}
+                    >
+                      {Powers?.map(({ key, value }) => (
+                        <Option
+                          key={key}
+                          value={`${value}`}
+                        >
+                          {key}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                />
+
+                <Controller
+                  name={`PE.NPE${n}.NPET.unit`}
+                  control={control}
+                  defaultValue={NPE?.NPET?.unit || '1'}
+                  render={({ field: { value, onChange, ref } }) => (
+                    <Select
+                      ref={ref}
+                      label='Ед. измерения'
+                      size='lg'
+                      value={value}
+                      onChange={onChange}
+                    >
+                      {WeightUnits?.map(({ key, value }) => (
+                        <Option
+                          key={key}
+                          value={`${value}`}
+                        >
+                          {key}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </div>
+
+              <div className={styles.params}>
+                <Input
+                  type='number'
+                  min={0}
+                  label='Стоимость продукций'
+                  size='lg'
+                  defaultValue={NPE?.PC?.value || ''}
+                  {...register(`PE.NPE${n}.PC.value`, { valueAsNumber: true })}
+                />
+
+                <Controller
+                  name={`PE.NPE${n}.PC.power`}
+                  control={control}
+                  defaultValue={NPE?.PC?.power}
+                  render={({ field: { value, onChange, ref } }) => (
+                    <Select
+                      ref={ref}
+                      label='Разрядность'
+                      size='lg'
+                      value={value}
+                      onChange={onChange}
+                    >
+                      {Powers?.map(({ key, value }) => (
+                        <Option
+                          key={key}
+                          value={`${value}`}
+                        >
+                          {key}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                />
+
+                <Controller
+                  name={`PE.NPE${n}.PC.currency`}
+                  control={control}
+                  defaultValue={NPE?.PC?.currency || '1'}
+                  render={({ field: { value, onChange, ref } }) => (
+                    <Select
+                      ref={ref}
+                      label='Валюта'
+                      size='lg'
+                      value={value}
+                      onChange={onChange}
+                    >
+                      {Currencies?.map(({ key, value }) => (
+                        <Option
+                          key={key}
+                          value={`${value}`}
+                        >
+                          {key}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </div>
+
+              <div className={styles.params}>
+                <Input
+                  type='number'
+                  min={0}
+                  label='Процессинг'
+                  size='lg'
+                  defaultValue={NPE?.EPP?.value || ''}
+                  {...register(`PE.NPE${n}.EPP.value`, { valueAsNumber: true })}
+                />
+
+                <Controller
+                  name={`PE.NPE${n}.EPP.power`}
+                  control={control}
+                  defaultValue={NPE?.EPP?.power}
+                  render={({ field: { value, onChange, ref } }) => (
+                    <Select
+                      ref={ref}
+                      label='Разрядность'
+                      size='lg'
+                      value={value}
+                      onChange={onChange}
+                    >
+                      {Powers?.map(({ key, value }) => (
+                        <Option
+                          key={key}
+                          value={`${value}`}
+                        >
+                          {key}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                />
+
+                <Controller
+                  name={`PE.NPE${n}.EPP.currency`}
+                  control={control}
+                  defaultValue={NPE?.EPP?.currency || '1'}
+                  render={({ field: { value, onChange, ref } }) => (
+                    <Select
+                      ref={ref}
+                      label='Валюта'
+                      size='lg'
+                      value={value}
+                      onChange={onChange}
+                    >
+                      {Currencies?.map(({ key, value }) => (
+                        <Option
+                          key={key}
+                          value={`${value}`}
+                        >
+                          {key}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </div>
+            </div>
+
+            <div className={styles.table}>
+              {ST?.map(indexST => (
+                <div
+                  key={indexST}
+                  className={styles.col}
+                >
+                  <div className={clsx(styles.cell, styles.year)}>
+                    {dayjs(PID)?.add(indexST, 'year').year() || indexST}
+                  </div>
+
+                  <div className={clsx(styles.cell, styles.result)}>
+                    {formatNumber(NPE?.NPET?.collection?.[indexST] || 0) || 0}
+                  </div>
+
+                  <div className={clsx(styles.cell, styles.result)}>
+                    {formatNumber(NPE?.PC?.collection?.[indexST] || 0) || 0}
+                  </div>
+
+                  <div className={clsx(styles.cell, styles.result)}>
+                    {formatNumber(NPE?.EPP?.collection?.[indexST] || 0) || 0}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      })}
+
+      <div className={styles.buttons}>
+        <Button
+          variant='gradient'
+          color='green'
+          onClick={handleAdd}
+        >
+          Добавить
+        </Button>
+
+        {count?.length > 1 && (
+          <Button
+            variant='gradient'
+            color='red'
+            onClick={handleRemove}
+          >
+            Удалить
+          </Button>
+        )}
+      </div>
+    </FormConfig>
+  )
+}
+
+export default FormEffect

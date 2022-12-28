@@ -36,5 +36,5 @@ export const useAuthController = () => {
     await deleteUser()
   }
 
-  return { errors, register, handleSubmit, handleLogin, handleLogout, isErorr, setError }
+  return { register, handleSubmit, handleLogin, handleLogout, errors, isErorr, setError }
 }

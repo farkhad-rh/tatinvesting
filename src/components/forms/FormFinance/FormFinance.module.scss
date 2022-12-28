@@ -1,0 +1,31 @@
+.row {
+  @apply flex gap-4;
+}
+
+.table {
+  @apply flex justify-between gap-3 overflow-x-auto rounded-md pb-2;
+}
+
+.col {
+  @apply flex flex-col gap-3;
+}
+
+.cell {
+  @apply flex h-11 items-center justify-center rounded-md px-3;
+}
+
+.year {
+  @apply bg-gradient-to-tr from-blue-gray-400 to-blue-gray-200 font-bold text-white;
+}
+
+.coeff {
+  @apply text-center;
+}
+
+.input {
+  @apply min-w-[128px];
+}
+
+.result {
+  @apply border border-blue-gray-200;
+}

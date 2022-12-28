@@ -1,0 +1,11 @@
+.row {
+  @apply flex gap-4;
+}
+
+.input {
+  @apply w-1/2;
+}
+
+.unit {
+  @apply flex w-1/2 gap-2;
+}

@@ -18,7 +18,7 @@ import styles from './FormAuth.module.scss'
 
 const FormAuth = () => {
   const authGuard = useAuthGuard()
-  const { errors, register, handleSubmit, handleLogin, isErorr, setError } = useAuthController()
+  const { register, handleSubmit, handleLogin, errors, isErorr, setError } = useAuthController()
 
   if (authGuard) {
     return (
