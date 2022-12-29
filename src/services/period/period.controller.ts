@@ -57,7 +57,7 @@ export const usePeriodController = () => {
           }
 
           if (dayjs(PID).year() + n === dayjs(PIDDC).year()) {
-            return dayjs(SH[n])?.diff(PIDDC, 'day') / KDVG
+            return Number((dayjs(SH[n])?.diff(PIDDC, 'day') / KDVG).toFixed(6))
           }
 
           return 1

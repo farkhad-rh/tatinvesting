@@ -1,29 +1,29 @@
 export const WeightUnits = [
   {
     key: 'грамм',
-    value: Math.pow(10, 6),
+    value: 'GRAM',
   },
   {
     key: 'кг',
-    value: Math.pow(10, 3),
+    value: 'KG',
   },
   {
     key: 'тонн',
-    value: 1,
+    value: 'TONNE',
   },
 ]
 
 export const TimeUnits = [
   {
     key: 'день',
-    value: 'DAY',
+    value: 'day',
   },
   {
     key: 'месяц',
-    value: 'MONTH',
+    value: 'month',
   },
   {
     key: 'год',
-    value: 'YEAR',
+    value: 'year',
   },
 ]

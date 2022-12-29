@@ -1,18 +1,18 @@
 export const Powers = [
   {
     key: 'тыс.',
-    value: Math.pow(10, 3),
+    value: 'THOU',
   },
   {
     key: 'млн.',
-    value: Math.pow(10, 6),
+    value: 'MLN',
   },
   {
     key: 'млрд.',
-    value: Math.pow(10, 9),
+    value: 'BN',
   },
   {
     key: 'трлн.',
-    value: Math.pow(10, 12),
+    value: 'TRLN',
   },
 ]

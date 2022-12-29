@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { Currencies, Powers, WeightUnits } from '@enums'
+
 import { usePeriodService, useEffectService, IEffect, useParamsService } from '@services'
 
 export const useEffectController = () => {
@@ -50,7 +52,9 @@ export const useEffectController = () => {
         }
 
         if (NPET) {
-          const calculate = (NPET?.value || 0) * Number(NPET?.power) * Number(NPET?.unit) || 0
+          const power = NPET?.power || 'THOU'
+          const unit = NPET?.unit || 'TONNE'
+          const calculate = (NPET?.value || 0) * Powers[power] * WeightUnits[unit] || 0
 
           const collection = ST?.map(() => NPET?.value || 0)
 
@@ -58,22 +62,24 @@ export const useEffectController = () => {
         }
 
         if (PC) {
-          const calculate = (PC?.value || 0) * Number(PC?.power) * Number(PC?.currency) || 0
+          const power = PC?.power || 'THOU'
+          const currency = PC?.currency || 'RUB'
+          const calculate = (PC?.value || 0) * Powers[power] * Currencies[currency] || 0
 
           const collection = ST?.map(indexST => {
-            return Math.round((PC?.value || 0) * Math.pow(1 + (DEF || 0), indexST) * 100) / 100 || 0
+            return ((PC?.value || 0) * Math.pow(1 + (DEF || 0), indexST) * 100) / 100 || 0
           })
 
           createPC({ ...PC, calc: calculate, collection: collection }, index)
         }
 
         if (EPP) {
-          const calculate = (EPP?.value || 0) * Number(EPP?.power) * Number(EPP?.currency) || 0
+          const power = EPP?.power || 'THOU'
+          const currency = EPP?.currency || 'RUB'
+          const calculate = (EPP?.value || 0) * Powers[power] * Currencies[currency] || 0
 
           const collection = ST?.map(indexST => {
-            return (
-              Math.round((EPP?.value || 0) * Math.pow(1 + (DEF || 0), indexST) * 100) / 100 || 0
-            )
+            return ((EPP?.value || 0) * Math.pow(1 + (DEF || 0), indexST) * 100) / 100 || 0
           })
 
           createEPP({ ...EPP, calc: calculate, collection: collection }, index)

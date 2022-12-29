@@ -13,8 +13,6 @@ const FormParams = () => {
 
   const { DEF, GRT, ITXD, RETD, RMCD, WACC, WCD, TV_enabled } = params
 
-  // console.log(params)
-
   return (
     <FormConfig title='Params'>
       <div className={styles.row}>

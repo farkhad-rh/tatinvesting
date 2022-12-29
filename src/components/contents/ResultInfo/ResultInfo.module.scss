@@ -1,0 +1,7 @@
+.wrapper {
+  @apply flex w-[32%] flex-col;
+}
+
+.label {
+  @apply font-normal text-blue-gray-600;
+}

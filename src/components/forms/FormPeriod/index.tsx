@@ -16,8 +16,6 @@ const FormPeriod = () => {
 
   const { PH, PID, PIDDC, DCE } = period
 
-  // console.log(period)
-
   return (
     <FormConfig title='Date planning'>
       <div className={styles.row}>

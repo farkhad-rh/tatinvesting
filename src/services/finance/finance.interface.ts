@@ -1,7 +1,7 @@
 export interface iCAPEX {
   value?: number
-  power?: string
-  currency?: string
+  power?: 'THOU' | 'MLN' | 'BN' | 'TRLN'
+  currency?: 'RUB' | 'USD' | 'EUR'
   calc?: number
 }
 

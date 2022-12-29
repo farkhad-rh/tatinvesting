@@ -1,0 +1,21 @@
+.background {
+  @apply relative mt-8 h-56 w-full overflow-hidden rounded-xl;
+}
+
+.overlay {
+  @apply absolute inset-0 flex h-full w-full items-center justify-center bg-gradient-to-r from-sapphire-blue/70 to-dark-cornflower-blue/70 pb-16;
+}
+
+.image {
+  object-position: 0% 15%;
+
+  @apply h-full w-full object-cover;
+}
+
+.card {
+  @apply mx-3 -mt-16 mb-6 lg:mx-4;
+}
+
+.body {
+  @apply flex flex-col gap-8 p-4;
+}

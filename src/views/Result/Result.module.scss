@@ -2,6 +2,30 @@
   @apply text-center;
 }
 
-.button {
-  @apply m-auto w-80;
+.table {
+  @apply flex w-[100%] gap-3 overflow-x-auto rounded-md pb-2;
+}
+
+.col {
+  @apply flex w-32 flex-shrink-0 flex-col gap-3;
+}
+
+.colParams {
+  @apply w-auto;
+}
+
+.cell {
+  @apply flex h-11 items-center justify-center rounded-md;
+}
+
+.cellParams {
+  @apply flex-col items-start;
+}
+
+.year {
+  @apply bg-gradient-to-tr from-blue-gray-400 to-blue-gray-200 font-bold text-white;
+}
+
+.result {
+  @apply border border-blue-gray-200;
 }

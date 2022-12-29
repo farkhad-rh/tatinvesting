@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { Currencies, Powers } from '@enums'
+
 import { useFinanceService, IFinance } from '@services'
 
 export const useFinanceController = () => {
@@ -11,7 +13,9 @@ export const useFinanceController = () => {
   useEffect(() => {
     const subscription = watch(({ CAPEX, KR }) => {
       if (CAPEX) {
-        const calculate = (CAPEX?.value || 0) * Number(CAPEX?.power) * Number(CAPEX?.currency) || 0
+        const power = CAPEX?.power || 'THOU'
+        const currency = CAPEX?.currency || 'RUB'
+        const calculate = (CAPEX?.value || 0) * Powers[power] * Currencies[currency] || 0
 
         createCAPEX({
           ...CAPEX,

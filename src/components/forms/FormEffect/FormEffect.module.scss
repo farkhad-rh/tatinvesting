@@ -15,7 +15,7 @@
 }
 
 .table {
-  @apply flex w-[100%] gap-3 overflow-x-auto pb-2;
+  @apply flex w-[100%] gap-3 overflow-x-auto rounded-md pb-2;
 }
 
 .col {

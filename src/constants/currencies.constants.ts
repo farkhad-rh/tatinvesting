@@ -1,6 +1,6 @@
 export const Currencies = [
   {
     key: 'рублей',
-    value: 1,
+    value: 'RUB',
   },
 ]

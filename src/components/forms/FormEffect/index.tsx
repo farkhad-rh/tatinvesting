@@ -4,9 +4,9 @@ import { Input, Select, Option, Button } from '@material-tailwind/react'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 
-import { formatNumber } from '@utils'
-
 import { Currencies, Powers, WeightUnits } from '@constants'
+
+import { formatNumber } from '@utils'
 
 import { useEffectController, usePeriodController } from '@services'
 
@@ -67,7 +67,7 @@ const FormEffect = () => {
                       {Powers?.map(({ key, value }) => (
                         <Option
                           key={key}
-                          value={`${value}`}
+                          value={value}
                         >
                           {key}
                         </Option>
@@ -79,7 +79,7 @@ const FormEffect = () => {
                 <Controller
                   name={`PE.NPE${n}.NPET.unit`}
                   control={control}
-                  defaultValue={NPE?.NPET?.unit || '1'}
+                  defaultValue={NPE?.NPET?.unit || 'TONNE'}
                   render={({ field: { value, onChange, ref } }) => (
                     <Select
                       ref={ref}
@@ -91,7 +91,7 @@ const FormEffect = () => {
                       {WeightUnits?.map(({ key, value }) => (
                         <Option
                           key={key}
-                          value={`${value}`}
+                          value={value}
                         >
                           {key}
                         </Option>
@@ -126,7 +126,7 @@ const FormEffect = () => {
                       {Powers?.map(({ key, value }) => (
                         <Option
                           key={key}
-                          value={`${value}`}
+                          value={value}
                         >
                           {key}
                         </Option>
@@ -138,7 +138,7 @@ const FormEffect = () => {
                 <Controller
                   name={`PE.NPE${n}.PC.currency`}
                   control={control}
-                  defaultValue={NPE?.PC?.currency || '1'}
+                  defaultValue={NPE?.PC?.currency || 'RUB'}
                   render={({ field: { value, onChange, ref } }) => (
                     <Select
                       ref={ref}
@@ -150,7 +150,7 @@ const FormEffect = () => {
                       {Currencies?.map(({ key, value }) => (
                         <Option
                           key={key}
-                          value={`${value}`}
+                          value={value}
                         >
                           {key}
                         </Option>
@@ -185,7 +185,7 @@ const FormEffect = () => {
                       {Powers?.map(({ key, value }) => (
                         <Option
                           key={key}
-                          value={`${value}`}
+                          value={value}
                         >
                           {key}
                         </Option>
@@ -197,7 +197,7 @@ const FormEffect = () => {
                 <Controller
                   name={`PE.NPE${n}.EPP.currency`}
                   control={control}
-                  defaultValue={NPE?.EPP?.currency || '1'}
+                  defaultValue={NPE?.EPP?.currency || 'RUB'}
                   render={({ field: { value, onChange, ref } }) => (
                     <Select
                       ref={ref}
@@ -209,7 +209,7 @@ const FormEffect = () => {
                       {Currencies?.map(({ key, value }) => (
                         <Option
                           key={key}
-                          value={`${value}`}
+                          value={value}
                         >
                           {key}
                         </Option>

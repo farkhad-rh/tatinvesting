@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { Typography, Button } from '@material-tailwind/react'
 
+import { Routes } from '@routes/routes.enum'
+
 import { FormPeriod, FormEffect, FormFinance, FormParams } from '@components/forms'
 
 import styles from './Config.module.scss'
@@ -29,7 +31,7 @@ const Config = () => {
         className={styles.button}
         variant='gradient'
         size='lg'
-        onClick={() => navigate('/result')}
+        onClick={() => navigate(`/${Routes.RESULT}`)}
       >
         Рассчитать
       </Button>

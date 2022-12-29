@@ -1,8 +1,8 @@
 export interface IEffectParams {
   value?: number
-  power?: string
-  unit?: string
-  currency?: string
+  power?: 'THOU' | 'MLN' | 'BN' | 'TRLN'
+  unit?: 'GRAM' | 'KG' | 'TONNE'
+  currency?: 'RUB' | 'USD' | 'EUR'
   calc?: number
   collection?: (number | undefined)[]
 }

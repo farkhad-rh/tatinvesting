@@ -19,8 +19,6 @@ const FormFinance = () => {
   const { ST, PID } = period
   const { CAPEX, KR, FP } = finance
 
-  // console.log(finance)
-
   return (
     <FormConfig title='Finance'>
       <div className={styles.row}>
@@ -48,7 +46,7 @@ const FormFinance = () => {
               {Powers?.map(({ key, value }) => (
                 <Option
                   key={key}
-                  value={`${value}`}
+                  value={value}
                 >
                   {key}
                 </Option>
@@ -60,7 +58,7 @@ const FormFinance = () => {
         <Controller
           name={'CAPEX.currency'}
           control={control}
-          defaultValue={CAPEX?.currency || '1'}
+          defaultValue={CAPEX?.currency || 'RUB'}
           render={({ field: { value, onChange, ref } }) => (
             <Select
               ref={ref}
@@ -72,7 +70,7 @@ const FormFinance = () => {
               {Currencies?.map(({ key, value }) => (
                 <Option
                   key={key}
-                  value={`${value}`}
+                  value={value}
                 >
                   {key}
                 </Option>
