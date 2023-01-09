@@ -12,4 +12,46 @@
 
 .logo {
   @apply absolute top-0 m-auto h-28 w-28;
+
+  opacity: 0;
+  animation: fadeIn 0.5s 1.6s linear forwards;
+}
+
+.logoAnimation {
+  @apply absolute m-auto h-28 w-28;
+
+  top: calc(50% - (112px / 2));
+  opacity: 0;
+  animation: moveTop 0.5s 1.2s linear forwards, pulse 0.5s linear infinite alternate;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes moveTop {
+  from {
+    top: calc(50% - (112px / 2));
+  }
+
+  to {
+    top: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.1;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

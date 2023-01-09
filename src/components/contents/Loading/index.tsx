@@ -1,11 +1,9 @@
-import { FormAuth } from '@components/forms'
-
 import ImgLogo from '@images/logo-white.svg'
 import ImgBackground from '@images/bg.jpg'
 
-import styles from './Auth.module.scss'
+import styles from './Loading.module.scss'
 
-const Auth = () => {
+const Loading = () => {
   return (
     <>
       <div className={styles.overlay}>
@@ -21,17 +19,9 @@ const Auth = () => {
           alt='TiNG'
           className={styles.logo}
         />
-
-        <img
-          src={ImgLogo}
-          alt='TiNG'
-          className={styles.logoAnimation}
-        />
-
-        <FormAuth />
       </div>
     </>
   )
 }
 
-export default Auth
+export default Loading

@@ -1,15 +1,16 @@
+import { Suspense } from 'react'
 import { useRoutes } from 'react-router-dom'
 
 import { routes } from '@routes'
 
 import { ScrollToTop } from '@components/routing'
-import { Suspense } from 'react'
+import { Loading } from '@components/contents'
 
 const Routing = () => {
   const routing = useRoutes(routes)
 
   return (
-    <Suspense fallback={<p>Loading...</p>}>
+    <Suspense fallback={<Loading />}>
       <ScrollToTop>{routing}</ScrollToTop>
     </Suspense>
   )

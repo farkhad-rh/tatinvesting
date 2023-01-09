@@ -1,0 +1,27 @@
+.overlay {
+  @apply absolute inset-0 z-0 h-full w-full before:absolute before:inset-0 before:z-0 before:bg-gradient-to-r before:from-sapphire-blue/70 before:to-dark-cornflower-blue/70;
+}
+
+.image {
+  @apply h-full w-full object-cover;
+}
+
+.wrapper {
+  @apply container mx-auto flex min-h-screen items-center justify-center p-4;
+}
+
+.logo {
+  @apply absolute m-auto h-40 w-40;
+
+  animation: pulse 0.5s linear infinite alternate;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.1;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

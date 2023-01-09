@@ -1,5 +1,9 @@
 .form {
   @apply w-full max-w-[24rem];
+
+  opacity: 0;
+  animation: fadeIn 0.3s 1.4s linear forwards;
+  transform: translateY(20px);
 }
 
 .head {
@@ -16,4 +20,16 @@
 
 .foot {
   @apply pt-0;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -6,12 +6,21 @@ import { Routes } from './routes.enum'
 import { Area } from '@components/layout'
 import { PrivateRoute } from '@components/routing'
 
-const LazyAuth = lazy(() => import('@views/Auth'))
-const LazyConfig = lazy(() => import('@views/Config'))
-const LazyResult = lazy(() => import('@views/Result'))
+import Auth from '@views/Auth'
+
+const LazyConfig = lazy(() => {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(import('@views/Config')), 1000)
+  })
+})
+const LazyResult = lazy(() => {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(import('@views/Result')), 1000)
+  })
+})
 
 export const routes: NonIndexRouteObject[] = [
-  { path: Routes.AUTH, element: <LazyAuth /> },
+  { path: Routes.AUTH, element: <Auth /> },
   {
     element: <PrivateRoute />,
     children: [
