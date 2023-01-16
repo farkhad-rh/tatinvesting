@@ -2,9 +2,10 @@ import { Controller } from 'react-hook-form'
 
 import { Input, Select, Option } from '@material-tailwind/react'
 import clsx from 'clsx'
-import dayjs from 'dayjs'
 
 import { Currencies, Powers } from '@constants'
+
+import { formatNumber, getYear } from '@utils'
 
 import { useFinanceController, usePeriodController } from '@services'
 
@@ -16,7 +17,7 @@ const FormFinance = () => {
   const { period } = usePeriodController()
   const { register, control, finance } = useFinanceController()
 
-  const { ST, PID } = period
+  const { ST, SY } = period
   const { CAPEX, KR, FP } = finance
 
   return (
@@ -86,15 +87,14 @@ const FormFinance = () => {
             key={n}
             className={styles.col}
           >
-            <div className={clsx(styles.cell, styles.year)}>
-              {dayjs(PID)?.add(n, 'year').year() || n}
-            </div>
+            <div className={clsx(styles.cell, styles.year)}>{getYear(SY[n]) || n}</div>
 
             <Input
               className={styles.coeff}
               type='number'
               min={0}
               max={1}
+              step={0.1}
               label='Коэффициент'
               size='lg'
               defaultValue={KR[n] || 0}
@@ -104,7 +104,7 @@ const FormFinance = () => {
               {...register(`KR.${n}`, { valueAsNumber: true })}
             />
 
-            <div className={clsx(styles.cell, styles.result)}>{FP[n] || 0}</div>
+            <div className={clsx(styles.cell, styles.result)}>{formatNumber(FP[n] || 0)}</div>
           </div>
         ))}
       </div>

@@ -27,11 +27,11 @@
 }
 
 .year {
-  @apply bg-gradient-to-tr from-blue-gray-400 to-blue-gray-200 font-bold text-white;
+  @apply bg-gradient-to-tr from-blue-gray-400 to-blue-gray-200 text-sm font-bold text-white;
 }
 
 .result {
-  @apply border border-blue-gray-200;
+  @apply border border-blue-gray-200 text-sm;
 }
 
 .buttons {

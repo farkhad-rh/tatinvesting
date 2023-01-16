@@ -25,31 +25,31 @@ export const useParamsController = () => {
   useEffect(() => {
     const subscription = watch(({ DEF, GRT, ITXD, RETD, RMCD, WACC, WCD, TV_enabled }) => {
       if (DEF !== undefined) {
-        createDEF(formatPercent(DEF))
+        createDEF(DEF)
       }
 
-      if (GRT !== undefined) {
-        createGRT(formatPercent(GRT))
+      if (DEF !== undefined) {
+        createGRT(GRT)
       }
 
-      if (ITXD !== undefined) {
-        createITXD(formatPercent(ITXD))
+      if (DEF !== undefined) {
+        createITXD(ITXD)
       }
 
-      if (RETD !== undefined) {
-        createRETD(formatPercent(RETD))
+      if (DEF !== undefined) {
+        createRETD(RETD)
       }
 
-      if (RMCD !== undefined) {
-        createRMCD(formatPercent(RMCD))
+      if (DEF !== undefined) {
+        createRMCD(RMCD)
       }
 
-      if (WACC !== undefined) {
-        createWACC(formatPercent(WACC))
+      if (DEF !== undefined) {
+        createWACC(WACC)
       }
 
-      if (WCD !== undefined) {
-        createWCD(formatPercent(WCD))
+      if (DEF !== undefined) {
+        createWCD(WCD)
       }
 
       if (TV_enabled !== undefined) {

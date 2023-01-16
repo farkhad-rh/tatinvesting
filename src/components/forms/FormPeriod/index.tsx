@@ -19,21 +19,22 @@ const FormPeriod = () => {
   return (
     <FormConfig title='Date planning'>
       <div className={styles.row}>
-        <Input
-          type='date'
-          min={dayjs().format('YYYY-MM-DD')}
-          label='Дата реализации проекта'
-          size='lg'
-          defaultValue={PID}
-          containerProps={{
-            className: `${styles.input}`,
-          }}
-          {...register('PID')}
-        />
+        <div className={styles.date}>
+          <Input
+            type='date'
+            min={dayjs().format('YYYY-MM-DD')}
+            label='Дата реализации проекта'
+            size='lg'
+            defaultValue={PID}
+            className={styles.input}
+            {...register('PID')}
+          />
+        </div>
 
         <div className={styles.unit}>
           <Input
             type='number'
+            min={0}
             label='Период реализации проекта'
             size='lg'
             defaultValue={DCE?.value || ''}

@@ -9,13 +9,13 @@ export const { persistAtom: persistParams } = recoilPersist({
 })
 
 export const initialParamsState: IParams = {
-  DEF: 0.04,
-  GRT: 0.02,
-  ITXD: 0.2,
+  DEF: 4,
+  GRT: 2,
+  ITXD: 2,
   RETD: NaN,
-  RMCD: 0.2,
+  RMCD: 2,
   WACC: NaN,
-  WCD: 0.23,
+  WCD: 23,
   TV_enabled: false,
 }
 

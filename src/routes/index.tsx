@@ -10,12 +10,12 @@ import Auth from '@views/Auth'
 
 const LazyConfig = lazy(() => {
   return new Promise(resolve => {
-    setTimeout(() => resolve(import('@views/Config')), 1000)
+    setTimeout(() => resolve(import('@views/Config') as never), 1000)
   })
 })
 const LazyResult = lazy(() => {
   return new Promise(resolve => {
-    setTimeout(() => resolve(import('@views/Result')), 1000)
+    setTimeout(() => resolve(import('@views/Result') as never), 1000)
   })
 })
 

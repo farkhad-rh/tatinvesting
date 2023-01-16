@@ -1,7 +1,5 @@
 import { Input, Checkbox } from '@material-tailwind/react'
 
-import { formatPercent } from '@utils'
-
 import { useParamsController } from '@services'
 
 import { FormConfig } from '@components/forms'
@@ -21,7 +19,7 @@ const FormParams = () => {
           min={0}
           label='Инфляция в РФ, %'
           size='lg'
-          defaultValue={formatPercent(DEF, false) || ''}
+          defaultValue={DEF || ''}
           {...register('DEF', { valueAsNumber: true })}
         />
         <Input
@@ -29,7 +27,7 @@ const FormParams = () => {
           min={0}
           label='Инфляция в США, %'
           size='lg'
-          defaultValue={formatPercent(GRT, false) || ''}
+          defaultValue={GRT || ''}
           readOnly
           {...register('GRT', { valueAsNumber: true })}
         />
@@ -48,7 +46,7 @@ const FormParams = () => {
           min={0}
           label='Средневзвешенная стоимость капитала, %'
           size='lg'
-          defaultValue={formatPercent(WACC, false) || ''}
+          defaultValue={WACC || ''}
           {...register('WACC', { valueAsNumber: true })}
         />
         <Input
@@ -56,7 +54,7 @@ const FormParams = () => {
           min={0}
           label='Рабочий капитал, %'
           size='lg'
-          defaultValue={formatPercent(WCD, false) || ''}
+          defaultValue={WCD || ''}
           {...register('WCD', { valueAsNumber: true })}
         />
         <Input
@@ -64,7 +62,7 @@ const FormParams = () => {
           min={0}
           label='Затраты на ремонт и ТО, %'
           size='lg'
-          defaultValue={formatPercent(RMCD, false) || ''}
+          defaultValue={RMCD || ''}
           {...register('RMCD', { valueAsNumber: true })}
         />
       </div>
@@ -75,7 +73,7 @@ const FormParams = () => {
           min={0}
           label='Налог на прибыль, %'
           size='lg'
-          defaultValue={formatPercent(ITXD, false) || ''}
+          defaultValue={ITXD || ''}
           {...register('ITXD', { valueAsNumber: true })}
         />
         <Input
@@ -83,7 +81,7 @@ const FormParams = () => {
           min={0}
           label='Налог на недвижимое имущество, %'
           size='lg'
-          defaultValue={formatPercent(RETD, false) || ''}
+          defaultValue={RETD || ''}
           {...register('RETD', { valueAsNumber: true })}
         />
       </div>

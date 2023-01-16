@@ -13,11 +13,6 @@ export const usePeriodService = (): [IPeriod, IPeriodActions] => {
       return { ...prev, ...payload }
     })
 
-  const createST = (payload: IPeriod['ST']) =>
-    setPeriod(prev => {
-      return { ...prev, ST: payload }
-    })
-
   const createPH = (payload: IPeriod['PH']) =>
     setPeriod(prev => {
       return { ...prev, PH: payload }
@@ -43,6 +38,16 @@ export const usePeriodService = (): [IPeriod, IPeriodActions] => {
       return { ...prev, DCE: { ...prev?.DCE, ...payload } }
     })
 
+  const createST = (payload: IPeriod['ST']) =>
+    setPeriod(prev => {
+      return { ...prev, ST: payload }
+    })
+
+  const createSY = (payload: IPeriod['SY']) =>
+    setPeriod(prev => {
+      return { ...prev, SY: payload }
+    })
+
   const createSH = (payload: IPeriod['SH']) =>
     setPeriod(prev => {
       return { ...prev, SH: payload }
@@ -59,12 +64,13 @@ export const usePeriodService = (): [IPeriod, IPeriodActions] => {
     period ?? periodValue,
     {
       createPeriod,
-      createST,
       createPH,
       createPHD,
       createPID,
       createPIDDC,
       createDCE,
+      createST,
+      createSY,
       createSH,
       createSHRR,
       deletePeriod,

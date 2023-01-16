@@ -2,11 +2,10 @@ import { Controller } from 'react-hook-form'
 
 import { Input, Select, Option, Button } from '@material-tailwind/react'
 import clsx from 'clsx'
-import dayjs from 'dayjs'
 
 import { Currencies, Powers, WeightUnits } from '@constants'
 
-import { formatNumber } from '@utils'
+import { formatNumber, getYear } from '@utils'
 
 import { useEffectController, usePeriodController } from '@services'
 
@@ -18,7 +17,7 @@ const FormEffect = () => {
   const { period } = usePeriodController()
   const { register, control, handleAdd, handleRemove, effect } = useEffectController()
 
-  const { ST, PID } = period
+  const { ST, SY } = period
   const { PE, count } = effect
 
   return (
@@ -227,19 +226,19 @@ const FormEffect = () => {
                   className={styles.col}
                 >
                   <div className={clsx(styles.cell, styles.year)}>
-                    {dayjs(PID)?.add(indexST, 'year').year() || indexST}
+                    {getYear(SY[indexST]) || indexST}
                   </div>
 
                   <div className={clsx(styles.cell, styles.result)}>
-                    {formatNumber(NPE?.NPET?.collection?.[indexST] || 0) || 0}
+                    {formatNumber(NPE?.NPET?.collection?.[indexST] || 0)}
                   </div>
 
                   <div className={clsx(styles.cell, styles.result)}>
-                    {formatNumber(NPE?.PC?.collection?.[indexST] || 0) || 0}
+                    {formatNumber(NPE?.PC?.collection?.[indexST] || 0)}
                   </div>
 
                   <div className={clsx(styles.cell, styles.result)}>
-                    {formatNumber(NPE?.EPP?.collection?.[indexST] || 0) || 0}
+                    {formatNumber(NPE?.EPP?.collection?.[indexST] || 0)}
                   </div>
                 </div>
               ))}

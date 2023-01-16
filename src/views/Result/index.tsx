@@ -1,5 +1,5 @@
 import { Typography } from '@material-tailwind/react'
-import dayjs from 'dayjs'
+import * as dayjs from 'dayjs'
 import clsx from 'clsx'
 
 import {
@@ -12,7 +12,7 @@ import {
   WeightUnitsString,
 } from '@enums'
 
-import { formatNumber, formatPercent } from '@utils'
+import { formatNumber } from '@utils'
 
 import { useEffectService, useFinanceService, useParamsService, usePeriodService } from '@services'
 
@@ -122,8 +122,6 @@ const Result = () => {
       const totalNPET = NPE?.NPET?.collection?.[n] * Powers[powerNPET] * WeightUnits[unitNPET]
       const totalEPP = NPE?.EPP?.collection?.[n] * Powers[powerEPP] * Currencies[currencyEPP]
 
-      console.log(totalNPET, totalEPP)
-
       val = (totalNPET * totalEPP + val) * SHRR[n]
     })
 
@@ -140,8 +138,6 @@ const Result = () => {
   const ACF = []
   const ADCF = []
   const NCFTV = []
-
-  console.log(RACH)
 
   return (
     <>
@@ -250,7 +246,9 @@ const Result = () => {
                   {dayjs(PID)?.add(indexST, 'year').year()}
                 </div>
 
-                <div className={clsx(styles.cell, styles.result)}>{SHRR[indexST]}</div>
+                <div className={clsx(styles.cell, styles.result)}>
+                  {formatNumber(SHRR[indexST])}
+                </div>
               </div>
             ))}
           </div>
@@ -428,12 +426,12 @@ const Result = () => {
         <div className='flex flex-wrap gap-6'>
           <ResultInfo
             label='Дефлятор (инфляция в РФ), % (DEF)'
-            value={`${formatPercent(DEF, false)}%`}
+            value={`${DEF}%`}
           />
 
           <ResultInfo
             label='Дефлятор (инфляция в США), % (GRT)'
-            value={`${formatPercent(GRT, false)}%`}
+            value={`${GRT}%`}
           />
 
           <ResultInfo
@@ -443,27 +441,27 @@ const Result = () => {
 
           <ResultInfo
             label='Средневзвешенная стоимость капитала, % (WACC)'
-            value={`${formatPercent(WACC, false)}%`}
+            value={`${WACC}%`}
           />
 
           <ResultInfo
             label='Рабочий капитал, % (WCD)'
-            value={`${formatPercent(WCD, false)}%`}
+            value={`${WCD}%`}
           />
 
           <ResultInfo
             label='Затраты на ремонт и тех. обслуживания, % (RMCD)'
-            value={`${formatPercent(RMCD, false)}%`}
+            value={`${RMCD}%`}
           />
 
           <ResultInfo
             label='Налог на прибыль, % (ITXD)'
-            value={`${formatPercent(ITXD, false)}%`}
+            value={`${ITXD}%`}
           />
 
           <ResultInfo
             label='Налог на недвижимое имущество, % (RETD)'
-            value={`${formatPercent(RETD, false)}%`}
+            value={`${RETD}%`}
           />
         </div>
       </ResultBlock>
@@ -514,7 +512,7 @@ const Result = () => {
                 </div>
 
                 <div className={clsx(styles.cell, styles.result)}>
-                  {Number((RV[indexST] / 1000000 / 1).toFixed(3))}
+                  {formatNumber(RV[indexST] / 1000000 / 1)}
                 </div>
               </div>
             ))}
@@ -638,7 +636,7 @@ const Result = () => {
                 </div>
 
                 <div className={clsx(styles.cell, styles.result)}>
-                  {Number((DPR[indexST] / 1000000 / 1).toFixed(3))}
+                  {formatNumber(DPR[indexST] / 1000000 / 1)}
                 </div>
               </div>
             ))}
@@ -664,7 +662,7 @@ const Result = () => {
                 </div>
 
                 <div className={clsx(styles.cell, styles.result)}>
-                  {Number((RMCR[indexST] / 1000000 / 1).toFixed(3))}
+                  {formatNumber(RMCR[indexST] / 1000000 / 1)}
                 </div>
               </div>
             ))}
@@ -690,7 +688,7 @@ const Result = () => {
                 </div>
 
                 <div className={clsx(styles.cell, styles.result)}>
-                  {Number((RACH[indexST] / 1000 / 1).toFixed(3))}
+                  {formatNumber(RACH[indexST] / 1000 / 1)}
                 </div>
               </div>
             ))}

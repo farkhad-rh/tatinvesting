@@ -22,12 +22,6 @@ const Auth = () => {
           className={styles.logo}
         />
 
-        <img
-          src={ImgLogo}
-          alt='TiNG'
-          className={styles.logoAnimation}
-        />
-
         <FormAuth />
       </div>
     </>

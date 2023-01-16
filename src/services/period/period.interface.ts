@@ -10,6 +10,7 @@ export interface IPeriod {
   PIDDC: string
   DCE: iDCE
   ST: number[]
+  SY: string[]
   SH: string[]
   SHRR: number[]
 }
@@ -24,6 +25,7 @@ export interface IPeriodActions {
   createDCE: (payload: IPeriod['DCE']) => void
 
   createST: (payload: IPeriod['ST']) => void
+  createSY: (payload: IPeriod['SY']) => void
   createSH: (payload: IPeriod['SH']) => void
   createSHRR: (payload: IPeriod['SHRR']) => void
 
