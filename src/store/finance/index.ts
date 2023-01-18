@@ -9,10 +9,11 @@ export const { persistAtom: persistFinance } = recoilPersist({
 })
 
 export const initialFinanceState: IFinance = {
-  AMOR: 15,
   CAPEX: {} as IFinance['CAPEX'],
   KR: [],
   FP: [],
+  AMOR: 15,
+  WCR: 0,
 }
 
 export const financeState = atom<IFinance>({

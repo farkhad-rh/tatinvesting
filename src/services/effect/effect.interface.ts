@@ -1,22 +1,26 @@
+import { CurrenciesType, PowersType, WeightUnitsType } from '@constants'
+
 export interface IEffectParams {
   value?: number
-  power?: 'THOU' | 'MLN' | 'BN' | 'TRLN'
-  unit?: 'GRAM' | 'KG' | 'TONNE'
-  currency?: 'RUB' | 'USD' | 'EUR'
-  calc?: number
+
+  power?: PowersType
+  unit?: WeightUnitsType
+  currency?: CurrenciesType
+
   collection?: (number | undefined)[]
+  calculation?: (number | undefined)[]
 }
 
 export interface iNPE {
   NP?: string
-  NPET: IEffectParams
-  PC: IEffectParams
-  EPP: IEffectParams
+  NPET?: IEffectParams
+  PC?: IEffectParams
+  EPP?: IEffectParams
 }
 
 export interface IEffect {
-  PE: {
-    [key: string]: iNPE
+  PE?: {
+    [key: string]: iNPE | undefined
   }
   count: number[]
 }

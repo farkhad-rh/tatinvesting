@@ -1,6 +1,8 @@
+import { TimeUnitsType } from '@constants'
+
 export interface iDCE {
   value?: number
-  unit?: 'day' | 'month' | 'year'
+  unit?: TimeUnitsType
 }
 
 export interface IPeriod {

@@ -16,3 +16,5 @@ export const Powers = [
     value: 'TRLN',
   },
 ]
+
+export type PowersType = 'NONE' | 'THOU' | 'MLN' | 'BN' | 'TRLN'

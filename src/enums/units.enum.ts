@@ -1,6 +1,6 @@
 export enum WeightUnits {
-  GRAM = Math.pow(10, 6),
-  KG = Math.pow(10, 3),
+  GRAM = 0.000001,
+  KG = 0.001,
   TONNE = 1,
 }
 

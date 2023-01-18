@@ -43,65 +43,9 @@ export const useEffectController = () => {
     setCount(prev => prev - 1)
   }
 
-  useEffect(() => {
-    const subscription = watch(({ PE }) => {
-      effectCount?.map(index => {
-        const NPE = PE?.[`NPE${index}`]
-        const NP = NPE?.NP
-        const NPET = NPE?.NPET
-        const PC = NPE?.PC
-        const EPP = NPE?.EPP
-
-        if (NP !== undefined) {
-          createNP(NP, index)
-        }
-
-        if (NPET) {
-          const power = NPET?.power || 'THOU'
-          const unit = NPET?.unit || 'TONNE'
-          const calculate = (NPET?.value || 0) * Powers[power] * WeightUnits[unit] || 0
-
-          const collection = ST?.map(() => NPET?.value || 0)
-
-          createNPET({ ...NPET, calc: calculate, collection: collection }, index)
-        }
-
-        if (PC) {
-          const power = PC?.power || 'THOU'
-          const currency = PC?.currency || 'RUB'
-          const calculate = (PC?.value || 0) * Powers[power] * Currencies[currency] || 0
-
-          const collection = ST?.map(indexST => {
-            return (
-              ((PC?.value || 0) * Math.pow(1 + formatPercent(DEF || 0), indexST) * 100) / 100 || 0
-            )
-          })
-
-          createPC({ ...PC, calc: calculate, collection: collection }, index)
-        }
-
-        if (EPP) {
-          const power = EPP?.power || 'THOU'
-          const currency = EPP?.currency || 'RUB'
-          const calculate = (EPP?.value || 0) * Powers[power] * Currencies[currency] || 0
-
-          const collection = ST?.map(indexST => {
-            return (
-              ((EPP?.value || 0) * Math.pow(1 + formatPercent(DEF || 0), indexST) * 100) / 100 || 0
-            )
-          })
-
-          createEPP({ ...EPP, calc: calculate, collection: collection }, index)
-        }
-      })
-    })
-
-    return () => subscription.unsubscribe()
-  }, [watch, effectCount, ST, DEF])
-
-  useEffect(() => {
+  const handleEffect = (effect: IEffect['PE']) => {
     effectCount?.map(index => {
-      const NPE = PE?.[`NPE${index}`]
+      const NPE = effect?.[`NPE${index}`]
       const NP = NPE?.NP
       const NPET = NPE?.NPET
       const PC = NPE?.PC
@@ -112,43 +56,57 @@ export const useEffectController = () => {
       }
 
       if (NPET) {
-        const power = NPET?.power || 'THOU'
+        const power = NPET?.power || 'NONE'
         const unit = NPET?.unit || 'TONNE'
-        const calculate = (NPET?.value || 0) * Powers[power] * WeightUnits[unit] || 0
 
         const collection = ST?.map(() => NPET?.value || 0)
+        const calculation = ST?.map(
+          () => (NPET?.value || 0) * Powers[power] * WeightUnits[unit] || 0
+        )
 
-        createNPET({ ...NPET, calc: calculate, collection: collection }, index)
+        createNPET({ ...NPET, calculation, collection }, index)
       }
 
       if (PC) {
-        const power = PC?.power || 'THOU'
+        const power = PC?.power || 'NONE'
         const currency = PC?.currency || 'RUB'
-        const calculate = (PC?.value || 0) * Powers[power] * Currencies[currency] || 0
 
         const collection = ST?.map(indexST => {
-          return (
-            ((PC?.value || 0) * Math.pow(1 + formatPercent(DEF || 0), indexST) * 100) / 100 || 0
-          )
+          return (PC?.value || 0) * Math.pow(1 + formatPercent(DEF || 0), indexST) || 0
         })
+        const calculation = ST?.map(
+          indexST => collection[indexST] * Powers[power] * Currencies[currency] || 0
+        )
 
-        createPC({ ...PC, calc: calculate, collection: collection }, index)
+        createPC({ ...PC, calculation, collection }, index)
       }
 
       if (EPP) {
-        const power = EPP?.power || 'THOU'
+        const power = EPP?.power || 'NONE'
         const currency = EPP?.currency || 'RUB'
-        const calculate = (EPP?.value || 0) * Powers[power] * Currencies[currency] || 0
 
         const collection = ST?.map(indexST => {
-          return (
-            ((EPP?.value || 0) * Math.pow(1 + formatPercent(DEF || 0), indexST) * 100) / 100 || 0
-          )
+          return (EPP?.value || 0) * Math.pow(1 + formatPercent(DEF || 0), indexST) || 0
         })
+        const calculation = ST?.map(
+          indexST => collection[indexST] * Powers[power] * Currencies[currency] || 0
+        )
 
-        createEPP({ ...EPP, calc: calculate, collection: collection }, index)
+        createEPP({ ...EPP, calculation, collection }, index)
       }
     })
+  }
+
+  useEffect(() => {
+    const subscription = watch(({ PE }) => {
+      handleEffect(PE)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [watch, effectCount, ST, DEF])
+
+  useEffect(() => {
+    handleEffect(PE)
   }, [ST, DEF])
 
   useEffect(() => {

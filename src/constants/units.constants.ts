@@ -13,6 +13,8 @@ export const WeightUnits = [
   },
 ]
 
+export type WeightUnitsType = 'GRAM' | 'KG' | 'TONNE'
+
 export const TimeUnits = [
   {
     key: 'день',
@@ -27,3 +29,5 @@ export const TimeUnits = [
     value: 'year',
   },
 ]
+
+export type TimeUnitsType = 'day' | 'month' | 'year'

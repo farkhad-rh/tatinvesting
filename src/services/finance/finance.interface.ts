@@ -1,15 +1,20 @@
+import { CurrenciesType, PowersType } from '@constants'
+
 export interface iCAPEX {
   value?: number
-  power?: 'THOU' | 'MLN' | 'BN' | 'TRLN'
-  currency?: 'RUB' | 'USD' | 'EUR'
-  calc?: number
+
+  power?: PowersType
+  currency?: CurrenciesType
+
+  calculation?: number
 }
 
 export interface IFinance {
-  AMOR: number
   CAPEX: iCAPEX
   KR: number[]
   FP: number[]
+  AMOR: number
+  WCR: number
 }
 
 export interface IFinanceActions {

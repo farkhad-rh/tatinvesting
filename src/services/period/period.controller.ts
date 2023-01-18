@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 
 import { KDVG, KDVGV } from '@constants'
 
-import { addDate, diffDate, getEndOfYear, getYear } from '@utils'
+import { addDate, diffDate, getEndOfYear, getYear, leapYear } from '@utils'
 
 import { usePeriodService, IPeriod } from '@services'
 
@@ -43,7 +43,7 @@ export const usePeriodController = () => {
       if (PH && PID && DCE) {
         const PIDDC = DCE?.value && DCE?.unit ? addDate(PID, Number(DCE?.value), DCE?.unit) : ''
 
-        const PHD = Math.ceil(diffDate(PIDDC, PID, 'day') / KDVGV) || 0
+        const PHD = Math.ceil(diffDate(PIDDC, PID, 'day') / (leapYear(PIDDC) ? KDVGV : KDVG)) || 0
 
         const ST = [...Array(Number(PH) + 1 + PHD).keys()]
 
@@ -61,7 +61,7 @@ export const usePeriodController = () => {
           }
 
           if (getYear(SY[n]) === getYear(PIDDC)) {
-            return Number((diffDate(SH[n], PIDDC, 'day') / KDVG)?.toFixed(6))
+            return diffDate(SH[n], PIDDC, 'day') / (leapYear(PIDDC) ? KDVGV : KDVG)
           }
 
           return 1

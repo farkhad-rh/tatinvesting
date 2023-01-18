@@ -13,13 +13,14 @@ export const useFinanceController = () => {
   useEffect(() => {
     const subscription = watch(({ CAPEX, KR }) => {
       if (CAPEX) {
-        const power = CAPEX?.power || 'MLN'
+        const power = CAPEX?.power || 'NONE'
         const currency = CAPEX?.currency || 'RUB'
-        const calculate = (CAPEX?.value || 0) * Powers[power] * Currencies[currency] || 0
+
+        const calculation = (CAPEX?.value || 0) * Powers[power] * Currencies[currency] || 0
 
         createCAPEX({
           ...CAPEX,
-          calc: calculate,
+          calculation,
         })
       }
 

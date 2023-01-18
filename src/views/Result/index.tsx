@@ -14,13 +14,23 @@ import {
 
 import { formatNumber } from '@utils'
 
-import { useEffectService, useFinanceService, useParamsService, usePeriodService } from '@services'
+import {
+  useCalculateController,
+  useEffectService,
+  useFinanceService,
+  useParamsService,
+  usePeriodService,
+} from '@services'
 
 import { ResultBlock, ResultInfo } from '@components/contents'
 
 import styles from './Result.module.scss'
 
 const Result = () => {
+  const { calculate } = useCalculateController()
+
+  console.log(calculate)
+
   const [period] = usePeriodService()
   const [finance] = useFinanceService()
   const [effect] = useEffectService()

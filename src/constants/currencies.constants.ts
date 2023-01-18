@@ -4,3 +4,5 @@ export const Currencies = [
     value: 'RUB',
   },
 ]
+
+export type CurrenciesType = 'RUB' | 'USD' | 'EUR'

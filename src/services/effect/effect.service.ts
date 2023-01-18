@@ -27,7 +27,7 @@ export const useEffectService = (): [IEffect, IEffectActions] => {
     setEffect(prev => {
       return {
         ...prev,
-        PE: { ...prev?.PE, [`NPE${index}`]: { ...prev?.PE[`NPE${index}`], NP: payload } },
+        PE: { ...prev?.PE, [`NPE${index}`]: { ...prev?.PE?.[`NPE${index}`], NP: payload } },
       }
     })
 
@@ -38,9 +38,9 @@ export const useEffectService = (): [IEffect, IEffectActions] => {
         PE: {
           ...prev?.PE,
           [`NPE${index}`]: {
-            ...prev?.PE[`NPE${index}`],
+            ...prev?.PE?.[`NPE${index}`],
             NPET: {
-              ...prev?.PE[`NPE${index}`]?.NPET,
+              ...prev?.PE?.[`NPE${index}`]?.NPET,
               ...payload,
             },
           },
@@ -55,9 +55,9 @@ export const useEffectService = (): [IEffect, IEffectActions] => {
         PE: {
           ...prev?.PE,
           [`NPE${index}`]: {
-            ...prev?.PE[`NPE${index}`],
+            ...prev?.PE?.[`NPE${index}`],
             PC: {
-              ...prev?.PE[`NPE${index}`]?.PC,
+              ...prev?.PE?.[`NPE${index}`]?.PC,
               ...payload,
             },
           },
@@ -72,9 +72,9 @@ export const useEffectService = (): [IEffect, IEffectActions] => {
         PE: {
           ...prev?.PE,
           [`NPE${index}`]: {
-            ...prev?.PE[`NPE${index}`],
+            ...prev?.PE?.[`NPE${index}`],
             EPP: {
-              ...prev?.PE[`NPE${index}`]?.EPP,
+              ...prev?.PE?.[`NPE${index}`]?.EPP,
               ...payload,
             },
           },
