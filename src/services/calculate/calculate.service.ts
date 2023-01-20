@@ -2,7 +2,12 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { initialCalculateState, calculateState } from '@store'
 
-import { ICalculate, ICalculateActions, ICalculateParams } from './calculate.interface'
+import {
+  ICalculate,
+  ICalculateActions,
+  ICalculateArray,
+  ICalculateSingle,
+} from './calculate.interface'
 
 export const useCalculateService = (): [ICalculate, ICalculateActions] => {
   const [calculate, setCalculate] = useRecoilState(calculateState)
@@ -18,62 +23,62 @@ export const useCalculateService = (): [ICalculate, ICalculateActions] => {
       return { ...prev, DCFR: payload }
     })
 
-  const createRV = (payload: ICalculateParams) =>
+  const createRV = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, RV: { ...prev?.RV, ...payload } }
     })
 
-  const createDPR = (payload: ICalculateParams) =>
+  const createDPR = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, DPR: { ...prev?.DPR, ...payload } }
     })
 
-  const createRVATB = (payload: ICalculateParams) =>
+  const createRVATB = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, RVATB: { ...prev?.RVATB, ...payload } }
     })
 
-  const createRVATP = (payload: ICalculateParams) =>
+  const createRVATP = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, RVATP: { ...prev?.RVATP, ...payload } }
     })
 
-  const createRETR = (payload: ICalculateParams) =>
+  const createRETR = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, RETR: { ...prev?.RETR, ...payload } }
     })
 
-  const createRMCR = (payload: ICalculateParams) =>
+  const createRMCR = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, RMCR: { ...prev?.RMCR, ...payload } }
     })
 
-  const createRACH = (payload: ICalculateParams) =>
+  const createRACH = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, RACH: { ...prev?.RACH, ...payload } }
     })
 
-  const createEBITDA = (payload: ICalculateParams) =>
+  const createEBITDA = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, EBITDA: { ...prev?.EBITDA, ...payload } }
     })
 
-  const createEBIT = (payload: ICalculateParams) =>
+  const createEBIT = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, EBIT: { ...prev?.EBIT, ...payload } }
     })
 
-  const createITXR = (payload: ICalculateParams) =>
+  const createITXR = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, ITXR: { ...prev?.ITXR, ...payload } }
     })
 
-  const createENP = (payload: ICalculateParams) =>
+  const createENP = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, ENP: { ...prev?.ENP, ...payload } }
     })
 
-  const createFCFF = (payload: ICalculateParams) =>
+  const createFCFF = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, FCFF: { ...prev?.FCFF, ...payload } }
     })
@@ -88,29 +93,54 @@ export const useCalculateService = (): [ICalculate, ICalculateActions] => {
       return { ...prev, DCFCR: payload }
     })
 
-  const createPVFCFF = (payload: ICalculateParams) =>
+  const createPVFCFF = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, PVFCFF: { ...prev?.PVFCFF, ...payload } }
     })
 
-  const createACF = (payload: ICalculateParams) =>
+  const createACF = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, ACF: { ...prev?.ACF, ...payload } }
     })
 
-  const createADCF = (payload: ICalculateParams) =>
+  const createADCF = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, ADCF: { ...prev?.ADCF, ...payload } }
     })
 
-  const createTV = (payload: ICalculate['TV']) =>
+  const createTV = (payload: ICalculateSingle) =>
     setCalculate(prev => {
-      return { ...prev, TV: payload }
+      return { ...prev, TV: { ...prev?.TV, ...payload } }
     })
 
-  const createNCFTV = (payload: ICalculateParams) =>
+  const createNCFTV = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, NCFTV: { ...prev?.NCFTV, ...payload } }
+    })
+
+  const createSDFCFF = (payload: ICalculateSingle) =>
+    setCalculate(prev => {
+      return { ...prev, SDFCFF: { ...prev?.SDFCFF, ...payload } }
+    })
+
+  const createNPV = (payload: ICalculateSingle) =>
+    setCalculate(prev => {
+      return { ...prev, NPV: { ...prev?.NPV, ...payload } }
+    })
+
+  const createIRR = (payload: ICalculate['IRR']) =>
+    setCalculate(prev => {
+      return { ...prev, IRR: payload }
+    })
+
+  const createPP = (payload: ICalculate['PP']) =>
+    setCalculate(prev => {
+      return { ...prev, PP: payload }
+    })
+
+  const createDPP = (payload: ICalculate['DPP']) =>
+    setCalculate(prev => {
+      return { ...prev, DPP: payload }
     })
 
   const deleteCalculate = () => setCalculate(initialCalculateState)
@@ -139,6 +169,13 @@ export const useCalculateService = (): [ICalculate, ICalculateActions] => {
       createADCF,
       createTV,
       createNCFTV,
+
+      createSDFCFF,
+      createNPV,
+      createIRR,
+      createPP,
+      createDPP,
+
       deleteCalculate,
     },
   ]

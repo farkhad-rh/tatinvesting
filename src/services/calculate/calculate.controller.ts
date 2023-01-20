@@ -7,7 +7,8 @@ import { Currencies, CurrenciesString, Powers, PowersString } from '@enums'
 import { addDate, diffDate, formatPercent, getYear, leapYear } from '@utils'
 
 import {
-  ICalculateParams,
+  ICalculateArray,
+  ICalculateSingle,
   useCalculateService,
   useEffectService,
   useFinanceService,
@@ -43,6 +44,13 @@ export const useCalculateController = () => {
       createADCF,
       createTV,
       createNCFTV,
+
+      createSDFCFF,
+      createNPV,
+      createIRR,
+      createPP,
+      createDPP,
+
       deleteCalculate,
     },
   ] = useCalculateService()
@@ -71,7 +79,7 @@ export const useCalculateController = () => {
     })
 
     // Валовая выручка (RV)
-    const RV: ICalculateParams = {
+    const RV: ICalculateArray = {
       value: ST?.map(n => {
         let value = 0
 
@@ -103,7 +111,7 @@ export const useCalculateController = () => {
     })
 
     // Aмортизация (DPR)
-    const DPR: ICalculateParams = {
+    const DPR: ICalculateArray = {
       value: ST?.map(n => {
         if (getYear(SY[n]) < getYear(PIDDC)) {
           return 0
@@ -133,7 +141,7 @@ export const useCalculateController = () => {
     })
 
     // Остаточная стоимость на начало периода (RVATB)
-    const RVATB: ICalculateParams = {
+    const RVATB: ICalculateArray = {
       value: [],
 
       power: 'MLN',
@@ -144,7 +152,7 @@ export const useCalculateController = () => {
     }
 
     // Остаточная стоимость на конец периода (RVATP)
-    const RVATP: ICalculateParams = {
+    const RVATP: ICalculateArray = {
       value: [],
 
       power: 'MLN',
@@ -200,7 +208,7 @@ export const useCalculateController = () => {
     })
 
     // Налог на недвижимое имущество (RETR)
-    const RETR: ICalculateParams = {
+    const RETR: ICalculateArray = {
       value: ST?.map(n => {
         return (
           (((RVATB?.value?.[n] || 0) + (RVATP?.value?.[n] || 0)) / 2) * formatPercent(RETD || 0)
@@ -224,7 +232,7 @@ export const useCalculateController = () => {
     })
 
     // Затраты на ремонт и тех. обслуживания (RMCR)
-    const RMCR: ICalculateParams = {
+    const RMCR: ICalculateArray = {
       value: ST?.map(n => {
         if (getYear(SY[n]) < getYear(PIDDC)) {
           return 0
@@ -260,7 +268,7 @@ export const useCalculateController = () => {
     })
 
     // Процессинг производства (расходы) (RACH)
-    const RACH: ICalculateParams = {
+    const RACH: ICalculateArray = {
       value: ST?.map(n => {
         let value = 0
 
@@ -292,7 +300,7 @@ export const useCalculateController = () => {
     })
 
     // Прибыль до уплаты %, налогов и амортизации (EBITDA)
-    const EBITDA: ICalculateParams = {
+    const EBITDA: ICalculateArray = {
       value: ST?.map(n => {
         return (
           (RV?.value?.[n] || 0) -
@@ -321,7 +329,7 @@ export const useCalculateController = () => {
     })
 
     // Прибыль до уплаты % и налогов (EBIT)
-    const EBIT: ICalculateParams = {
+    const EBIT: ICalculateArray = {
       value: ST?.map(n => {
         return (EBITDA?.value?.[n] || 0) - (DPR?.value?.[n] || 0)
       }),
@@ -343,7 +351,7 @@ export const useCalculateController = () => {
     })
 
     // Налог на прибыль (ITXR)
-    const ITXR: ICalculateParams = {
+    const ITXR: ICalculateArray = {
       value: ST?.map(n => {
         return (EBIT?.value?.[n] || 0) * formatPercent(ITXD || 0)
       }),
@@ -365,7 +373,7 @@ export const useCalculateController = () => {
     })
 
     // Чистая прибыль (ENP)
-    const ENP: ICalculateParams = {
+    const ENP: ICalculateArray = {
       value: ST?.map(n => {
         return (EBIT?.value?.[n] || 0) - (ITXR?.value?.[n] || 0)
       }),
@@ -387,7 +395,7 @@ export const useCalculateController = () => {
     })
 
     // Чистый денежный поток (FCFF)
-    const FCFF: ICalculateParams = {
+    const FCFF: ICalculateArray = {
       value: ST?.map(n => {
         return (DPR?.value?.[n] || 0) + (ENP?.value?.[n] || 0) - (FP?.[n] || 0) - WCR
       }),
@@ -419,7 +427,7 @@ export const useCalculateController = () => {
     })
 
     // Приведенный денежный поток (PVFCFF)
-    const PVFCFF: ICalculateParams = {
+    const PVFCFF: ICalculateArray = {
       value: ST?.map(n => {
         return (FCFF?.value?.[n] || 0) * DCFCR?.[n]
       }),
@@ -443,7 +451,7 @@ export const useCalculateController = () => {
     })
 
     // Накопленный денежный поток (ACF)
-    const ACF: ICalculateParams = {
+    const ACF: ICalculateArray = {
       value: [],
 
       power: 'MLN',
@@ -472,7 +480,7 @@ export const useCalculateController = () => {
     })
 
     // Накопленный дисконтированный денежный поток (ADCF)
-    const ADCF: ICalculateParams = {
+    const ADCF: ICalculateArray = {
       value: [],
 
       power: 'MLN',
@@ -501,25 +509,31 @@ export const useCalculateController = () => {
     })
 
     // Терминальная стоимость (TV)
-    const TV = () => {
-      if (TV_enabled) {
-        const n = ST?.length - 1
-
-        return (
-          (((FCFF?.value?.[n] || 0) * (1 + formatPercent(GRT || 0)) - (DPR?.value?.[n] || 0)) /
+    const TV: ICalculateSingle = {
+      value: TV_enabled
+        ? (((FCFF?.value?.[ST?.length - 1] || 0) * (1 + formatPercent(GRT || 0)) -
+            (DPR?.value?.[ST?.length - 1] || 0)) /
             (formatPercent(WACC || 0) - formatPercent(GRT || 0))) *
-          DCFCR?.[n]
-        )
-      }
+          DCFCR?.[ST?.length - 1]
+        : 0,
 
-      return 0
+      power: 'MLN',
+      currency: 'RUB',
+      measure: '',
+
+      collection: 0,
     }
+    const TVmeasure = `${PowersString?.[TV?.power || 'MLN']} ${
+      CurrenciesString?.[TV?.currency || 'RUB']
+    }`
+    const TVcollection =
+      (TV?.value || 0) / Powers[TV?.power || 'MLN'] / Currencies[TV?.currency || 'RUB']
 
     // Чистый денежный поток с TV (NCFTV)
-    const NCFTV: ICalculateParams = {
+    const NCFTV: ICalculateArray = {
       value: ST?.map(n => {
         if (n === ST?.length - 1) {
-          return (FCFF?.value?.[n] || 0) + TV() / (PVFCFF?.value?.[n] || 0)
+          return (FCFF?.value?.[n] || 0) + (TV?.value || 0) / (PVFCFF?.value?.[n] || 0)
         }
 
         return FCFF?.value?.[n] || 0
@@ -542,6 +556,91 @@ export const useCalculateController = () => {
 
       return collection
     })
+
+    // Cуммарный приведенный денежный поток (SDFCFF)
+    const SDFCFF: ICalculateSingle = {
+      value: PVFCFF?.value?.reduce((a, b) => a + b, 0),
+
+      power: 'MLN',
+      currency: 'RUB',
+      measure: '',
+
+      collection: 0,
+    }
+    const SDFCFFmeasure = `${PowersString?.[SDFCFF?.power || 'MLN']} ${
+      CurrenciesString?.[SDFCFF?.currency || 'RUB']
+    }`
+    const SDFCFFcollection =
+      (SDFCFF?.value || 0) / Powers[SDFCFF?.power || 'MLN'] / Currencies[SDFCFF?.currency || 'RUB']
+
+    // Чистая приведённая стоимость (NPV)
+    const NPV: ICalculateSingle = {
+      value: (SDFCFF?.value || 0) + (TV?.value || 0),
+
+      power: 'MLN',
+      currency: 'RUB',
+      measure: '',
+
+      collection: 0,
+    }
+    const NPVmeasure = `${PowersString?.[NPV?.power || 'MLN']} ${
+      CurrenciesString?.[NPV?.currency || 'RUB']
+    }`
+    const NPVcollection =
+      (NPV?.value || 0) / Powers[NPV?.power || 'MLN'] / Currencies[NPV?.currency || 'RUB']
+
+    // const testArr = [
+    //   -50.0, 11.43, 11.83, 12.24, 12.66, 13.09, 13.53, 13.99, 14.45, 14.93, 15.43, 15.93, 16.45,
+    //   16.98, 127.72,
+    // ]
+
+    // Внутренняя норма рентабельности (IRR)
+    const IRR = () => {
+      const rate = 0.000001
+      let x = 0.01
+      let zero
+
+      do {
+        x += rate
+        zero = 0
+
+        for (let n = 0; n < (NCFTV?.value?.length || 0); n++) {
+          zero += (NCFTV?.value?.[n] || 0) / Math.pow(1 + x, n)
+        }
+
+        // for (let n = 0; n < (testArr?.length || 0); n++) {
+        //   zero += (testArr?.[n] || 0) / Math.pow(1 + x, n)
+        // }
+      } while (zero > 0)
+
+      return x * 100
+    }
+
+    // Простой срок окупаемости с даты начала реализации (PP)
+    const PP = () => {
+      let value = 0
+
+      ST?.forEach(n => {
+        if ((value === 0 && (ACF?.value?.[n] || 0)) > 0) {
+          value = n + Math.abs((ACF?.value?.[n - 1] || 0) / (FCFF?.value?.[n] || 0))
+        }
+      })
+
+      return value
+    }
+
+    // Дисконтированный срок окупаемости с даты начала реализации (DPP)
+    const DPP = () => {
+      let value = 0
+
+      ST?.forEach(n => {
+        if ((value === 0 && (ADCF?.value?.[n] || 0)) > 0) {
+          value = n + Math.abs((ADCF?.value?.[n - 1] || 0) / (FCFF?.value?.[n] || 0))
+        }
+      })
+
+      return value
+    }
 
     createDCFR(DCFR)
     createRV({
@@ -621,12 +720,30 @@ export const useCalculateController = () => {
       measure: ADCFmeasure,
       collection: ADCFcollection,
     })
-    createTV(TV())
+    createTV({
+      ...TV,
+      measure: TVmeasure,
+      collection: TVcollection,
+    })
     createNCFTV({
       ...NCFTV,
       measure: NCFTVmeasure,
       collection: NCFTVcollection,
     })
+
+    createSDFCFF({
+      ...SDFCFF,
+      measure: SDFCFFmeasure,
+      collection: SDFCFFcollection,
+    })
+    createNPV({
+      ...NPV,
+      measure: NPVmeasure,
+      collection: NPVcollection,
+    })
+    createIRR(IRR())
+    createPP(PP())
+    createDPP(DPP())
   }, [])
 
   return { calculate, deleteCalculate }

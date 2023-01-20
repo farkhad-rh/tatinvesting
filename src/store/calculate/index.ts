@@ -1,7 +1,7 @@
 import { atom } from 'recoil'
 import { recoilPersist } from 'recoil-persist'
 
-import { StorageService, ICalculate, ICalculateParams } from '@services'
+import { StorageService, ICalculate, ICalculateArray, ICalculateSingle } from '@services'
 
 export const { persistAtom: persistCalculate } = recoilPersist({
   key: 'recoil-persist-calculate',
@@ -10,25 +10,31 @@ export const { persistAtom: persistCalculate } = recoilPersist({
 
 export const initialCalculateState: ICalculate = {
   DCFR: [],
-  RV: {} as ICalculateParams,
-  DPR: {} as ICalculateParams,
-  RVATB: {} as ICalculateParams,
-  RVATP: {} as ICalculateParams,
-  RETR: {} as ICalculateParams,
-  RMCR: {} as ICalculateParams,
-  RACH: {} as ICalculateParams,
-  EBITDA: {} as ICalculateParams,
-  EBIT: {} as ICalculateParams,
-  ITXR: {} as ICalculateParams,
-  ENP: {} as ICalculateParams,
-  FCFF: {} as ICalculateParams,
+  RV: {} as ICalculateArray,
+  DPR: {} as ICalculateArray,
+  RVATB: {} as ICalculateArray,
+  RVATP: {} as ICalculateArray,
+  RETR: {} as ICalculateArray,
+  RMCR: {} as ICalculateArray,
+  RACH: {} as ICalculateArray,
+  EBITDA: {} as ICalculateArray,
+  EBIT: {} as ICalculateArray,
+  ITXR: {} as ICalculateArray,
+  ENP: {} as ICalculateArray,
+  FCFF: {} as ICalculateArray,
   DPRD: [],
   DCFCR: [],
-  PVFCFF: {} as ICalculateParams,
-  ACF: {} as ICalculateParams,
-  ADCF: {} as ICalculateParams,
-  TV: 0,
-  NCFTV: {} as ICalculateParams,
+  PVFCFF: {} as ICalculateArray,
+  ACF: {} as ICalculateArray,
+  ADCF: {} as ICalculateArray,
+  TV: {} as ICalculateSingle,
+  NCFTV: {} as ICalculateArray,
+
+  SDFCFF: {} as ICalculateSingle,
+  NPV: {} as ICalculateSingle,
+  IRR: 0,
+  PP: 0,
+  DPP: 0,
 }
 
 export const calculateState = atom<ICalculate>({
