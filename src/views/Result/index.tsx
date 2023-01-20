@@ -59,6 +59,12 @@ const Result = () => {
     ADCF,
     TV,
     NCFTV,
+
+    SDFCFF,
+    NPV,
+    IRR,
+    PP,
+    DPP,
   } = calculate
 
   console.log(calculate)
@@ -83,7 +89,7 @@ const Result = () => {
 
           <Single
             label={`Период реализации проекта (${DCE?.measure}) (DCE)`}
-            value={DCE?.value}
+            value={formatNumber(DCE?.value || 0)}
           />
 
           <Single
@@ -214,8 +220,8 @@ const Result = () => {
           />
 
           <Single
-            label={`Капитальные затраты без НДС (${CAPEX?.measure}) (CAPEX)`}
-            value={`${CAPEX?.value} ${CAPEX?.measure}`}
+            label='Капитальные затраты без НДС (CAPEX)'
+            value={`${formatNumber(CAPEX?.value || 0)} ${CAPEX?.measure}`}
           />
 
           <Single
@@ -258,13 +264,13 @@ const Result = () => {
 
         <Block>
           <Single
-            label='Дефлятор (инфляция в РФ), % (DEF)'
-            value={`${DEF}%`}
+            label='Дефлятор (инфляция в РФ) (DEF)'
+            value={`${formatNumber(DEF || 0)}%`}
           />
 
           <Single
-            label='Дефлятор (инфляция в США), % (GRT)'
-            value={`${GRT}%`}
+            label='Дефлятор (инфляция в США) (GRT)'
+            value={`${formatNumber(GRT || 0)}%`}
           />
 
           <Single
@@ -273,28 +279,28 @@ const Result = () => {
           />
 
           <Single
-            label='Средневзвешенная стоимость капитала, % (WACC)'
-            value={`${WACC}%`}
+            label='Средневзвешенная стоимость капитала (WACC)'
+            value={`${formatNumber(WACC || 0)}%`}
           />
 
           <Single
-            label='Рабочий капитал, % (WCD)'
-            value={`${WCD}%`}
+            label='Рабочий капитал (WCD)'
+            value={`${formatNumber(WCD || 0)}%`}
           />
 
           <Single
-            label='Затраты на ремонт и тех. обслуживания, % (RMCD)'
-            value={`${RMCD}%`}
+            label='Затраты на ремонт и тех. обслуживания (RMCD)'
+            value={`${formatNumber(RMCD || 0)}%`}
           />
 
           <Single
-            label='Налог на прибыль, % (ITXD)'
-            value={`${ITXD}%`}
+            label='Налог на прибыль (ITXD)'
+            value={`${formatNumber(ITXD || 0)}%`}
           />
 
           <Single
-            label='Налог на недвижимое имущество, % (RETD)'
-            value={`${RETD}%`}
+            label='Налог на недвижимое имущество (RETD)'
+            value={`${formatNumber(RETD || 0)}%`}
           />
         </Block>
       </Section>
@@ -619,6 +625,50 @@ const Result = () => {
             </TableCol>
           ))}
         </Table>
+      </Section>
+
+      <Section title='Модуль 3'>
+        <Block>
+          <Single
+            label='Капитальные затраты без НДС (CAPEX)'
+            value={`${formatNumber(CAPEX?.value || 0)} ${CAPEX?.measure}`}
+          />
+
+          <Single
+            label='Капитальные затраты c НДС (CAPEX)'
+            value={`${formatNumber((CAPEX?.value || 0) * 1.2)} ${CAPEX?.measure}`}
+          />
+
+          <Single
+            label='Терминальная стоимость (TV)'
+            value={`${formatNumber(TV?.collection || 0)} ${TV?.measure}`}
+          />
+
+          <Single
+            label='Cуммарный приведенный денежный поток (SDFCFF)'
+            value={`${formatNumber(SDFCFF?.collection || 0)} ${SDFCFF?.measure}`}
+          />
+
+          <Single
+            label='Чистая приведённая стоимость (NPV)'
+            value={`${formatNumber(NPV?.collection || 0)} ${NPV?.measure}`}
+          />
+
+          <Single
+            label='Внутренняя норма рентабельности (IRR)'
+            value={`${formatNumber(IRR)}%`}
+          />
+
+          <Single
+            label='Простой срок окупаемости с даты начала реализации (год) (PP)'
+            value={formatNumber(PP)}
+          />
+
+          <Single
+            label='Дисконтированный срок окупаемости с даты начала реализации (год) (DPP)'
+            value={formatNumber(DPP)}
+          />
+        </Block>
       </Section>
     </>
   )
