@@ -3,6 +3,7 @@ import { TimeUnitsType } from '@constants'
 export interface iDCE {
   value?: number
   unit?: TimeUnitsType
+  measure?: string
 }
 
 export interface IPeriod {

@@ -1,0 +1,15 @@
+.wrapper {
+  @apply flex h-11 flex-col items-start justify-center rounded-md;
+
+  .text {
+    @apply text-xs text-blue-gray-600;
+  }
+
+  .label {
+    @apply font-medium;
+  }
+
+  .measure {
+    @apply font-normal;
+  }
+}

@@ -5,6 +5,7 @@ export interface iCAPEX {
 
   power?: PowersType
   currency?: CurrenciesType
+  measure?: string
 
   calculation?: number
 }

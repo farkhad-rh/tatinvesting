@@ -11,8 +11,8 @@ export const { persistAtom: persistParams } = recoilPersist({
 export const initialParamsState: IParams = {
   DEF: 4,
   GRT: 2,
-  ITXD: 2,
-  RETD: NaN,
+  ITXD: 20,
+  RETD: 2,
   RMCD: 2,
   WACC: NaN,
   WCD: 23,

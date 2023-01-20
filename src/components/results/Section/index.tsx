@@ -1,18 +1,18 @@
 import { FC, PropsWithChildren } from 'react'
 
-import { Card, CardHeader, CardBody, Typography } from '@material-tailwind/react'
+import { Card, CardBody, Typography } from '@material-tailwind/react'
 
 import ImgBackground from '@images/bg.jpg'
 
-import styles from './ResultBlock.module.scss'
+import styles from './Section.module.scss'
 
-interface ResultBlockProps extends PropsWithChildren {
+interface SectionProps extends PropsWithChildren {
   title: string
 }
 
-const ResultBlock: FC<ResultBlockProps> = ({ title, children }) => {
+const Section: FC<SectionProps> = ({ title, children }) => {
   return (
-    <div>
+    <div className={styles.wrapper}>
       <div className={styles.background}>
         <img
           src={ImgBackground}
@@ -34,4 +34,4 @@ const ResultBlock: FC<ResultBlockProps> = ({ title, children }) => {
   )
 }
 
-export default ResultBlock
+export default Section

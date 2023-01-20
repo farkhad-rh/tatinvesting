@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { formatPercent } from '@utils'
 import { useParamsService, IParams } from '@services'
 
 export const useParamsController = () => {
@@ -24,34 +23,42 @@ export const useParamsController = () => {
 
   useEffect(() => {
     const subscription = watch(({ DEF, GRT, ITXD, RETD, RMCD, WACC, WCD, TV_enabled }) => {
+      // Дефлятор (инфляция в РФ) (DEF)
       if (DEF !== undefined) {
         createDEF(DEF)
       }
 
-      if (DEF !== undefined) {
+      // Дефлятор (инфляция в США) (GRT)
+      if (GRT !== undefined) {
         createGRT(GRT)
       }
 
-      if (DEF !== undefined) {
+      // Налог на прибыль (ITXD)
+      if (ITXD !== undefined) {
         createITXD(ITXD)
       }
 
-      if (DEF !== undefined) {
+      // Налог на недвижимое имущество (RETD)
+      if (RETD !== undefined) {
         createRETD(RETD)
       }
 
-      if (DEF !== undefined) {
+      // Затраты на ремонт и тех. обслуживания (RMCD)
+      if (RMCD !== undefined) {
         createRMCD(RMCD)
       }
 
-      if (DEF !== undefined) {
+      // Средневзвешенная стоимость капитала (WACC)
+      if (WACC !== undefined) {
         createWACC(WACC)
       }
 
-      if (DEF !== undefined) {
+      // Рабочий капитал (WCD)
+      if (WCD !== undefined) {
         createWCD(WCD)
       }
 
+      // Учитывать терминальную стоимость? (TV_enabled)
       if (TV_enabled !== undefined) {
         switchTV(TV_enabled)
       }

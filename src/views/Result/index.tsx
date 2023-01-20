@@ -1,18 +1,6 @@
 import { Typography } from '@material-tailwind/react'
-import * as dayjs from 'dayjs'
-import clsx from 'clsx'
 
-import {
-  Currencies,
-  CurrenciesString,
-  Powers,
-  PowersString,
-  TimeUnitsString,
-  WeightUnits,
-  WeightUnitsString,
-} from '@enums'
-
-import { formatNumber } from '@utils'
+import { formatDate, formatNumber, getYear } from '@utils'
 
 import {
   useCalculateController,
@@ -22,132 +10,58 @@ import {
   usePeriodService,
 } from '@services'
 
-import { ResultBlock, ResultInfo } from '@components/contents'
+import {
+  Section,
+  Block,
+  Single,
+  Table,
+  TableCol,
+  TableCell,
+  Effect,
+  EffectItem,
+  EffectCol,
+  EffectCell,
+} from '@components/results'
 
 import styles from './Result.module.scss'
 
 const Result = () => {
   const { calculate } = useCalculateController()
 
-  console.log(calculate)
-
   const [period] = usePeriodService()
-  const [finance] = useFinanceService()
   const [effect] = useEffectService()
+  const [finance] = useFinanceService()
   const [params] = useParamsService()
 
-  const { PH, PHD, PID, PIDDC, DCE, ST, SH, SHRR } = period
-  const { AMOR, CAPEX, KR, FP } = finance
+  const { PH, PHD, PID, PIDDC, DCE, ST, SY, SH, SHRR } = period
   const { PE, count: effectCount } = effect
+  const { AMOR, CAPEX, KR, FP, WCR } = finance
   const { DEF, GRT, ITXD, RETD, RMCD, WACC, WCD, TV_enabled } = params
 
-  const timeUnit = DCE?.unit || 'year'
-  const powerCAPEX = CAPEX?.power || 'THOU'
-  const currencyCAPEX = CAPEX?.currency || 'RUB'
+  const {
+    DCFR,
+    RV,
+    DPR,
+    RVATB,
+    RVATP,
+    RETR,
+    RMCR,
+    RACH,
+    EBITDA,
+    EBIT,
+    ITXR,
+    ENP,
+    FCFF,
+    DPRD,
+    DCFCR,
+    PVFCFF,
+    ACF,
+    ADCF,
+    TV,
+    NCFTV,
+  } = calculate
 
-  const RV = ST?.map(n => {
-    let val = 0
-
-    effectCount?.forEach(indexNPE => {
-      const NPE = PE?.[`NPE${indexNPE}`]
-      const powerNPET = NPE?.NPET?.power || 'THOU'
-      const unitNPET = NPE?.NPET?.unit || 'TONNE'
-      const powerPC = NPE?.PC?.power || 'THOU'
-      const currencyPC = NPE?.PC?.currency || 'RUB'
-
-      const totalNPET = NPE?.NPET?.collection?.[n] * Powers[powerNPET] * WeightUnits[unitNPET]
-      const totalPC = NPE?.PC?.collection?.[n] * Powers[powerPC] * Currencies[currencyPC]
-
-      val = (totalNPET * totalPC + val) * SHRR[n]
-    })
-
-    return val
-  })
-  const RVATB = []
-  const RVATP = []
-  const RETR = []
-  const DCFR = ST?.map(n => {
-    if (dayjs(PID).year() + n < dayjs(PIDDC).year()) {
-      return dayjs(PID)
-        ?.add(n, 'year')
-        ?.add(
-          dayjs(SH[n])?.diff(dayjs(PID)?.add(n, 'year')?.format('YYYY-MM-DD'), 'day') / 2,
-          'day'
-        )
-        ?.format('YYYY-MM-DD')
-    }
-
-    if (dayjs(PID).year() + n >= dayjs(PIDDC).year()) {
-      return (
-        dayjs(SH[n - 1])
-          ?.add(dayjs(SH[n])?.diff(dayjs(SH[n - 1]), 'day') / 2, 'day')
-          .format('YYYY-MM-DD') || 0
-      )
-    }
-
-    return (
-      dayjs(SH[n - 1])
-        ?.add(dayjs(SH[n])?.diff(dayjs(SH[n - 1]), 'day') / 2, 'day')
-        .format('YYYY-MM-DD') || 0
-    )
-  })
-  const DPR = ST?.map(n => {
-    if (dayjs(PID).year() + n < dayjs(PIDDC).year()) {
-      return 0
-    }
-
-    if (dayjs(PID).year() + n >= dayjs(PIDDC).year() && n - PHD < Number(PH)) {
-      return CAPEX?.calc / AMOR
-    }
-
-    return 0
-  })
-  const RMCR = ST?.map(n => {
-    if (dayjs(PID).year() + n < dayjs(PIDDC).year()) {
-      return 0
-    }
-
-    if (dayjs(PID).year() + n >= dayjs(PIDDC).year()) {
-      if (n === 0) {
-        return RMCD * CAPEX?.calc
-      }
-
-      if (n > 0) {
-        return RMCD * CAPEX?.calc * SHRR[n]
-      }
-    }
-
-    return 0
-  })
-  const RACH = ST?.map(n => {
-    let val = 0
-
-    effectCount?.forEach(indexNPE => {
-      const NPE = PE?.[`NPE${indexNPE}`]
-      const powerNPET = NPE?.NPET?.power || 'THOU'
-      const unitNPET = NPE?.NPET?.unit || 'TONNE'
-      const powerEPP = NPE?.EPP?.power || 'THOU'
-      const currencyEPP = NPE?.EPP?.currency || 'RUB'
-
-      const totalNPET = NPE?.NPET?.collection?.[n] * Powers[powerNPET] * WeightUnits[unitNPET]
-      const totalEPP = NPE?.EPP?.collection?.[n] * Powers[powerEPP] * Currencies[currencyEPP]
-
-      val = (totalNPET * totalEPP + val) * SHRR[n]
-    })
-
-    return val
-  })
-  const EBITDA = []
-  const EBIT = []
-  const ITXR = []
-  const ENP = []
-  const FCFF = []
-  const DPRD = []
-  const DCFCR = []
-  const PVFCFF = []
-  const ACF = []
-  const ADCF = []
-  const NCFTV = []
+  console.log(calculate)
 
   return (
     <>
@@ -160,815 +74,552 @@ const Result = () => {
         Результат вычислений
       </Typography>
 
-      <ResultBlock title='Модуль 1'>
-        <div className='flex flex-wrap gap-6'>
-          <ResultInfo
+      <Section title='Модуль 1'>
+        <Block>
+          <Single
             label='Дата начала реализации проекта (PID)'
-            value={dayjs(PID).format('DD.MM.YYYY')}
+            value={formatDate(PID)}
           />
 
-          <ResultInfo
-            label={`Период реализации проекта (${TimeUnitsString[timeUnit]}) (DCE)`}
+          <Single
+            label={`Период реализации проекта (${DCE?.measure}) (DCE)`}
             value={DCE?.value}
           />
 
-          <ResultInfo
+          <Single
             label='Округление периода реализации проекта (год) (PHD)'
             value={PHD}
           />
 
-          <ResultInfo
+          <Single
             label='Дата получения эффекта проекта (PIDDC)'
-            value={dayjs(PIDDC).format('DD.MM.YYYY')}
+            value={formatDate(PIDDC)}
           />
 
-          <ResultInfo
+          <Single
             label='Горизонт планирования (год) (PH)'
             value={PH}
           />
-        </div>
+        </Block>
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Шаг Расчета (ST)
-          </Typography>
+        <Table label='Шаг Расчета (ST)'>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
+              <TableCell
+                type='body'
+                label={indexST}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label='Параметр для округления года до 31.12.гггг (SH)'>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatDate(SH[indexST])}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label='Коэффициент распределения эффекта (SHRR)'>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(SHRR[indexST])}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Effect>
+          {effectCount?.map(n => {
+            const NPE = PE?.[`NPE${n}`]
+            const { NP, NPET, PC, EPP } = NPE || {}
+
+            return (
+              <EffectItem
+                key={n}
+                label={NP}
               >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+                <EffectCol>
+                  <EffectCell
+                    label='Объем производства'
+                    measure={`(${NPET?.measure}) (NPET)`}
+                  />
 
-                <div className={clsx(styles.cell, styles.result)}>{indexST}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+                  <EffectCell
+                    label='Cтоимость продукций'
+                    measure={`(${PC?.measure}) (PC)`}
+                  />
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Параметр для округления года до 31.12.гггг (SH)
-          </Typography>
+                  <EffectCell
+                    label='Процессинг производства'
+                    measure={`(${EPP?.measure}) (EPP)`}
+                  />
+                </EffectCol>
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+                <Table>
+                  {ST?.map(indexST => (
+                    <TableCol key={indexST}>
+                      <TableCell
+                        type='head'
+                        label={getYear(SY[indexST])}
+                      />
 
-                <div className={clsx(styles.cell, styles.result)}>
-                  {dayjs(SH[indexST]).format('DD.MM.YYYY')}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+                      <TableCell
+                        type='body'
+                        label={formatNumber(NPET?.collection?.[indexST] || 0)}
+                      />
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Коэффициент распределения эффекта (SHRR)
-          </Typography>
+                      <TableCell
+                        type='body'
+                        label={formatNumber(PC?.collection?.[indexST] || 0)}
+                      />
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+                      <TableCell
+                        type='body'
+                        label={formatNumber(EPP?.collection?.[indexST] || 0)}
+                      />
+                    </TableCol>
+                  ))}
+                </Table>
+              </EffectItem>
+            )
+          })}
+        </Effect>
 
-                <div className={clsx(styles.cell, styles.result)}>
-                  {formatNumber(SHRR[indexST])}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className='flex flex-wrap gap-6'>
-          <ResultInfo
+        <Block>
+          <Single
             label='Период амортизации (AMOR)'
             value={AMOR}
           />
 
-          <ResultInfo
-            label={`Капитальные затраты без НДС (${PowersString[powerCAPEX]} ${CurrenciesString[currencyCAPEX]}) (CAPEX)`}
-            value={`${CAPEX?.value} ${PowersString[powerCAPEX]} ${CurrenciesString[currencyCAPEX]}`}
+          <Single
+            label={`Капитальные затраты без НДС (${CAPEX?.measure}) (CAPEX)`}
+            value={`${CAPEX?.value} ${CAPEX?.measure}`}
           />
-        </div>
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Коэффициент распределения (KR)
-          </Typography>
+          <Single
+            label='Параметр (WCR)'
+            value={WCR}
+          />
+        </Block>
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+        <Table label='Коэффициент распределения (KR)'>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-                <div className={clsx(styles.cell, styles.result)}>{KR[indexST]}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+              <TableCell
+                type='body'
+                label={formatNumber(KR[indexST])}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            {`План финансирования без НДС (${PowersString[powerCAPEX]} ${CurrenciesString[currencyCAPEX]}) (FP)`}
-          </Typography>
+        <Table label={`План финансирования без НДС (${CAPEX?.measure}) (FP)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+              <TableCell
+                type='body'
+                label={formatNumber(FP[indexST])}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-                <div className={clsx(styles.cell, styles.result)}>{formatNumber(FP[indexST])}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className='flex flex-col gap-4'>
-          <Typography
-            variant='h5'
-            color='blue-gray'
-          >
-            Эффект проекта (PE)
-          </Typography>
-
-          {effectCount?.map(n => {
-            const NPE = PE?.[`NPE${n}`]
-            const powerNPET = NPE?.NPET?.power || 'THOU'
-            const unitNPET = NPE?.NPET?.unit || 'TONNE'
-            const powerPC = NPE?.PC?.power || 'THOU'
-            const currencyPC = NPE?.PC?.currency || 'RUB'
-            const powerEPP = NPE?.EPP?.power || 'THOU'
-            const currencyEPP = NPE?.EPP?.currency || 'RUB'
-
-            return (
-              <div
-                key={n}
-                className='flex flex-col gap-2'
-              >
-                <Typography className='text-xs font-semibold uppercase text-blue-gray-500'>
-                  {`Продукция (NPE${n})`}
-                </Typography>
-
-                <ResultInfo
-                  label='Наименование продукции (NP)'
-                  value={NPE?.NP}
-                />
-
-                <div className='flex w-[100%] gap-3'>
-                  <div className={clsx(styles.col, styles.colParams)}>
-                    <div className={clsx(styles.cell, styles.cellParams)}></div>
-                    <div className={clsx(styles.cell, styles.cellParams)}>
-                      <Typography
-                        variant='small'
-                        className='text-xs font-medium text-blue-gray-600'
-                      >
-                        Объем производства
-                      </Typography>
-
-                      <Typography
-                        variant='small'
-                        className='text-xs font-normal text-blue-gray-600'
-                      >
-                        {`(${PowersString[powerNPET]} ${WeightUnitsString[unitNPET]}) (NPET)`}
-                      </Typography>
-                    </div>
-                    <div className={clsx(styles.cell, styles.cellParams)}>
-                      <Typography
-                        variant='small'
-                        className='text-xs font-medium text-blue-gray-600'
-                      >
-                        Cтоимость продукций
-                      </Typography>
-                      <Typography
-                        variant='small'
-                        className='text-xs font-normal text-blue-gray-600'
-                      >
-                        {`(${PowersString[powerPC]} ${CurrenciesString[currencyPC]}) (PC)`}
-                      </Typography>
-                    </div>
-                    <div className={clsx(styles.cell, styles.cellParams)}>
-                      <Typography
-                        variant='small'
-                        className='text-xs font-medium text-blue-gray-600'
-                      >
-                        Процессинг производства
-                      </Typography>
-                      <Typography
-                        variant='small'
-                        className='text-xs font-normal text-blue-gray-600'
-                      >
-                        {`(${PowersString[powerEPP]} ${CurrenciesString[currencyEPP]}) (EPP)`}
-                      </Typography>
-                    </div>
-                  </div>
-
-                  <div className={styles.table}>
-                    {ST?.map(indexST => (
-                      <div
-                        key={indexST}
-                        className={styles.col}
-                      >
-                        <div className={clsx(styles.cell, styles.year)}>
-                          {dayjs(PID)?.add(indexST, 'year').year()}
-                        </div>
-
-                        <div className={clsx(styles.cell, styles.result)}>
-                          {formatNumber(NPE?.NPET?.collection?.[indexST] || 0)}
-                        </div>
-
-                        <div className={clsx(styles.cell, styles.result)}>
-                          {formatNumber(NPE?.PC?.collection?.[indexST] || 0)}
-                        </div>
-
-                        <div className={clsx(styles.cell, styles.result)}>
-                          {formatNumber(NPE?.EPP?.collection?.[indexST] || 0)}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-
-        <div className='flex flex-wrap gap-6'>
-          <ResultInfo
+        <Block>
+          <Single
             label='Дефлятор (инфляция в РФ), % (DEF)'
             value={`${DEF}%`}
           />
 
-          <ResultInfo
+          <Single
             label='Дефлятор (инфляция в США), % (GRT)'
             value={`${GRT}%`}
           />
 
-          <ResultInfo
-            label='Учитывать терминальную стоимость?'
+          <Single
+            label='Учитывать терминальную стоимость? (TV_enabled)'
             value={TV_enabled ? 'Да' : 'Нет'}
           />
 
-          <ResultInfo
+          <Single
             label='Средневзвешенная стоимость капитала, % (WACC)'
             value={`${WACC}%`}
           />
 
-          <ResultInfo
+          <Single
             label='Рабочий капитал, % (WCD)'
             value={`${WCD}%`}
           />
 
-          <ResultInfo
+          <Single
             label='Затраты на ремонт и тех. обслуживания, % (RMCD)'
             value={`${RMCD}%`}
           />
 
-          <ResultInfo
+          <Single
             label='Налог на прибыль, % (ITXD)'
             value={`${ITXD}%`}
           />
 
-          <ResultInfo
+          <Single
             label='Налог на недвижимое имущество, % (RETD)'
             value={`${RETD}%`}
           />
-        </div>
-      </ResultBlock>
+        </Block>
+      </Section>
 
-      <ResultBlock title='Модуль 2'>
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Параметр для округления года до 31.12.гггг (SH)
-          </Typography>
+      <Section title='Модуль 2'>
+        <Table label='Параметр для округления года до 31.12.гггг (SH)'>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+              <TableCell
+                type='body'
+                label={formatDate(SH[indexST])}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-                <div className={clsx(styles.cell, styles.result)}>
-                  {dayjs(SH[indexST]).format('DD.MM.YYYY')}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <Table label='Дата получения денежного потока (DCFR)'>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Валовая выручка (RV)
-          </Typography>
+              <TableCell
+                type='body'
+                label={formatDate(DCFR[indexST])}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+        <Table label={`Валовая выручка (${RV?.measure}) (RV)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-                <div className={clsx(styles.cell, styles.result)}>
-                  {formatNumber(RV[indexST] / 1000000 / 1)}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+              <TableCell
+                type='body'
+                label={formatNumber(RV?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Остаточная стоимость на начало периода (RVATB)
-          </Typography>
+        <Table label={`Aмортизация (${DPR?.measure}) (DPR)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+              <TableCell
+                type='body'
+                label={formatNumber(DPR?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-                <div className={clsx(styles.cell, styles.result)}>{indexST}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <Table label={`Остаточная стоимость на начало периода (${RVATB?.measure}) (RVATB)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Остаточная стоимость на конец периода (RVATP)
-          </Typography>
+              <TableCell
+                type='body'
+                label={formatNumber(RVATB?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+        <Table label={`Остаточная стоимость на конец периода (${RVATP?.measure}) (RVATP)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-                <div className={clsx(styles.cell, styles.result)}>{indexST}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+              <TableCell
+                type='body'
+                label={formatNumber(RVATP?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Налог на недвижимое имущество (RETR)
-          </Typography>
+        <Table label={`Налог на недвижимое имущество (${RETR?.measure}) (RETR)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+              <TableCell
+                type='body'
+                label={formatNumber(RETR?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-                <div className={clsx(styles.cell, styles.result)}>{indexST}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <Table label={`Затраты на ремонт и тех. обслуживания (${RMCR?.measure}) (RMCR)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Дата получения денежного потока (DCFR)
-          </Typography>
+              <TableCell
+                type='body'
+                label={formatNumber(RMCR?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+        <Table label={`Процессинг производства (расходы) (${RACH?.measure}) (RACH)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-                <div className={clsx(styles.cell, styles.result)}>
-                  {dayjs(DCFR[indexST]).format('DD.MM.YYYY')}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+              <TableCell
+                type='body'
+                label={formatNumber(RACH?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Aмортизация (DPR)
-          </Typography>
+        <Table label={`Прибыль до уплаты %, налогов и амортизации (${EBITDA?.measure}) (EBITDA)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+              <TableCell
+                type='body'
+                label={formatNumber(EBITDA?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-                <div className={clsx(styles.cell, styles.result)}>
-                  {formatNumber(DPR[indexST] / 1000000 / 1)}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <Table label={`Прибыль до уплаты % и налогов (${EBIT?.measure}) (EBIT)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Затраты на ремонт и тех. обслуживания (RMCR)
-          </Typography>
+              <TableCell
+                type='body'
+                label={formatNumber(EBIT?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+        <Table label={`Налог на прибыль (${ITXR?.measure}) (ITXR)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-                <div className={clsx(styles.cell, styles.result)}>
-                  {formatNumber(RMCR[indexST] / 1000000 / 1)}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+              <TableCell
+                type='body'
+                label={formatNumber(ITXR?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Процессинг производства (расходы) (RACH)
-          </Typography>
+        <Table label={`Чистая прибыль (${ENP?.measure}) (ENP)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+              <TableCell
+                type='body'
+                label={formatNumber(ENP?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-                <div className={clsx(styles.cell, styles.result)}>
-                  {formatNumber(RACH[indexST] / 1000 / 1)}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <Table label={`Чистый денежный поток (${FCFF?.measure}) (FCFF)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Прибыль до уплаты %, налогов и амортизации (EBITDA)
-          </Typography>
+              <TableCell
+                type='body'
+                label={formatNumber(FCFF?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+        <Table label={`Период дисконтирования (DPRD)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-                <div className={clsx(styles.cell, styles.result)}>{indexST}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+              <TableCell
+                type='body'
+                label={formatNumber(DPRD?.[indexST])}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Прибыль до уплаты % и налогов (EBIT)
-          </Typography>
+        <Table label={`Фактор дисконтирования (DCFCR)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+              <TableCell
+                type='body'
+                label={formatNumber(DCFCR?.[indexST])}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-                <div className={clsx(styles.cell, styles.result)}>{indexST}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <Table label={`Приведенный денежный поток (${PVFCFF?.measure}) (PVFCFF)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Налог на прибыль (ITXR)
-          </Typography>
+              <TableCell
+                type='body'
+                label={formatNumber(PVFCFF?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+        <Table label={`Накопленный денежный поток (${ACF?.measure}) (ACF)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-                <div className={clsx(styles.cell, styles.result)}>{indexST}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+              <TableCell
+                type='body'
+                label={formatNumber(ACF?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Чистая прибыль (ENP)
-          </Typography>
+        <Table label={`Накопленный дисконтированный денежный поток (${ADCF?.measure}) (ADCF)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
+              <TableCell
+                type='body'
+                label={formatNumber(ADCF?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
 
-                <div className={clsx(styles.cell, styles.result)}>{indexST}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <Table label={`Чистый денежный поток с TV (${NCFTV?.measure}) (NCFTV)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
 
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Чистый денежный поток (FCFF)
-          </Typography>
-
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
-
-                <div className={clsx(styles.cell, styles.result)}>{indexST}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Период дисконтирования (DPRD)
-          </Typography>
-
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
-
-                <div className={clsx(styles.cell, styles.result)}>{indexST}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Фактор дисконтирования (DCFCR)
-          </Typography>
-
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
-
-                <div className={clsx(styles.cell, styles.result)}>{indexST}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Приведенный денежный поток (PVFCFF)
-          </Typography>
-
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
-
-                <div className={clsx(styles.cell, styles.result)}>{indexST}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Накопленный денежный поток CF (ACF)
-          </Typography>
-
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
-
-                <div className={clsx(styles.cell, styles.result)}>{indexST}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Накопленный дисконтированный денежный поток CF (ADCF)
-          </Typography>
-
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
-
-                <div className={clsx(styles.cell, styles.result)}>{indexST}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className='flex flex-col gap-2'>
-          <Typography
-            variant='small'
-            className='font-normal text-blue-gray-600'
-          >
-            Чистый денежный поток с TV (NCFTV)
-          </Typography>
-
-          <div className={styles.table}>
-            {ST?.map(indexST => (
-              <div
-                key={indexST}
-                className={styles.col}
-              >
-                <div className={clsx(styles.cell, styles.year)}>
-                  {dayjs(PID)?.add(indexST, 'year').year()}
-                </div>
-
-                <div className={clsx(styles.cell, styles.result)}>{indexST}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </ResultBlock>
+              <TableCell
+                type='body'
+                label={formatNumber(NCFTV?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+      </Section>
     </>
   )
 }

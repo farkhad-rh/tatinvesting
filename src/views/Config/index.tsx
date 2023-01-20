@@ -11,6 +11,8 @@ import styles from './Config.module.scss'
 const Config = () => {
   const navigate = useNavigate()
 
+  const handleResult = () => navigate(`/${Routes.RESULT}`)
+
   return (
     <>
       <Typography
@@ -31,7 +33,7 @@ const Config = () => {
         className={styles.button}
         variant='gradient'
         size='lg'
-        onClick={() => navigate(`/${Routes.RESULT}`)}
+        onClick={handleResult}
       >
         Рассчитать
       </Button>

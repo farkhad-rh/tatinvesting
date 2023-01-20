@@ -22,6 +22,7 @@ const FormParams = () => {
           defaultValue={DEF || ''}
           {...register('DEF', { valueAsNumber: true })}
         />
+
         <Input
           type='number'
           min={0}
@@ -31,6 +32,7 @@ const FormParams = () => {
           readOnly
           {...register('GRT', { valueAsNumber: true })}
         />
+
         <div className={styles.checkbox}>
           <Checkbox
             label='Учитывать терминальную стоимость?'
@@ -49,6 +51,7 @@ const FormParams = () => {
           defaultValue={WACC || ''}
           {...register('WACC', { valueAsNumber: true })}
         />
+
         <Input
           type='number'
           min={0}
@@ -57,6 +60,7 @@ const FormParams = () => {
           defaultValue={WCD || ''}
           {...register('WCD', { valueAsNumber: true })}
         />
+
         <Input
           type='number'
           min={0}
@@ -76,6 +80,7 @@ const FormParams = () => {
           defaultValue={ITXD || ''}
           {...register('ITXD', { valueAsNumber: true })}
         />
+
         <Input
           type='number'
           min={0}

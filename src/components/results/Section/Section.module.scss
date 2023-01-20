@@ -1,5 +1,9 @@
+.wrapper {
+  @apply mt-8;
+}
+
 .background {
-  @apply relative mt-8 h-56 w-full overflow-hidden rounded-xl;
+  @apply relative h-56 w-full overflow-hidden rounded-xl;
 }
 
 .overlay {

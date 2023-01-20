@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 import { KDVG, KDVGV } from '@constants'
 
-import { Currencies, Powers } from '@enums'
+import { Currencies, CurrenciesString, Powers, PowersString } from '@enums'
 
 import { addDate, diffDate, formatPercent, getYear, leapYear } from '@utils'
 
@@ -53,6 +53,7 @@ export const useCalculateController = () => {
   const { DEF, GRT, ITXD, RETD, RMCD, WACC, WCD, TV_enabled } = params
 
   useEffect(() => {
+    // Дата получения денежного потока (DCFR)
     const DCFR = ST?.map(n => {
       const count = diffDate(SH[n], SH[n - 1], 'day') / 2
 
@@ -69,8 +70,7 @@ export const useCalculateController = () => {
       return addDate(SH[n - 1], count, 'day')
     })
 
-    createDCFR(DCFR)
-
+    // Валовая выручка (RV)
     const RV: ICalculateParams = {
       value: ST?.map(n => {
         let value = 0
@@ -88,18 +88,21 @@ export const useCalculateController = () => {
 
       power: 'MLN',
       currency: 'RUB',
+      measure: '',
+
+      collection: [],
     }
+    const RVmeasure = `${PowersString?.[RV?.power || 'MLN']} ${
+      CurrenciesString?.[RV?.currency || 'RUB']
+    }`
+    const RVcollection = ST?.map(n => {
+      const collection =
+        (RV?.value?.[n] || 0) / Powers[RV?.power || 'MLN'] / Currencies[RV?.currency || 'RUB']
 
-    createRV({
-      ...RV,
-      collection: ST?.map(n => {
-        const collection =
-          (RV?.value?.[n] || 0) / Powers[RV?.power || 'MLN'] / Currencies[RV?.currency || 'RUB']
-
-        return collection
-      }),
+      return collection
     })
 
+    // Aмортизация (DPR)
     const DPR: ICalculateParams = {
       value: ST?.map(n => {
         if (getYear(SY[n]) < getYear(PIDDC)) {
@@ -115,32 +118,43 @@ export const useCalculateController = () => {
 
       power: 'MLN',
       currency: 'RUB',
+      measure: '',
+
+      collection: [],
     }
+    const DPRmeasure = `${PowersString?.[DPR?.power || 'MLN']} ${
+      CurrenciesString?.[DPR?.currency || 'RUB']
+    }`
+    const DPRcollection = ST?.map(n => {
+      const collection =
+        (DPR?.value?.[n] || 0) / Powers[DPR?.power || 'MLN'] / Currencies[DPR?.currency || 'RUB']
 
-    createDPR({
-      ...DPR,
-      collection: ST?.map(n => {
-        const collection =
-          (DPR?.value?.[n] || 0) / Powers[DPR?.power || 'MLN'] / Currencies[DPR?.currency || 'RUB']
-
-        return collection
-      }),
+      return collection
     })
 
+    // Остаточная стоимость на начало периода (RVATB)
     const RVATB: ICalculateParams = {
       value: [],
 
       power: 'MLN',
       currency: 'RUB',
+      measure: '',
+
+      collection: [],
     }
 
+    // Остаточная стоимость на конец периода (RVATP)
     const RVATP: ICalculateParams = {
       value: [],
 
       power: 'MLN',
       currency: 'RUB',
+      measure: '',
+
+      collection: [],
     }
 
+    // (RVATB) и (RVATP)
     ST?.forEach(n => {
       if (getYear(SY[n]) < getYear(PIDDC)) {
         RVATB?.value?.push(0)
@@ -154,34 +168,38 @@ export const useCalculateController = () => {
 
       if (getYear(SY[n]) > getYear(PIDDC)) {
         RVATB?.value?.push(RVATP?.value?.[n - 1] || 0)
-        RVATP?.value?.push((RVATB?.value?.[n] || 0) - (DPR?.value?.[n] || 0))
+
+        const diff = (RVATB?.value?.[n] || 0) - (DPR?.value?.[n] || 0)
+
+        RVATP?.value?.push(diff > 0 ? diff : RVATB?.value?.[n] || 0)
       }
     })
 
-    createRVATB({
-      ...RVATB,
-      collection: ST?.map(n => {
-        const collection =
-          (RVATB?.value?.[n] || 0) /
-          Powers[RVATB?.power || 'MLN'] /
-          Currencies[RVATB?.currency || 'RUB']
+    const RVATBmeasure = `${PowersString?.[RVATB?.power || 'MLN']} ${
+      CurrenciesString?.[RVATB?.currency || 'RUB']
+    }`
+    const RVATBcollection = ST?.map(n => {
+      const collection =
+        (RVATB?.value?.[n] || 0) /
+        Powers[RVATB?.power || 'MLN'] /
+        Currencies[RVATB?.currency || 'RUB']
 
-        return collection
-      }),
+      return collection
     })
 
-    createRVATP({
-      ...RVATP,
-      collection: ST?.map(n => {
-        const collection =
-          (RVATP?.value?.[n] || 0) /
-          Powers[RVATP?.power || 'MLN'] /
-          Currencies[RVATP?.currency || 'RUB']
+    const RVATPmeasure = `${PowersString?.[RVATP?.power || 'MLN']} ${
+      CurrenciesString?.[RVATP?.currency || 'RUB']
+    }`
+    const RVATPcollection = ST?.map(n => {
+      const collection =
+        (RVATP?.value?.[n] || 0) /
+        Powers[RVATP?.power || 'MLN'] /
+        Currencies[RVATP?.currency || 'RUB']
 
-        return collection
-      }),
+      return collection
     })
 
+    // Налог на недвижимое имущество (RETR)
     const RETR: ICalculateParams = {
       value: ST?.map(n => {
         return (
@@ -191,20 +209,21 @@ export const useCalculateController = () => {
 
       power: 'MLN',
       currency: 'RUB',
+      measure: '',
+
+      collection: [],
     }
+    const RETRmeasure = `${PowersString?.[RETR?.power || 'MLN']} ${
+      CurrenciesString?.[RETR?.currency || 'RUB']
+    }`
+    const RETRcollection = ST?.map(n => {
+      const collection =
+        (RETR?.value?.[n] || 0) / Powers[RETR?.power || 'MLN'] / Currencies[RETR?.currency || 'RUB']
 
-    createRETR({
-      ...RETR,
-      collection: ST?.map(n => {
-        const collection =
-          (RETR?.value?.[n] || 0) /
-          Powers[RETR?.power || 'MLN'] /
-          Currencies[RETR?.currency || 'RUB']
-
-        return collection
-      }),
+      return collection
     })
 
+    // Затраты на ремонт и тех. обслуживания (RMCR)
     const RMCR: ICalculateParams = {
       value: ST?.map(n => {
         if (getYear(SY[n]) < getYear(PIDDC)) {
@@ -226,20 +245,21 @@ export const useCalculateController = () => {
 
       power: 'MLN',
       currency: 'RUB',
+      measure: '',
+
+      collection: [],
     }
+    const RMCRmeasure = `${PowersString?.[RMCR?.power || 'MLN']} ${
+      CurrenciesString?.[RMCR?.currency || 'RUB']
+    }`
+    const RMCRcollection = ST?.map(n => {
+      const collection =
+        (RMCR?.value?.[n] || 0) / Powers[RMCR?.power || 'MLN'] / Currencies[RMCR?.currency || 'RUB']
 
-    createRMCR({
-      ...RMCR,
-      collection: ST?.map(n => {
-        const collection =
-          (RMCR?.value?.[n] || 0) /
-          Powers[RMCR?.power || 'MLN'] /
-          Currencies[RMCR?.currency || 'RUB']
-
-        return collection
-      }),
+      return collection
     })
 
+    // Процессинг производства (расходы) (RACH)
     const RACH: ICalculateParams = {
       value: ST?.map(n => {
         let value = 0
@@ -257,20 +277,21 @@ export const useCalculateController = () => {
 
       power: 'MLN',
       currency: 'RUB',
+      measure: '',
+
+      collection: [],
     }
+    const RACHmeasure = `${PowersString?.[RACH?.power || 'MLN']} ${
+      CurrenciesString?.[RACH?.currency || 'RUB']
+    }`
+    const RACHcollection = ST?.map(n => {
+      const collection =
+        (RACH?.value?.[n] || 0) / Powers[RACH?.power || 'MLN'] / Currencies[RACH?.currency || 'RUB']
 
-    createRACH({
-      ...RACH,
-      collection: ST?.map(n => {
-        const collection =
-          (RACH?.value?.[n] || 0) /
-          Powers[RACH?.power || 'MLN'] /
-          Currencies[RACH?.currency || 'RUB']
-
-        return collection
-      }),
+      return collection
     })
 
+    // Прибыль до уплаты %, налогов и амортизации (EBITDA)
     const EBITDA: ICalculateParams = {
       value: ST?.map(n => {
         return (
@@ -283,20 +304,23 @@ export const useCalculateController = () => {
 
       power: 'MLN',
       currency: 'RUB',
+      measure: '',
+
+      collection: [],
     }
+    const EBITDAmeasure = `${PowersString?.[EBITDA?.power || 'MLN']} ${
+      CurrenciesString?.[EBITDA?.currency || 'RUB']
+    }`
+    const EBITDAcollection = ST?.map(n => {
+      const collection =
+        (EBITDA?.value?.[n] || 0) /
+        Powers[EBITDA?.power || 'MLN'] /
+        Currencies[EBITDA?.currency || 'RUB']
 
-    createEBITDA({
-      ...EBITDA,
-      collection: ST?.map(n => {
-        const collection =
-          (EBITDA?.value?.[n] || 0) /
-          Powers[EBITDA?.power || 'MLN'] /
-          Currencies[EBITDA?.currency || 'RUB']
-
-        return collection
-      }),
+      return collection
     })
 
+    // Прибыль до уплаты % и налогов (EBIT)
     const EBIT: ICalculateParams = {
       value: ST?.map(n => {
         return (EBITDA?.value?.[n] || 0) - (DPR?.value?.[n] || 0)
@@ -304,20 +328,21 @@ export const useCalculateController = () => {
 
       power: 'MLN',
       currency: 'RUB',
+      measure: '',
+
+      collection: [],
     }
+    const EBITmeasure = `${PowersString?.[EBIT?.power || 'MLN']} ${
+      CurrenciesString?.[EBIT?.currency || 'RUB']
+    }`
+    const EBITcollection = ST?.map(n => {
+      const collection =
+        (EBIT?.value?.[n] || 0) / Powers[EBIT?.power || 'MLN'] / Currencies[EBIT?.currency || 'RUB']
 
-    createEBIT({
-      ...EBIT,
-      collection: ST?.map(n => {
-        const collection =
-          (EBIT?.value?.[n] || 0) /
-          Powers[EBIT?.power || 'MLN'] /
-          Currencies[EBIT?.currency || 'RUB']
-
-        return collection
-      }),
+      return collection
     })
 
+    // Налог на прибыль (ITXR)
     const ITXR: ICalculateParams = {
       value: ST?.map(n => {
         return (EBIT?.value?.[n] || 0) * formatPercent(ITXD || 0)
@@ -325,20 +350,21 @@ export const useCalculateController = () => {
 
       power: 'MLN',
       currency: 'RUB',
+      measure: '',
+
+      collection: [],
     }
+    const ITXRmeasure = `${PowersString?.[ITXR?.power || 'MLN']} ${
+      CurrenciesString?.[ITXR?.currency || 'RUB']
+    }`
+    const ITXRcollection = ST?.map(n => {
+      const collection =
+        (ITXR?.value?.[n] || 0) / Powers[ITXR?.power || 'MLN'] / Currencies[ITXR?.currency || 'RUB']
 
-    createITXR({
-      ...ITXR,
-      collection: ST?.map(n => {
-        const collection =
-          (ITXR?.value?.[n] || 0) /
-          Powers[ITXR?.power || 'MLN'] /
-          Currencies[ITXR?.currency || 'RUB']
-
-        return collection
-      }),
+      return collection
     })
 
+    // Чистая прибыль (ENP)
     const ENP: ICalculateParams = {
       value: ST?.map(n => {
         return (EBIT?.value?.[n] || 0) - (ITXR?.value?.[n] || 0)
@@ -346,18 +372,21 @@ export const useCalculateController = () => {
 
       power: 'MLN',
       currency: 'RUB',
+      measure: '',
+
+      collection: [],
     }
+    const ENPmeasure = `${PowersString?.[ENP?.power || 'MLN']} ${
+      CurrenciesString?.[ENP?.currency || 'RUB']
+    }`
+    const ENPcollection = ST?.map(n => {
+      const collection =
+        (ENP?.value?.[n] || 0) / Powers[ENP?.power || 'MLN'] / Currencies[ENP?.currency || 'RUB']
 
-    createENP({
-      ...ENP,
-      collection: ST?.map(n => {
-        const collection =
-          (ENP?.value?.[n] || 0) / Powers[ENP?.power || 'MLN'] / Currencies[ENP?.currency || 'RUB']
-
-        return collection
-      }),
+      return collection
     })
 
+    // Чистый денежный поток (FCFF)
     const FCFF: ICalculateParams = {
       value: ST?.map(n => {
         return (DPR?.value?.[n] || 0) + (ENP?.value?.[n] || 0) - (FP?.[n] || 0) - WCR
@@ -365,32 +394,31 @@ export const useCalculateController = () => {
 
       power: 'MLN',
       currency: 'RUB',
+      measure: '',
+
+      collection: [],
     }
+    const FCFFmeasure = `${PowersString?.[FCFF?.power || 'MLN']} ${
+      CurrenciesString?.[FCFF?.currency || 'RUB']
+    }`
+    const FCFFcollection = ST?.map(n => {
+      const collection =
+        (FCFF?.value?.[n] || 0) / Powers[FCFF?.power || 'MLN'] / Currencies[FCFF?.currency || 'RUB']
 
-    createFCFF({
-      ...FCFF,
-      collection: ST?.map(n => {
-        const collection =
-          (FCFF?.value?.[n] || 0) /
-          Powers[FCFF?.power || 'MLN'] /
-          Currencies[FCFF?.currency || 'RUB']
-
-        return collection
-      }),
+      return collection
     })
 
+    // Период дисконтирования (DPRD)
     const DPRD = ST?.map(n => {
       return diffDate(DCFR[n], PID, 'day') / (leapYear(SY[n]) ? KDVGV : KDVG)
     })
 
-    createDPRD(DPRD)
-
+    // Фактор дисконтирования (DCFCR)
     const DCFCR = ST?.map(n => {
       return 1 / Math.pow(1 + formatPercent(WACC || 0), DPRD[n])
     })
 
-    createDCFCR(DCFCR)
-
+    // Приведенный денежный поток (PVFCFF)
     const PVFCFF: ICalculateParams = {
       value: ST?.map(n => {
         return (FCFF?.value?.[n] || 0) * DCFCR?.[n]
@@ -398,27 +426,32 @@ export const useCalculateController = () => {
 
       power: 'MLN',
       currency: 'RUB',
+      measure: '',
+
+      collection: [],
     }
+    const PVFCFFmeasure = `${PowersString?.[PVFCFF?.power || 'MLN']} ${
+      CurrenciesString?.[PVFCFF?.currency || 'RUB']
+    }`
+    const PVFCFFcollection = ST?.map(n => {
+      const collection =
+        (PVFCFF?.value?.[n] || 0) /
+        Powers[PVFCFF?.power || 'MLN'] /
+        Currencies[PVFCFF?.currency || 'RUB']
 
-    createPVFCFF({
-      ...PVFCFF,
-      collection: ST?.map(n => {
-        const collection =
-          (PVFCFF?.value?.[n] || 0) /
-          Powers[PVFCFF?.power || 'MLN'] /
-          Currencies[PVFCFF?.currency || 'RUB']
-
-        return collection
-      }),
+      return collection
     })
 
+    // Накопленный денежный поток (ACF)
     const ACF: ICalculateParams = {
       value: [],
 
       power: 'MLN',
       currency: 'RUB',
-    }
+      measure: '',
 
+      collection: [],
+    }
     ST?.forEach(n => {
       if (n === 0) {
         ACF?.value?.push(FCFF?.value?.[n] || 0)
@@ -428,24 +461,26 @@ export const useCalculateController = () => {
         ACF?.value?.push((FCFF?.value?.[n] || 0) + ACF?.value?.[n - 1])
       }
     })
+    const ACFmeasure = `${PowersString?.[ACF?.power || 'MLN']} ${
+      CurrenciesString?.[ACF?.currency || 'RUB']
+    }`
+    const ACFcollection = ST?.map(n => {
+      const collection =
+        (ACF?.value?.[n] || 0) / Powers[ACF?.power || 'MLN'] / Currencies[ACF?.currency || 'RUB']
 
-    createACF({
-      ...ACF,
-      collection: ST?.map(n => {
-        const collection =
-          (ACF?.value?.[n] || 0) / Powers[ACF?.power || 'MLN'] / Currencies[ACF?.currency || 'RUB']
-
-        return collection
-      }),
+      return collection
     })
 
+    // Накопленный дисконтированный денежный поток (ADCF)
     const ADCF: ICalculateParams = {
       value: [],
 
       power: 'MLN',
       currency: 'RUB',
-    }
+      measure: '',
 
+      collection: [],
+    }
     ST?.forEach(n => {
       if (n === 0) {
         ADCF?.value?.push(PVFCFF?.value?.[n] || 0)
@@ -455,19 +490,17 @@ export const useCalculateController = () => {
         ADCF?.value?.push((PVFCFF?.value?.[n] || 0) + ADCF?.value?.[n - 1])
       }
     })
+    const ADCFmeasure = `${PowersString?.[ADCF?.power || 'MLN']} ${
+      CurrenciesString?.[ADCF?.currency || 'RUB']
+    }`
+    const ADCFcollection = ST?.map(n => {
+      const collection =
+        (ADCF?.value?.[n] || 0) / Powers[ADCF?.power || 'MLN'] / Currencies[ADCF?.currency || 'RUB']
 
-    createADCF({
-      ...ADCF,
-      collection: ST?.map(n => {
-        const collection =
-          (ADCF?.value?.[n] || 0) /
-          Powers[ADCF?.power || 'MLN'] /
-          Currencies[ADCF?.currency || 'RUB']
-
-        return collection
-      }),
+      return collection
     })
 
+    // Терминальная стоимость (TV)
     const TV = () => {
       if (TV_enabled) {
         const n = ST?.length - 1
@@ -482,8 +515,7 @@ export const useCalculateController = () => {
       return 0
     }
 
-    createTV(TV())
-
+    // Чистый денежный поток с TV (NCFTV)
     const NCFTV: ICalculateParams = {
       value: ST?.map(n => {
         if (n === ST?.length - 1) {
@@ -495,18 +527,105 @@ export const useCalculateController = () => {
 
       power: 'MLN',
       currency: 'RUB',
-    }
+      measure: '',
 
+      collection: [],
+    }
+    const NCFTVmeasure = `${PowersString?.[NCFTV?.power || 'MLN']} ${
+      CurrenciesString?.[NCFTV?.currency || 'RUB']
+    }`
+    const NCFTVcollection = ST?.map(n => {
+      const collection =
+        (NCFTV?.value?.[n] || 0) /
+        Powers[NCFTV?.power || 'MLN'] /
+        Currencies[NCFTV?.currency || 'RUB']
+
+      return collection
+    })
+
+    createDCFR(DCFR)
+    createRV({
+      ...RV,
+      measure: RVmeasure,
+      collection: RVcollection,
+    })
+    createDPR({
+      ...DPR,
+      measure: DPRmeasure,
+      collection: DPRcollection,
+    })
+    createRVATB({
+      ...RVATB,
+      measure: RVATBmeasure,
+      collection: RVATBcollection,
+    })
+    createRVATP({
+      ...RVATP,
+      measure: RVATPmeasure,
+      collection: RVATPcollection,
+    })
+    createRETR({
+      ...RETR,
+      measure: RETRmeasure,
+      collection: RETRcollection,
+    })
+    createRMCR({
+      ...RMCR,
+      measure: RMCRmeasure,
+      collection: RMCRcollection,
+    })
+    createRACH({
+      ...RACH,
+      measure: RACHmeasure,
+      collection: RACHcollection,
+    })
+    createEBITDA({
+      ...EBITDA,
+      measure: EBITDAmeasure,
+      collection: EBITDAcollection,
+    })
+    createEBIT({
+      ...EBIT,
+      measure: EBITmeasure,
+      collection: EBITcollection,
+    })
+    createITXR({
+      ...ITXR,
+      measure: ITXRmeasure,
+      collection: ITXRcollection,
+    })
+    createENP({
+      ...ENP,
+      measure: ENPmeasure,
+      collection: ENPcollection,
+    })
+    createFCFF({
+      ...FCFF,
+      measure: FCFFmeasure,
+      collection: FCFFcollection,
+    })
+    createDPRD(DPRD)
+    createDCFCR(DCFCR)
+    createPVFCFF({
+      ...PVFCFF,
+      measure: PVFCFFmeasure,
+      collection: PVFCFFcollection,
+    })
+    createACF({
+      ...ACF,
+      measure: ACFmeasure,
+      collection: ACFcollection,
+    })
+    createADCF({
+      ...ADCF,
+      measure: ADCFmeasure,
+      collection: ADCFcollection,
+    })
+    createTV(TV())
     createNCFTV({
       ...NCFTV,
-      collection: ST?.map(n => {
-        const collection =
-          (NCFTV?.value?.[n] || 0) /
-          Powers[NCFTV?.power || 'MLN'] /
-          Currencies[NCFTV?.currency || 'RUB']
-
-        return collection
-      }),
+      measure: NCFTVmeasure,
+      collection: NCFTVcollection,
     })
   }, [])
 

@@ -6,6 +6,7 @@ export interface IEffectParams {
   power?: PowersType
   unit?: WeightUnitsType
   currency?: CurrenciesType
+  measure?: string
 
   collection?: (number | undefined)[]
   calculation?: (number | undefined)[]

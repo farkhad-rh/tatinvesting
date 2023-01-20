@@ -5,6 +5,7 @@ export interface ICalculateParams {
 
   power?: PowersType
   currency?: CurrenciesType
+  measure?: string
 
   collection?: number[]
 }

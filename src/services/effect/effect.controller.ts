@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { Currencies, Powers, WeightUnits } from '@enums'
+import {
+  Currencies,
+  CurrenciesString,
+  Powers,
+  PowersString,
+  WeightUnits,
+  WeightUnitsString,
+} from '@enums'
 
 import { usePeriodService, useEffectService, IEffect, useParamsService } from '@services'
 import { formatPercent } from '@utils'
@@ -46,30 +53,32 @@ export const useEffectController = () => {
   const handleEffect = (effect: IEffect['PE']) => {
     effectCount?.map(index => {
       const NPE = effect?.[`NPE${index}`]
-      const NP = NPE?.NP
-      const NPET = NPE?.NPET
-      const PC = NPE?.PC
-      const EPP = NPE?.EPP
+      const { NP, NPET, PC, EPP } = NPE || {}
 
+      // Наименование продукции (NP)
       if (NP !== undefined) {
         createNP(NP, index)
       }
 
+      // Объем производства (NPET)
       if (NPET) {
         const power = NPET?.power || 'NONE'
         const unit = NPET?.unit || 'TONNE'
+        const measure = `${PowersString[power]} ${WeightUnitsString[unit]}`
 
         const collection = ST?.map(() => NPET?.value || 0)
         const calculation = ST?.map(
           () => (NPET?.value || 0) * Powers[power] * WeightUnits[unit] || 0
         )
 
-        createNPET({ ...NPET, calculation, collection }, index)
+        createNPET({ ...NPET, measure, calculation, collection }, index)
       }
 
+      // Cтоимость продукций (PC)
       if (PC) {
         const power = PC?.power || 'NONE'
         const currency = PC?.currency || 'RUB'
+        const measure = `${PowersString[power]} ${CurrenciesString[currency]}`
 
         const collection = ST?.map(indexST => {
           return (PC?.value || 0) * Math.pow(1 + formatPercent(DEF || 0), indexST) || 0
@@ -78,12 +87,14 @@ export const useEffectController = () => {
           indexST => collection[indexST] * Powers[power] * Currencies[currency] || 0
         )
 
-        createPC({ ...PC, calculation, collection }, index)
+        createPC({ ...PC, measure, calculation, collection }, index)
       }
 
+      // Процессинг производства (EPP)
       if (EPP) {
         const power = EPP?.power || 'NONE'
         const currency = EPP?.currency || 'RUB'
+        const measure = `${PowersString[power]} ${CurrenciesString[currency]}`
 
         const collection = ST?.map(indexST => {
           return (EPP?.value || 0) * Math.pow(1 + formatPercent(DEF || 0), indexST) || 0
@@ -92,7 +103,7 @@ export const useEffectController = () => {
           indexST => collection[indexST] * Powers[power] * Currencies[currency] || 0
         )
 
-        createEPP({ ...EPP, calculation, collection }, index)
+        createEPP({ ...EPP, measure, calculation, collection }, index)
       }
     })
   }
@@ -110,6 +121,7 @@ export const useEffectController = () => {
   }, [ST, DEF])
 
   useEffect(() => {
+    // Количество продуктов
     if (count) {
       createCount(count)
     }

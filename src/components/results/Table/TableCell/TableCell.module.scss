@@ -1,0 +1,11 @@
+.wrapper {
+  @apply flex h-11 items-center justify-center rounded-md;
+}
+
+.head {
+  @apply bg-gradient-to-tr from-blue-gray-400 to-blue-gray-200 font-bold text-white;
+}
+
+.body {
+  @apply border border-blue-gray-200;
+}
