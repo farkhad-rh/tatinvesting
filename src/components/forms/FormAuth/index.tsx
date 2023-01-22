@@ -34,7 +34,7 @@ const FormAuth = () => {
       className={styles.form}
       onSubmit={handleSubmit(handleLogin)}
     >
-      <Card className={styles.form}>
+      <Card color='transparent'>
         <CardHeader
           className={styles.head}
           variant='gradient'

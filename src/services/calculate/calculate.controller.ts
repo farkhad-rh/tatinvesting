@@ -589,31 +589,72 @@ export const useCalculateController = () => {
     const NPVcollection =
       (NPV?.value || 0) / Powers[NPV?.power || 'MLN'] / Currencies[NPV?.currency || 'RUB']
 
-    // const testArr = [
-    //   -50.0, 11.43, 11.83, 12.24, 12.66, 13.09, 13.53, 13.99, 14.45, 14.93, 15.43, 15.93, 16.45,
-    //   16.98, 127.72,
-    // ]
+    const IRR = (values = NCFTV?.value, guess = 0.01) => {
+      // Calculates the resulting amount
+      const irrResult = (values: number[], dates: number[], rate: number) => {
+        const r = rate + 1
+        let result = values?.[0]
 
-    // Внутренняя норма рентабельности (IRR)
-    const IRR = () => {
-      const rate = 0.000001
-      let x = 0.01
-      let zero
-
-      do {
-        x += rate
-        zero = 0
-
-        for (let n = 0; n < (NCFTV?.value?.length || 0); n++) {
-          zero += (NCFTV?.value?.[n] || 0) / Math.pow(1 + x, n)
+        for (let i = 1; i < values?.length; i++) {
+          result += values?.[i] / Math.pow(r, (dates?.[i] - dates?.[0]) / 365)
         }
 
-        // for (let n = 0; n < (testArr?.length || 0); n++) {
-        //   zero += (testArr?.[n] || 0) / Math.pow(1 + x, n)
-        // }
-      } while (zero > 0)
+        return result
+      }
 
-      return x * 100
+      // Calculates the first derivation
+      const irrResultDeriv = (values: number[], dates: number[], rate: number) => {
+        const r = rate + 1
+        let result = 0
+
+        for (let i = 1; i < values?.length; i++) {
+          const frac = (dates?.[i] - dates?.[0]) / 365
+          result -= (frac * values?.[i]) / Math.pow(r, frac + 1)
+        }
+
+        return result
+      }
+
+      // Initialize dates and check that values contains at least one positive value and one negative value
+      const dates: number[] = []
+      let positive = false
+      let negative = false
+
+      for (let i = 0; i < (values?.length || 0); i++) {
+        dates[i] = i === 0 ? 0 : dates?.[i - 1] + 365
+        if ((values?.[i] || 0) > 0) positive = true
+        if ((values?.[i] || 0) < 0) negative = true
+      }
+
+      // Return error if values does not contain at least one positive value and one negative value
+      if (!positive || !negative) return 0
+
+      // Initialize guess and resultRate
+      let resultRate = guess
+
+      // Set maximum epsilon for end of iteration
+      const epsMax = 1e-10
+
+      // Set maximum number of iterations
+      const iterMax = 50
+
+      // Implement Newton's method
+      let newRate, epsRate, resultValue
+      let iteration = 0
+      let contLoop = true
+
+      do {
+        resultValue = irrResult(values || [], dates, resultRate)
+        newRate = resultRate - resultValue / irrResultDeriv(values || [], dates, resultRate)
+        epsRate = Math.abs(newRate - resultRate)
+        resultRate = newRate
+        contLoop = epsRate > epsMax && Math.abs(resultValue) > epsMax
+      } while (contLoop && ++iteration < iterMax)
+
+      if (contLoop) return 0
+
+      // Return internal rate of return
+      return resultRate * 100
     }
 
     // Простой срок окупаемости с даты начала реализации (PP)

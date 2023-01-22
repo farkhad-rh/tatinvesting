@@ -17,7 +17,10 @@ const FormPeriod = () => {
   const { PH, PID, PIDDC, DCE } = period
 
   return (
-    <FormConfig title='Date planning'>
+    <FormConfig
+      title='Date planning'
+      classes='z-[4]'
+    >
       <div className={styles.row}>
         <div className={styles.date}>
           <Input

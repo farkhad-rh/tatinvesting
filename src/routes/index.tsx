@@ -1,4 +1,3 @@
-import { lazy } from 'react'
 import { Navigate, NonIndexRouteObject } from 'react-router-dom'
 
 import { Routes } from './routes.enum'
@@ -7,17 +6,8 @@ import { Area } from '@components/layout'
 import { PrivateRoute } from '@components/routing'
 
 import Auth from '@views/Auth'
-
-const LazyConfig = lazy(() => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(import('@views/Config') as never), 1000)
-  })
-})
-const LazyResult = lazy(() => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(import('@views/Result') as never), 1000)
-  })
-})
+import Config from '@views/Config'
+import Result from '@views/Result'
 
 export const routes: NonIndexRouteObject[] = [
   { path: Routes.AUTH, element: <Auth /> },
@@ -37,8 +27,8 @@ export const routes: NonIndexRouteObject[] = [
               />
             ),
           },
-          { path: Routes.CONFIG, element: <LazyConfig /> },
-          { path: Routes.RESULT, element: <LazyResult /> },
+          { path: Routes.CONFIG, element: <Config /> },
+          { path: Routes.RESULT, element: <Result /> },
         ],
       },
       {

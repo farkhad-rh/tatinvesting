@@ -7,9 +7,18 @@ import { IUser, IUserActions } from './user.interface'
 export const useUserService = (): [IUser, IUserActions] => {
   const [user, setUser] = useRecoilState(userState)
 
-  const createUser = (payload: IUser) => setUser(payload)
+  const createUser = (payload: IUser) =>
+    setUser(prev => {
+      return { ...payload, background: prev?.background }
+    })
 
-  const deleteUser = () => setUser(initialUserState)
+  const toggleBackground = (payload: IUser['background']) =>
+    setUser({ ...user, background: payload })
 
-  return [user, { createUser, deleteUser }]
+  const deleteUser = () =>
+    setUser(prev => {
+      return { ...initialUserState, background: prev?.background }
+    })
+
+  return [user, { createUser, toggleBackground, deleteUser }]
 }

@@ -21,7 +21,7 @@ export const useAuthController = () => {
 
     if (authValidate) {
       await login()
-      await createUser(user)
+      await createUser({ ...user, background: true })
 
       setError(false)
 

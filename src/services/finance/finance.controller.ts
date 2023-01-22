@@ -29,16 +29,30 @@ export const useFinanceController = () => {
 
       if (CAPEX && KR) {
         // Коэффициент распределения (KR)
-        const validateKR = KR?.map(number => {
-          if ((KR?.reduce((a, b) => (a || 0) + (b || 0), 0) || 0) > 1) return 0
+        const KRvalidate = KR?.value?.map(number => {
+          if (
+            (KR?.value
+              ?.map(number => (number || 0) * 10)
+              .reduce((a, b) => (a || 0) + (b || 0), 0) || 0) /
+              10 >
+            1
+          )
+            return 0
 
           return number || 0
         })
 
-        // План финансирования без НДС (FP)
-        const FP = validateKR?.map(number => (CAPEX?.value || 0) * (number || 0))
+        const KRlimit =
+          (10 -
+            (KR?.value
+              ?.map(number => (number || 0) * 10)
+              .reduce((a, b) => (a || 0) + (b || 0), 0) || 0)) /
+          10
 
-        createKR(validateKR)
+        // План финансирования без НДС (FP)
+        const FP = KRvalidate?.map(number => (CAPEX?.value || 0) * (number || 0))
+
+        createKR({ value: KRvalidate, limit: KRlimit })
         createFP(FP)
       }
     })

@@ -1,5 +1,5 @@
 .wrapper {
-  @apply relative;
+  @apply relative z-[1];
 }
 
 .background {
@@ -13,11 +13,11 @@
 .image {
   object-position: 0% 15%;
 
-  @apply h-full w-full object-cover;
+  @apply max-h-[100%] w-full object-cover;
 }
 
 .card {
-  @apply mx-3 -mt-16 mb-6 lg:mx-4;
+  @apply mx-3 -mt-16 mb-6 bg-opacity-80 backdrop-blur-sm backdrop-saturate-200 lg:mx-4;
 }
 
 .body {

@@ -21,9 +21,13 @@ const FormEffect = () => {
   const { PE, count } = effect
 
   return (
-    <FormConfig title='Project Effect'>
+    <FormConfig
+      title='Project Effect'
+      classes='z-[3]'
+    >
       {count?.map(n => {
         const NPE = PE?.[`NPE${n}`]
+        const { NP, NPET, PC, EPP } = NPE || {}
 
         return (
           <div
@@ -36,7 +40,7 @@ const FormEffect = () => {
                   type='text'
                   label='Наименование продукции'
                   size='lg'
-                  defaultValue={NPE?.NP}
+                  defaultValue={NP}
                   {...register(`PE.NPE${n}.NP`)}
                 />
               </div>
@@ -47,14 +51,14 @@ const FormEffect = () => {
                   min={0}
                   label='Объем производства'
                   size='lg'
-                  defaultValue={NPE?.NPET?.value || ''}
+                  defaultValue={NPET?.value || ''}
                   {...register(`PE.NPE${n}.NPET.value`, { valueAsNumber: true })}
                 />
 
                 <Controller
                   name={`PE.NPE${n}.NPET.power`}
                   control={control}
-                  defaultValue={NPE?.NPET?.power}
+                  defaultValue={NPET?.power}
                   render={({ field: { value, onChange, ref } }) => (
                     <Select
                       ref={ref}
@@ -78,7 +82,7 @@ const FormEffect = () => {
                 <Controller
                   name={`PE.NPE${n}.NPET.unit`}
                   control={control}
-                  defaultValue={NPE?.NPET?.unit || 'TONNE'}
+                  defaultValue={NPET?.unit || 'TONNE'}
                   render={({ field: { value, onChange, ref } }) => (
                     <Select
                       ref={ref}
@@ -106,14 +110,14 @@ const FormEffect = () => {
                   min={0}
                   label='Стоимость продукций'
                   size='lg'
-                  defaultValue={NPE?.PC?.value || ''}
+                  defaultValue={PC?.value || ''}
                   {...register(`PE.NPE${n}.PC.value`, { valueAsNumber: true })}
                 />
 
                 <Controller
                   name={`PE.NPE${n}.PC.power`}
                   control={control}
-                  defaultValue={NPE?.PC?.power}
+                  defaultValue={PC?.power}
                   render={({ field: { value, onChange, ref } }) => (
                     <Select
                       ref={ref}
@@ -137,7 +141,7 @@ const FormEffect = () => {
                 <Controller
                   name={`PE.NPE${n}.PC.currency`}
                   control={control}
-                  defaultValue={NPE?.PC?.currency || 'RUB'}
+                  defaultValue={PC?.currency || 'RUB'}
                   render={({ field: { value, onChange, ref } }) => (
                     <Select
                       ref={ref}
@@ -165,14 +169,14 @@ const FormEffect = () => {
                   min={0}
                   label='Процессинг'
                   size='lg'
-                  defaultValue={NPE?.EPP?.value || ''}
+                  defaultValue={EPP?.value || ''}
                   {...register(`PE.NPE${n}.EPP.value`, { valueAsNumber: true })}
                 />
 
                 <Controller
                   name={`PE.NPE${n}.EPP.power`}
                   control={control}
-                  defaultValue={NPE?.EPP?.power}
+                  defaultValue={EPP?.power}
                   render={({ field: { value, onChange, ref } }) => (
                     <Select
                       ref={ref}
@@ -196,7 +200,7 @@ const FormEffect = () => {
                 <Controller
                   name={`PE.NPE${n}.EPP.currency`}
                   control={control}
-                  defaultValue={NPE?.EPP?.currency || 'RUB'}
+                  defaultValue={EPP?.currency || 'RUB'}
                   render={({ field: { value, onChange, ref } }) => (
                     <Select
                       ref={ref}
@@ -230,15 +234,15 @@ const FormEffect = () => {
                   </div>
 
                   <div className={clsx(styles.cell, styles.result)}>
-                    {formatNumber(NPE?.NPET?.collection?.[indexST] || 0)}
+                    {formatNumber(NPET?.collection?.[indexST] || 0)}
                   </div>
 
                   <div className={clsx(styles.cell, styles.result)}>
-                    {formatNumber(NPE?.PC?.collection?.[indexST] || 0)}
+                    {formatNumber(PC?.collection?.[indexST] || 0)}
                   </div>
 
                   <div className={clsx(styles.cell, styles.result)}>
-                    {formatNumber(NPE?.EPP?.collection?.[indexST] || 0)}
+                    {formatNumber(EPP?.collection?.[indexST] || 0)}
                   </div>
                 </div>
               ))}

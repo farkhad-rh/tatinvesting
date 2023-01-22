@@ -48,6 +48,7 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '@', replacement: '/src' },
+      { find: '@configs', replacement: '/src/configs' },
       { find: '@constants', replacement: '/src/constants' },
       { find: '@enums', replacement: '/src/enums' },
       { find: '@routes', replacement: '/src/routes' },

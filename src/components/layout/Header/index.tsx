@@ -1,7 +1,7 @@
-import { Button } from '@material-tailwind/react'
+import { Button, Switch } from '@material-tailwind/react'
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 
-import { useAuthController } from '@services'
+import { useAuthController, useUserController } from '@services'
 
 import ImgLogo from '@images/logo-color.svg'
 
@@ -9,6 +9,7 @@ import styles from './Header.module.scss'
 
 const Header = () => {
   const { handleLogout } = useAuthController()
+  const { user, handleBackground } = useUserController()
 
   return (
     <header className={styles.header}>
@@ -17,6 +18,17 @@ const Header = () => {
         src={ImgLogo}
         alt='TiNG'
       />
+
+      <div className={styles.toggle}>
+        <Switch
+          label='Фон'
+          defaultChecked={user?.background}
+          labelProps={{
+            className: styles.label,
+          }}
+          onChange={event => handleBackground(event?.target?.checked)}
+        />
+      </div>
 
       <Button
         className={styles.button}

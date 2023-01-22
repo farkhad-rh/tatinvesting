@@ -21,7 +21,10 @@ const FormFinance = () => {
   const { CAPEX, KR, FP } = finance
 
   return (
-    <FormConfig title='Finance'>
+    <FormConfig
+      title='Finance'
+      classes='z-[2]'
+    >
       <div className={styles.row}>
         <Input
           type='number'
@@ -79,6 +82,14 @@ const FormFinance = () => {
             </Select>
           )}
         />
+
+        <Input
+          type='number'
+          label='Лимит коэффициента распределения'
+          size='lg'
+          value={KR?.limit}
+          readOnly
+        />
       </div>
 
       <div className={styles.table}>
@@ -93,18 +104,19 @@ const FormFinance = () => {
               className={styles.coeff}
               type='number'
               min={0}
-              max={1}
+              max={KR?.limit === 0 ? KR?.value?.[n] || 0 : 1}
               step={0.1}
               label='Коэффициент'
               size='lg'
-              defaultValue={KR[n] || 0}
+              defaultValue={KR?.value?.[n] || 0}
               containerProps={{
                 className: `${styles.input}`,
               }}
-              {...register(`KR.${n}`, { valueAsNumber: true })}
+              readOnly={(KR?.value?.[n] || 0) === 0 && KR?.limit === 0}
+              {...register(`KR.value.${n}`, { valueAsNumber: true })}
             />
 
-            <div className={clsx(styles.cell, styles.result)}>{formatNumber(FP[n] || 0)}</div>
+            <div className={clsx(styles.cell, styles.result)}>{formatNumber(FP?.[n] || 0)}</div>
           </div>
         ))}
       </div>

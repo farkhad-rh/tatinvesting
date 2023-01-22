@@ -27,6 +27,7 @@ const Section: FC<SectionProps> = ({ title, children }) => {
           </Typography>
         </div>
       </div>
+
       <Card className={styles.card}>
         <CardBody className={styles.body}>{children}</CardBody>
       </Card>

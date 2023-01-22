@@ -10,10 +10,15 @@ export interface iCAPEX {
   calculation?: number
 }
 
+export interface iKR {
+  value?: number[] | undefined
+  limit?: number
+}
+
 export interface IFinance {
   CAPEX: iCAPEX
-  KR: number[]
-  FP: number[]
+  KR: iKR
+  FP?: number[]
   AMOR: number
   WCR: number
 }

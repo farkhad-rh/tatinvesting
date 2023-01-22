@@ -1,13 +1,11 @@
 .form {
-  @apply w-full max-w-[24rem];
+  @apply w-full max-w-[24rem] rounded-xl bg-white bg-opacity-80 opacity-0 backdrop-blur-sm backdrop-saturate-200;
 
-  opacity: 0;
-  animation: fadeIn 0.5s 1.4s linear forwards;
-  transform: translateY(50px);
+  animation: fadeIn 0.5s 1.2s linear forwards;
 }
 
 .head {
-  @apply mb-4 grid h-28 place-items-center;
+  @apply mb-4 grid h-28 select-none place-items-center;
 }
 
 .body {
@@ -25,11 +23,9 @@
 @keyframes fadeIn {
   0% {
     opacity: 0;
-    transform: translateY(50px);
   }
 
   100% {
     opacity: 1;
-    transform: translateY(0);
   }
 }

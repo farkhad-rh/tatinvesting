@@ -1,5 +1,7 @@
 import { FormAuth } from '@components/forms'
 
+import { Background } from '@components/layout'
+
 import ImgLogo from '@images/logo-white.svg'
 import ImgBackground from '@images/bg.jpg'
 
@@ -13,6 +15,8 @@ const Auth = () => {
           src={ImgBackground}
           className={styles.image}
         />
+
+        <Background />
       </div>
 
       <div className={styles.wrapper}>

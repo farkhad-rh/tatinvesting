@@ -20,7 +20,7 @@ export const useFinanceService = (): [IFinance, IFinanceActions] => {
 
   const createKR = (payload: IFinance['KR']) =>
     setFinance(prev => {
-      return { ...prev, KR: payload }
+      return { ...prev, KR: { ...prev?.KR, ...payload } }
     })
 
   const createFP = (payload: IFinance['FP']) =>

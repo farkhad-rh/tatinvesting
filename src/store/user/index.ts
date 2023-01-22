@@ -11,6 +11,7 @@ export const { persistAtom: persistUser } = recoilPersist({
 export const initialUserState: IUser = {
   login: null,
   password: null,
+  background: true,
 }
 
 export const userState = atom<IUser>({

@@ -12,7 +12,10 @@ const FormParams = () => {
   const { DEF, GRT, ITXD, RETD, RMCD, WACC, WCD, TV_enabled } = params
 
   return (
-    <FormConfig title='Params'>
+    <FormConfig
+      title='Params'
+      classes='z-[1]'
+    >
       <div className={styles.row}>
         <Input
           type='number'

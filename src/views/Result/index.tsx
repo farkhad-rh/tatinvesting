@@ -1,4 +1,8 @@
-import { Typography } from '@material-tailwind/react'
+import { useNavigate } from 'react-router-dom'
+
+import { Button, Typography } from '@material-tailwind/react'
+
+import { Routes } from '@routes/routes.enum'
 
 import { formatDate, formatNumber, getYear } from '@utils'
 
@@ -26,6 +30,8 @@ import {
 import styles from './Result.module.scss'
 
 const Result = () => {
+  const navigate = useNavigate()
+
   const { calculate } = useCalculateController()
 
   const [period] = usePeriodService()
@@ -67,7 +73,7 @@ const Result = () => {
     DPP,
   } = calculate
 
-  console.log(calculate)
+  const handleBack = () => navigate(`/${Routes.CONFIG}`)
 
   return (
     <>
@@ -240,7 +246,7 @@ const Result = () => {
 
               <TableCell
                 type='body'
-                label={formatNumber(KR[indexST])}
+                label={formatNumber(KR?.value?.[indexST] || 0)}
               />
             </TableCol>
           ))}
@@ -256,7 +262,7 @@ const Result = () => {
 
               <TableCell
                 type='body'
-                label={formatNumber(FP[indexST])}
+                label={formatNumber(FP?.[indexST] || 0)}
               />
             </TableCol>
           ))}
@@ -670,6 +676,15 @@ const Result = () => {
           />
         </Block>
       </Section>
+
+      <Button
+        className={styles.button}
+        variant='gradient'
+        size='lg'
+        onClick={handleBack}
+      >
+        Назад
+      </Button>
     </>
   )
 }
