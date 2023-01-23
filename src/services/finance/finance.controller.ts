@@ -29,15 +29,15 @@ export const useFinanceController = () => {
 
       if (CAPEX && KR) {
         // Коэффициент распределения (KR)
-        const KRvalidate = KR?.value?.map(number => {
-          if (
+        const KRvalue = KR?.value?.map(number => {
+          const KRvalidate =
             (KR?.value
               ?.map(number => (number || 0) * 10)
               .reduce((a, b) => (a || 0) + (b || 0), 0) || 0) /
               10 >
             1
-          )
-            return 0
+
+          if (KRvalidate) return 0
 
           return number || 0
         })
@@ -50,10 +50,25 @@ export const useFinanceController = () => {
           10
 
         // План финансирования без НДС (FP)
-        const FP = KRvalidate?.map(number => (CAPEX?.value || 0) * (number || 0))
+        const FPpower = CAPEX?.power || 'NONE'
+        const FPcurrency = CAPEX?.currency || 'RUB'
+        const FPmeasure = `${PowersString[FPpower]} ${CurrenciesString[FPcurrency]}`
 
-        createKR({ value: KRvalidate, limit: KRlimit })
-        createFP(FP)
+        const FPvalue = KRvalue?.map(
+          number =>
+            (CAPEX?.value || 0) * Powers[FPpower] * Currencies[FPcurrency] || 0 * (number || 0)
+        )
+
+        const FPcollection = KRvalue?.map(number => (CAPEX?.value || 0) * (number || 0))
+
+        createKR({ value: KRvalue, limit: KRlimit })
+        createFP({
+          value: FPvalue,
+          power: FPpower,
+          currency: FPcurrency,
+          measure: FPmeasure,
+          collection: FPcollection,
+        })
       }
     })
 

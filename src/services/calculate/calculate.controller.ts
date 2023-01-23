@@ -176,10 +176,7 @@ export const useCalculateController = () => {
 
       if (getYear(SY[n]) > getYear(PIDDC)) {
         RVATB?.value?.push(RVATP?.value?.[n - 1] || 0)
-
-        const diff = (RVATB?.value?.[n] || 0) - (DPR?.value?.[n] || 0)
-
-        RVATP?.value?.push(diff > 0 ? diff : RVATB?.value?.[n] || 0)
+        RVATP?.value?.push((RVATB?.value?.[n] || 0) - (DPR?.value?.[n] || 0))
       }
     })
 
@@ -397,7 +394,7 @@ export const useCalculateController = () => {
     // Чистый денежный поток (FCFF)
     const FCFF: ICalculateArray = {
       value: ST?.map(n => {
-        return (DPR?.value?.[n] || 0) + (ENP?.value?.[n] || 0) - (FP?.[n] || 0) - WCR
+        return (DPR?.value?.[n] || 0) + (ENP?.value?.[n] || 0) - (FP?.value?.[n] || 0) - WCR
       }),
 
       power: 'MLN',

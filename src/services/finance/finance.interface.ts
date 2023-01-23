@@ -11,14 +11,24 @@ export interface iCAPEX {
 }
 
 export interface iKR {
-  value?: number[] | undefined
+  value?: number[]
   limit?: number
+}
+
+export interface iFP {
+  value?: number[]
+
+  power?: PowersType
+  currency?: CurrenciesType
+  measure?: string
+
+  collection?: number[]
 }
 
 export interface IFinance {
   CAPEX: iCAPEX
   KR: iKR
-  FP?: number[]
+  FP: iFP
   AMOR: number
   WCR: number
 }

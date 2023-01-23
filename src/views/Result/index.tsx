@@ -262,7 +262,7 @@ const Result = () => {
 
               <TableCell
                 type='body'
-                label={formatNumber(FP?.[indexST] || 0)}
+                label={formatNumber(FP?.collection?.[indexST] || 0)}
               />
             </TableCol>
           ))}

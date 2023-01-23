@@ -25,7 +25,7 @@ export const useFinanceService = (): [IFinance, IFinanceActions] => {
 
   const createFP = (payload: IFinance['FP']) =>
     setFinance(prev => {
-      return { ...prev, FP: payload }
+      return { ...prev, FP: { ...prev?.FP, ...payload } }
     })
 
   const deleteFinance = () => setFinance(initialFinanceState)

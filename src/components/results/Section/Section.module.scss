@@ -1,5 +1,9 @@
 .wrapper {
   @apply relative z-[1];
+
+  .card {
+    @apply mx-3 -mt-16 mb-6 bg-opacity-80 backdrop-blur-sm backdrop-saturate-200 lg:mx-4;
+  }
 }
 
 .background {
@@ -14,10 +18,6 @@
   object-position: 0% 15%;
 
   @apply max-h-[100%] w-full object-cover;
-}
-
-.card {
-  @apply mx-3 -mt-16 mb-6 bg-opacity-80 backdrop-blur-sm backdrop-saturate-200 lg:mx-4;
 }
 
 .body {

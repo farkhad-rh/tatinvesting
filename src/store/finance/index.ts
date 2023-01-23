@@ -14,7 +14,7 @@ export const initialFinanceState: IFinance = {
     value: [],
     limit: 1,
   },
-  FP: [],
+  FP: {} as IFinance['FP'],
   AMOR: 15,
   WCR: 0,
 }

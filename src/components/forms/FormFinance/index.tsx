@@ -116,7 +116,9 @@ const FormFinance = () => {
               {...register(`KR.value.${n}`, { valueAsNumber: true })}
             />
 
-            <div className={clsx(styles.cell, styles.result)}>{formatNumber(FP?.[n] || 0)}</div>
+            <div className={clsx(styles.cell, styles.result)}>
+              {formatNumber(FP?.collection?.[n] || 0)}
+            </div>
           </div>
         ))}
       </div>
