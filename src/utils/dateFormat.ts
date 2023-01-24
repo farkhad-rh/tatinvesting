@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import isLeapYear from 'dayjs/plugin/isLeapYear'
 
 export const addDate = (date: string, count: number, type: 'day' | 'month' | 'year') =>

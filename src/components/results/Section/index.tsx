@@ -18,6 +18,7 @@ const Section: FC<SectionProps> = ({ title, children }) => {
           src={ImgBackground}
           className={styles.image}
         />
+
         <div className={styles.overlay}>
           <Typography
             variant='h2'

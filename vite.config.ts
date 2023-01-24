@@ -1,6 +1,8 @@
 import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
+import { optimizeCssModules } from 'vite-plugin-optimize-css-modules'
 import viteCompression from 'vite-plugin-compression'
 
 import manifest from './manifest.json'
@@ -12,6 +14,9 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
+          store: ['recoil', 'recoil-persist'],
+          particles: ['react-particles', 'tsparticles'],
+          utils: ['react-error-boundary', 'react-hook-form', 'clsx', 'dayjs', 'js-base64'],
         },
       },
     },
@@ -31,6 +36,12 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html}', '**/*.{svg,png,jpg,gif}'],
       },
     }),
+    ViteImageOptimizer({
+      jpg: {
+        progressive: true,
+      },
+    }),
+    optimizeCssModules(),
     viteCompression({
       algorithm: 'brotliCompress',
     }),
