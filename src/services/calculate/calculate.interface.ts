@@ -19,12 +19,12 @@ export interface ICalculateSingle extends ICalculateMeasure {
 export interface ICalculate {
   DCFR: string[]
   RV: ICalculateArray
+  RACH: ICalculateArray
   DPR: ICalculateArray
   RVATB: ICalculateArray
   RVATP: ICalculateArray
   RETR: ICalculateArray
   RMCR: ICalculateArray
-  RACH: ICalculateArray
   EBITDA: ICalculateArray
   EBIT: ICalculateArray
   ITXR: ICalculateArray
@@ -50,12 +50,12 @@ export interface ICalculateActions {
 
   createDCFR: (payload: ICalculate['DCFR']) => void
   createRV: (payload: ICalculateArray) => void
+  createRACH: (payload: ICalculateArray) => void
   createDPR: (payload: ICalculateArray) => void
   createRVATB: (payload: ICalculateArray) => void
   createRVATP: (payload: ICalculateArray) => void
   createRETR: (payload: ICalculateArray) => void
   createRMCR: (payload: ICalculateArray) => void
-  createRACH: (payload: ICalculateArray) => void
   createEBITDA: (payload: ICalculateArray) => void
   createEBIT: (payload: ICalculateArray) => void
   createITXR: (payload: ICalculateArray) => void

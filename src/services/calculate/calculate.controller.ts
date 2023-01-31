@@ -26,12 +26,12 @@ export const useCalculateController = () => {
     {
       createDCFR,
       createRV,
+      createRACH,
       createDPR,
       createRVATB,
       createRVATP,
       createRETR,
       createRMCR,
-      createRACH,
       createEBITDA,
       createEBIT,
       createITXR,
@@ -110,6 +110,38 @@ export const useCalculateController = () => {
       return collection
     })
 
+    // Процессинг производства (расходы) (RACH)
+    const RACH: ICalculateArray = {
+      value: ST?.map(n => {
+        let value = 0
+
+        effectCount?.forEach(indexNPE => {
+          const NPE = PE?.[`NPE${indexNPE}`]
+
+          value =
+            ((NPE?.NPET?.calculation?.[n] || 0) * (NPE?.EPP?.calculation?.[n] || 0) + value) *
+            SHRR[n]
+        })
+
+        return value
+      }),
+
+      power: 'MLN',
+      currency: 'RUB',
+      measure: '',
+
+      collection: [],
+    }
+    const RACHmeasure = `${PowersString?.[RACH?.power || 'MLN']} ${
+      CurrenciesString?.[RACH?.currency || 'RUB']
+    }`
+    const RACHcollection = ST?.map(n => {
+      const collection =
+        (RACH?.value?.[n] || 0) / Powers[RACH?.power || 'MLN'] / Currencies[RACH?.currency || 'RUB']
+
+      return collection
+    })
+
     // Aмортизация (DPR)
     const DPR: ICalculateArray = {
       value: ST?.map(n => {
@@ -166,15 +198,10 @@ export const useCalculateController = () => {
     ST?.forEach(n => {
       if (getYear(SY[n]) < getYear(PIDDC)) {
         RVATB?.value?.push(0)
-        RVATP?.value?.push(0)
-      }
-
-      if (getYear(SY[n]) === getYear(PIDDC)) {
-        RVATB?.value?.push(0)
         RVATP?.value?.push(CAPEX?.calculation || 0)
       }
 
-      if (getYear(SY[n]) > getYear(PIDDC)) {
+      if (getYear(SY[n]) >= getYear(PIDDC)) {
         RVATB?.value?.push(RVATP?.value?.[n - 1] || 0)
         RVATP?.value?.push((RVATB?.value?.[n] || 0) - (DPR?.value?.[n] || 0))
       }
@@ -237,11 +264,15 @@ export const useCalculateController = () => {
 
         if (getYear(SY[n]) >= getYear(PIDDC)) {
           if (n === 0) {
-            return (RMCD || 0) * (CAPEX?.calculation || 0)
+            return formatPercent(RMCD || 0) * (CAPEX?.calculation || 0)
           }
 
           if (n > 0) {
-            return (RMCD || 0) * (CAPEX?.calculation || 0) * (1 + formatPercent(DEF || 0) * (n - 1))
+            return (
+              formatPercent(RMCD || 0) *
+              (CAPEX?.calculation || 0) *
+              (1 + formatPercent(DEF || 0) * n)
+            )
           }
         }
 
@@ -260,38 +291,6 @@ export const useCalculateController = () => {
     const RMCRcollection = ST?.map(n => {
       const collection =
         (RMCR?.value?.[n] || 0) / Powers[RMCR?.power || 'MLN'] / Currencies[RMCR?.currency || 'RUB']
-
-      return collection
-    })
-
-    // Процессинг производства (расходы) (RACH)
-    const RACH: ICalculateArray = {
-      value: ST?.map(n => {
-        let value = 0
-
-        effectCount?.forEach(indexNPE => {
-          const NPE = PE?.[`NPE${indexNPE}`]
-
-          value =
-            ((NPE?.NPET?.calculation?.[n] || 0) * (NPE?.EPP?.calculation?.[n] || 0) + value) *
-            SHRR[n]
-        })
-
-        return value
-      }),
-
-      power: 'MLN',
-      currency: 'RUB',
-      measure: '',
-
-      collection: [],
-    }
-    const RACHmeasure = `${PowersString?.[RACH?.power || 'MLN']} ${
-      CurrenciesString?.[RACH?.currency || 'RUB']
-    }`
-    const RACHcollection = ST?.map(n => {
-      const collection =
-        (RACH?.value?.[n] || 0) / Powers[RACH?.power || 'MLN'] / Currencies[RACH?.currency || 'RUB']
 
       return collection
     })

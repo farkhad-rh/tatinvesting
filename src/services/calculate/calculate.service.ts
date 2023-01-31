@@ -28,6 +28,11 @@ export const useCalculateService = (): [ICalculate, ICalculateActions] => {
       return { ...prev, RV: { ...prev?.RV, ...payload } }
     })
 
+  const createRACH = (payload: ICalculateArray) =>
+    setCalculate(prev => {
+      return { ...prev, RACH: { ...prev?.RACH, ...payload } }
+    })
+
   const createDPR = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, DPR: { ...prev?.DPR, ...payload } }
@@ -51,11 +56,6 @@ export const useCalculateService = (): [ICalculate, ICalculateActions] => {
   const createRMCR = (payload: ICalculateArray) =>
     setCalculate(prev => {
       return { ...prev, RMCR: { ...prev?.RMCR, ...payload } }
-    })
-
-  const createRACH = (payload: ICalculateArray) =>
-    setCalculate(prev => {
-      return { ...prev, RACH: { ...prev?.RACH, ...payload } }
     })
 
   const createEBITDA = (payload: ICalculateArray) =>
@@ -151,12 +151,12 @@ export const useCalculateService = (): [ICalculate, ICalculateActions] => {
       createCalculate,
       createDCFR,
       createRV,
+      createRACH,
       createDPR,
       createRVATB,
       createRVATP,
       createRETR,
       createRMCR,
-      createRACH,
       createEBITDA,
       createEBIT,
       createITXR,

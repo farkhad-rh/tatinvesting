@@ -47,12 +47,12 @@ const Result = () => {
   const {
     DCFR,
     RV,
+    RACH,
     DPR,
     RVATB,
     RVATP,
     RETR,
     RMCR,
-    RACH,
     EBITDA,
     EBIT,
     ITXR,
@@ -360,6 +360,22 @@ const Result = () => {
           ))}
         </Table>
 
+        <Table label={`Процессинг производства (расходы) (${RACH?.measure}) (RACH)`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(RACH?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
         <Table label={`Aмортизация (${DPR?.measure}) (DPR)`}>
           {ST?.map(indexST => (
             <TableCol key={indexST}>
@@ -435,22 +451,6 @@ const Result = () => {
               <TableCell
                 type='body'
                 label={formatNumber(RMCR?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Процессинг производства (расходы) (${RACH?.measure}) (RACH)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(RACH?.collection?.[indexST] || 0)}
               />
             </TableCol>
           ))}

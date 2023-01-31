@@ -11,12 +11,12 @@ export const { persistAtom: persistCalculate } = recoilPersist({
 export const initialCalculateState: ICalculate = {
   DCFR: [],
   RV: {} as ICalculateArray,
+  RACH: {} as ICalculateArray,
   DPR: {} as ICalculateArray,
   RVATB: {} as ICalculateArray,
   RVATP: {} as ICalculateArray,
   RETR: {} as ICalculateArray,
   RMCR: {} as ICalculateArray,
-  RACH: {} as ICalculateArray,
   EBITDA: {} as ICalculateArray,
   EBIT: {} as ICalculateArray,
   ITXR: {} as ICalculateArray,

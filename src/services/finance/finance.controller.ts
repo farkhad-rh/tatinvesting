@@ -55,8 +55,7 @@ export const useFinanceController = () => {
         const FPmeasure = `${PowersString[FPpower]} ${CurrenciesString[FPcurrency]}`
 
         const FPvalue = KRvalue?.map(
-          number =>
-            (CAPEX?.value || 0) * Powers[FPpower] * Currencies[FPcurrency] || 0 * (number || 0)
+          number => (CAPEX?.value || 0) * Powers[FPpower] * Currencies[FPcurrency] * (number || 0)
         )
 
         const FPcollection = KRvalue?.map(number => (CAPEX?.value || 0) * (number || 0))
