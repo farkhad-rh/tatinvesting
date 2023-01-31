@@ -18,7 +18,7 @@
     "lint:ptt": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
     "lint:es": "eslint --fix --cache '**/*.{js,jsx,ts,tsx}'",
     "lint:styles": "stylelint --fix --cache '**/*.{css,scss}'",
-    "prepare": "husky install && pnpx husky add .husky/pre-commit 'pnpm lint-staged'"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.13",
