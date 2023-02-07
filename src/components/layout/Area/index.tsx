@@ -20,7 +20,7 @@ const Area = () => {
 
       {user?.background && (
         <Background
-          quantity={100}
+          quantity={80}
           pushQuantity={1}
           particleColor='#3578e5'
           linkColor='#3578e5'

@@ -235,7 +235,9 @@ export const useCalculateController = () => {
     const RETR: ICalculateArray = {
       value: ST?.map(n => {
         return (
-          (((RVATB?.value?.[n] || 0) + (RVATP?.value?.[n] || 0)) / 2) * formatPercent(RETD || 0)
+          (((RVATB?.value?.[n] || 0) + (RVATP?.value?.[n] || 0)) / 2) *
+          formatPercent(RETD || 0) *
+          SHRR[n]
         )
       }),
 
