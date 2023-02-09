@@ -25,11 +25,9 @@ const FormPeriod = () => {
         <div className={styles.date}>
           <Input
             type='date'
-            min={dayjs().format('YYYY-MM-DD')}
             label='Дата реализации проекта'
             size='lg'
             defaultValue={PID}
-            className={styles.input}
             {...register('PID')}
           />
         </div>
@@ -50,6 +48,7 @@ const FormPeriod = () => {
             defaultValue={DCE?.unit}
             render={({ field: { value, onChange, ref } }) => (
               <Select
+                className={styles.select}
                 ref={ref}
                 label='Ед. измерения'
                 size='lg'
@@ -85,6 +84,7 @@ const FormPeriod = () => {
           defaultValue={PH}
           render={({ field: { value, onChange, ref } }) => (
             <Select
+              className={styles.select}
               ref={ref}
               label='Горизонт планирования'
               size='lg'

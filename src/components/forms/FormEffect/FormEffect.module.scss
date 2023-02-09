@@ -4,6 +4,13 @@
 
 .form {
   @apply flex flex-col gap-3;
+
+  input,
+  .select {
+    @apply text-base;
+
+    line-height: normal;
+  }
 }
 
 .name {
@@ -27,11 +34,11 @@
 }
 
 .year {
-  @apply bg-gradient-to-tr from-blue-gray-600 to-blue-gray-400 text-sm font-bold text-white;
+  @apply bg-gradient-to-tr from-blue-gray-600 to-blue-gray-400 font-bold text-white;
 }
 
 .result {
-  @apply border border-blue-gray-200 text-sm;
+  @apply border border-blue-gray-200;
 }
 
 .buttons {

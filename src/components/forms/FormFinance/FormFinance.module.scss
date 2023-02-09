@@ -1,5 +1,12 @@
 .row {
   @apply flex gap-4;
+
+  input,
+  .select {
+    @apply text-base;
+
+    line-height: normal;
+  }
 }
 
 .table {
@@ -15,17 +22,17 @@
 }
 
 .year {
-  @apply bg-gradient-to-tr from-blue-gray-600 to-blue-gray-400 text-sm font-bold text-white;
+  @apply bg-gradient-to-tr from-blue-gray-600 to-blue-gray-400 font-bold text-white;
 }
 
 .coeff {
-  @apply text-center;
-}
-
-.input {
   @apply min-w-[128px];
 }
 
+.input {
+  @apply text-center;
+}
+
 .result {
-  @apply border border-blue-gray-200 text-sm;
+  @apply border border-blue-gray-200;
 }

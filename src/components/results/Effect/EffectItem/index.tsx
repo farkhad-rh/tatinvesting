@@ -5,15 +5,16 @@ import { Single } from '@components/results'
 import styles from './EffectItem.module.scss'
 
 interface EffectItemProps extends PropsWithChildren {
-  label?: string
+  label: string
+  value?: string
 }
 
-const EffectItem: FC<EffectItemProps> = ({ label, children }) => {
+const EffectItem: FC<EffectItemProps> = ({ label, value, children }) => {
   return (
     <div className={styles.wrapper}>
       <Single
-        label='Наименование продукции (NP)'
-        value={label}
+        label={label}
+        value={value}
       />
 
       <div className={styles.table}>{children}</div>

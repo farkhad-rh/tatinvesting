@@ -41,6 +41,7 @@ const FormFinance = () => {
           defaultValue={CAPEX?.power}
           render={({ field: { value, onChange, ref } }) => (
             <Select
+              className={styles.select}
               ref={ref}
               label='Разрядность'
               size='lg'
@@ -65,6 +66,7 @@ const FormFinance = () => {
           defaultValue={CAPEX?.currency || 'RUB'}
           render={({ field: { value, onChange, ref } }) => (
             <Select
+              className={styles.select}
               ref={ref}
               label='Валюта'
               size='lg'
@@ -101,7 +103,7 @@ const FormFinance = () => {
             <div className={clsx(styles.cell, styles.year)}>{getYear(SY[n]) || n}</div>
 
             <Input
-              className={styles.coeff}
+              className={styles.input}
               type='number'
               min={0}
               max={KR?.limit === 0 ? KR?.value?.[n] || 0 : 1}
@@ -110,7 +112,7 @@ const FormFinance = () => {
               size='lg'
               defaultValue={KR?.value?.[n] || 0}
               containerProps={{
-                className: `${styles.input}`,
+                className: `${styles.coeff}`,
               }}
               readOnly={(KR?.value?.[n] || 0) === 0 && KR?.limit === 0}
               {...register(`KR.value.${n}`, { valueAsNumber: true })}

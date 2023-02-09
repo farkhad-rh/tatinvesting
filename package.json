@@ -10,7 +10,7 @@
     }
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "https-preview": "PORT=4433 serve build",
@@ -23,10 +23,12 @@
   "dependencies": {
     "@heroicons/react": "^2.0.13",
     "@material-tailwind/react": "^1.2.5",
+    "apexcharts": "^3.37.0",
     "clsx": "^1.2.1",
     "dayjs": "^1.11.7",
     "js-base64": "^3.7.4",
     "react": "^18.2.0",
+    "react-apexcharts": "^1.4.0",
     "react-dom": "^18.2.0",
     "react-error-boundary": "^3.1.4",
     "react-hook-form": "^7.42.1",

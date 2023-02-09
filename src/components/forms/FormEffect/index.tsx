@@ -61,6 +61,7 @@ const FormEffect = () => {
                   defaultValue={NPET?.power}
                   render={({ field: { value, onChange, ref } }) => (
                     <Select
+                      className={styles.select}
                       ref={ref}
                       label='Разрядность'
                       size='lg'
@@ -85,6 +86,7 @@ const FormEffect = () => {
                   defaultValue={NPET?.unit || 'TONNE'}
                   render={({ field: { value, onChange, ref } }) => (
                     <Select
+                      className={styles.select}
                       ref={ref}
                       label='Ед. измерения'
                       size='lg'
@@ -120,6 +122,7 @@ const FormEffect = () => {
                   defaultValue={PC?.power}
                   render={({ field: { value, onChange, ref } }) => (
                     <Select
+                      className={styles.select}
                       ref={ref}
                       label='Разрядность'
                       size='lg'
@@ -144,6 +147,7 @@ const FormEffect = () => {
                   defaultValue={PC?.currency || 'RUB'}
                   render={({ field: { value, onChange, ref } }) => (
                     <Select
+                      className={styles.select}
                       ref={ref}
                       label='Валюта'
                       size='lg'
@@ -179,6 +183,7 @@ const FormEffect = () => {
                   defaultValue={EPP?.power}
                   render={({ field: { value, onChange, ref } }) => (
                     <Select
+                      className={styles.select}
                       ref={ref}
                       label='Разрядность'
                       size='lg'
@@ -203,6 +208,7 @@ const FormEffect = () => {
                   defaultValue={EPP?.currency || 'RUB'}
                   render={({ field: { value, onChange, ref } }) => (
                     <Select
+                      className={styles.select}
                       ref={ref}
                       label='Валюта'
                       size='lg'

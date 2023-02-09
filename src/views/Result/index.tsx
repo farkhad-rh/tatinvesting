@@ -41,11 +41,10 @@ const Result = () => {
 
   const { PH, PHD, PID, PIDDC, DCE, ST, SY, SH, SHRR } = period
   const { PE, count: effectCount } = effect
-  const { AMOR, CAPEX, KR, FP, WCR } = finance
+  const { AMOR, CAPEX, KR, FP } = finance
   const { DEF, GRT, ITXD, RETD, RMCD, WACC, WCD, TV_enabled } = params
 
   const {
-    DCFR,
     RV,
     RACH,
     DPR,
@@ -74,6 +73,7 @@ const Result = () => {
   } = calculate
 
   const handleBack = () => navigate(`/${Routes.CONFIG}`)
+  const handleChart = () => navigate(`/${Routes.CHART}`)
 
   return (
     <>
@@ -86,51 +86,8 @@ const Result = () => {
         Результат вычислений
       </Typography>
 
-      <Section title='Модуль 1'>
-        <Block>
-          <Single
-            label='Дата начала реализации проекта (PID)'
-            value={formatDate(PID)}
-          />
-
-          <Single
-            label={`Период реализации проекта (${DCE?.measure}) (DCE)`}
-            value={formatNumber(DCE?.value || 0)}
-          />
-
-          <Single
-            label='Округление периода реализации проекта (год) (PHD)'
-            value={PHD}
-          />
-
-          <Single
-            label='Дата получения эффекта проекта (PIDDC)'
-            value={formatDate(PIDDC)}
-          />
-
-          <Single
-            label='Горизонт планирования (год) (PH)'
-            value={PH}
-          />
-        </Block>
-
-        <Table label='Шаг Расчета (ST)'>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={indexST}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label='Параметр для округления года до 31.12.гггг (SH)'>
+      <Section title='Расчеты'>
+        <Table label='Округление дат'>
           {ST?.map(indexST => (
             <TableCol key={indexST}>
               <TableCell
@@ -146,7 +103,370 @@ const Result = () => {
           ))}
         </Table>
 
-        <Table label='Коэффициент распределения эффекта (SHRR)'>
+        <Table label={`Валовая выручка (${RV?.measure})`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(RV?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Процессинг производства (расходы) (${RACH?.measure})`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(RACH?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Aмортизация (${DPR?.measure})`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(DPR?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Остаточная стоимость на начало периода (${RVATB?.measure})`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(RVATB?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Остаточная стоимость на конец периода (${RVATP?.measure})`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(RVATP?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Налог на недвижимое имущество (${RETR?.measure})`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(RETR?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Затраты на ремонт и тех. обслуживания (${RMCR?.measure})`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(RMCR?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Прибыль до уплаты %, налогов и амортизации (${EBITDA?.measure})`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(EBITDA?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Прибыль до уплаты % и налогов (${EBIT?.measure})`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(EBIT?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Налог на прибыль (${ITXR?.measure})`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(ITXR?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Чистая прибыль (${ENP?.measure})`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(ENP?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Чистый денежный поток (${FCFF?.measure})`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(FCFF?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Период дисконтирования`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(DPRD?.[indexST])}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Фактор дисконтирования`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(DCFCR?.[indexST])}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Приведенный денежный поток (${PVFCFF?.measure})`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(PVFCFF?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Накопленный денежный поток (${ACF?.measure})`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(ACF?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table label={`Накопленный дисконтированный денежный поток (${ADCF?.measure})`}>
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(ADCF?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Table
+          label={`Чистый денежный поток ${TV_enabled ? 'с терминальной стоимостью' : ''} (${
+            NCFTV?.measure
+          })`}
+        >
+          {ST?.map(indexST => (
+            <TableCol key={indexST}>
+              <TableCell
+                type='head'
+                label={getYear(SY[indexST])}
+              />
+
+              <TableCell
+                type='body'
+                label={formatNumber(NCFTV?.collection?.[indexST] || 0)}
+              />
+            </TableCol>
+          ))}
+        </Table>
+
+        <Block>
+          <Single
+            label='Капитальные затраты без НДС'
+            value={`${formatNumber(CAPEX?.value || 0)} ${CAPEX?.measure}`}
+          />
+
+          <Single
+            label='Капитальные затраты c НДС'
+            value={`${formatNumber((CAPEX?.value || 0) * 1.2)} ${CAPEX?.measure}`}
+          />
+
+          <Single
+            label='Терминальная стоимость'
+            value={`${formatNumber(TV?.collection || 0)} ${TV?.measure}`}
+          />
+
+          <Single
+            label='Cуммарный приведенный денежный поток'
+            value={`${formatNumber(SDFCFF?.collection || 0)} ${SDFCFF?.measure}`}
+          />
+
+          <Single
+            label='Чистая приведённая стоимость'
+            value={`${formatNumber(NPV?.collection || 0)} ${NPV?.measure}`}
+          />
+
+          <Single
+            label='Внутренняя норма рентабельности'
+            value={`${formatNumber(IRR)}%`}
+          />
+
+          <Single
+            label='Простой срок окупаемости с даты начала реализации (год)'
+            value={formatNumber(PP)}
+          />
+
+          <Single
+            label='Дисконтированный срок окупаемости с даты начала реализации (год)'
+            value={formatNumber(DPP)}
+          />
+        </Block>
+      </Section>
+
+      <Section title='Исходные данные'>
+        <Block>
+          <Single
+            label='Дата начала реализации проекта'
+            value={formatDate(PID)}
+          />
+
+          <Single
+            label={`Период реализации проекта (${DCE?.measure})`}
+            value={formatNumber(DCE?.value || 0)}
+          />
+
+          <Single
+            label='Округление периода реализации проекта (год)'
+            value={PHD}
+          />
+
+          <Single
+            label='Дата получения эффекта проекта'
+            value={formatDate(PIDDC)}
+          />
+
+          <Single
+            label='Горизонт планирования (год)'
+            value={PH}
+          />
+        </Block>
+
+        <Table label='Коэффициент распределения эффекта'>
           {ST?.map(indexST => (
             <TableCol key={indexST}>
               <TableCell
@@ -162,7 +482,7 @@ const Result = () => {
           ))}
         </Table>
 
-        <Effect>
+        <Effect title='Эффект проекта'>
           {effectCount?.map(n => {
             const NPE = PE?.[`NPE${n}`]
             const { NP, NPET, PC, EPP } = NPE || {}
@@ -170,22 +490,23 @@ const Result = () => {
             return (
               <EffectItem
                 key={n}
-                label={NP}
+                label='Наименование продукции'
+                value={NP}
               >
                 <EffectCol>
                   <EffectCell
                     label='Объем производства'
-                    measure={`(${NPET?.measure}) (NPET)`}
+                    measure={`(${NPET?.measure})`}
                   />
 
                   <EffectCell
                     label='Cтоимость продукций'
-                    measure={`(${PC?.measure}) (PC)`}
+                    measure={`(${PC?.measure})`}
                   />
 
                   <EffectCell
                     label='Процессинг производства'
-                    measure={`(${EPP?.measure}) (EPP)`}
+                    measure={`(${EPP?.measure})`}
                   />
                 </EffectCol>
 
@@ -221,22 +542,17 @@ const Result = () => {
 
         <Block>
           <Single
-            label='Период амортизации (AMOR)'
+            label='Период амортизации'
             value={AMOR}
           />
 
           <Single
-            label='Капитальные затраты без НДС (CAPEX)'
+            label='Капитальные затраты без НДС'
             value={`${formatNumber(CAPEX?.value || 0)} ${CAPEX?.measure}`}
-          />
-
-          <Single
-            label='Параметр (WCR)'
-            value={WCR}
           />
         </Block>
 
-        <Table label='Коэффициент распределения (KR)'>
+        <Table label='Коэффициент распределения'>
           {ST?.map(indexST => (
             <TableCol key={indexST}>
               <TableCell
@@ -252,7 +568,7 @@ const Result = () => {
           ))}
         </Table>
 
-        <Table label={`План финансирования без НДС (${CAPEX?.measure}) (FP)`}>
+        <Table label={`План финансирования без НДС (${CAPEX?.measure})`}>
           {ST?.map(indexST => (
             <TableCol key={indexST}>
               <TableCell
@@ -270,421 +586,66 @@ const Result = () => {
 
         <Block>
           <Single
-            label='Дефлятор (инфляция в РФ) (DEF)'
+            label='Дефлятор (инфляция в РФ)'
             value={`${formatNumber(DEF || 0)}%`}
           />
 
           <Single
-            label='Дефлятор (инфляция в США) (GRT)'
+            label='Дефлятор (инфляция в США)'
             value={`${formatNumber(GRT || 0)}%`}
           />
 
           <Single
-            label='Учитывать терминальную стоимость? (TV_enabled)'
+            label='Учитывать терминальную стоимость?'
             value={TV_enabled ? 'Да' : 'Нет'}
           />
 
           <Single
-            label='Средневзвешенная стоимость капитала (WACC)'
+            label='Средневзвешенная стоимость капитала'
             value={`${formatNumber(WACC || 0)}%`}
           />
 
           <Single
-            label='Рабочий капитал (WCD)'
+            label='Рабочий капитал'
             value={`${formatNumber(WCD || 0)}%`}
           />
 
           <Single
-            label='Затраты на ремонт и тех. обслуживания (RMCD)'
+            label='Затраты на ремонт и тех. обслуживания'
             value={`${formatNumber(RMCD || 0)}%`}
           />
 
           <Single
-            label='Налог на прибыль (ITXD)'
+            label='Налог на прибыль'
             value={`${formatNumber(ITXD || 0)}%`}
           />
 
           <Single
-            label='Налог на недвижимое имущество (RETD)'
+            label='Налог на недвижимое имущество'
             value={`${formatNumber(RETD || 0)}%`}
           />
         </Block>
       </Section>
 
-      <Section title='Модуль 2'>
-        <Table label='Параметр для округления года до 31.12.гггг (SH)'>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
+      <div className={styles.buttons}>
+        <Button
+          className={styles.button}
+          variant='gradient'
+          size='lg'
+          onClick={handleBack}
+        >
+          Назад
+        </Button>
 
-              <TableCell
-                type='body'
-                label={formatDate(SH[indexST])}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label='Дата получения денежного потока (DCFR)'>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatDate(DCFR[indexST])}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Валовая выручка (${RV?.measure}) (RV)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(RV?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Процессинг производства (расходы) (${RACH?.measure}) (RACH)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(RACH?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Aмортизация (${DPR?.measure}) (DPR)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(DPR?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Остаточная стоимость на начало периода (${RVATB?.measure}) (RVATB)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(RVATB?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Остаточная стоимость на конец периода (${RVATP?.measure}) (RVATP)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(RVATP?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Налог на недвижимое имущество (${RETR?.measure}) (RETR)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(RETR?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Затраты на ремонт и тех. обслуживания (${RMCR?.measure}) (RMCR)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(RMCR?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Прибыль до уплаты %, налогов и амортизации (${EBITDA?.measure}) (EBITDA)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(EBITDA?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Прибыль до уплаты % и налогов (${EBIT?.measure}) (EBIT)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(EBIT?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Налог на прибыль (${ITXR?.measure}) (ITXR)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(ITXR?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Чистая прибыль (${ENP?.measure}) (ENP)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(ENP?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Чистый денежный поток (${FCFF?.measure}) (FCFF)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(FCFF?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Период дисконтирования (DPRD)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(DPRD?.[indexST])}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Фактор дисконтирования (DCFCR)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(DCFCR?.[indexST])}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Приведенный денежный поток (${PVFCFF?.measure}) (PVFCFF)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(PVFCFF?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Накопленный денежный поток (${ACF?.measure}) (ACF)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(ACF?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Накопленный дисконтированный денежный поток (${ADCF?.measure}) (ADCF)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(ADCF?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-
-        <Table label={`Чистый денежный поток с TV (${NCFTV?.measure}) (NCFTV)`}>
-          {ST?.map(indexST => (
-            <TableCol key={indexST}>
-              <TableCell
-                type='head'
-                label={getYear(SY[indexST])}
-              />
-
-              <TableCell
-                type='body'
-                label={formatNumber(NCFTV?.collection?.[indexST] || 0)}
-              />
-            </TableCol>
-          ))}
-        </Table>
-      </Section>
-
-      <Section title='Модуль 3'>
-        <Block>
-          <Single
-            label='Капитальные затраты без НДС (CAPEX)'
-            value={`${formatNumber(CAPEX?.value || 0)} ${CAPEX?.measure}`}
-          />
-
-          <Single
-            label='Капитальные затраты c НДС (CAPEX)'
-            value={`${formatNumber((CAPEX?.value || 0) * 1.2)} ${CAPEX?.measure}`}
-          />
-
-          <Single
-            label='Терминальная стоимость (TV)'
-            value={`${formatNumber(TV?.collection || 0)} ${TV?.measure}`}
-          />
-
-          <Single
-            label='Cуммарный приведенный денежный поток (SDFCFF)'
-            value={`${formatNumber(SDFCFF?.collection || 0)} ${SDFCFF?.measure}`}
-          />
-
-          <Single
-            label='Чистая приведённая стоимость (NPV)'
-            value={`${formatNumber(NPV?.collection || 0)} ${NPV?.measure}`}
-          />
-
-          <Single
-            label='Внутренняя норма рентабельности (IRR)'
-            value={`${formatNumber(IRR)}%`}
-          />
-
-          <Single
-            label='Простой срок окупаемости с даты начала реализации (год) (PP)'
-            value={formatNumber(PP)}
-          />
-
-          <Single
-            label='Дисконтированный срок окупаемости с даты начала реализации (год) (DPP)'
-            value={formatNumber(DPP)}
-          />
-        </Block>
-      </Section>
-
-      <Button
-        className={styles.button}
-        variant='gradient'
-        size='lg'
-        onClick={handleBack}
-      >
-        Назад
-      </Button>
+        <Button
+          className={styles.button}
+          variant='gradient'
+          size='lg'
+          onClick={handleChart}
+        >
+          Графики
+        </Button>
+      </div>
     </>
   )
 }

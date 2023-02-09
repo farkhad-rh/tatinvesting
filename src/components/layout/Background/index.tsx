@@ -1,8 +1,10 @@
-import clsx from 'clsx'
 import { FC, useCallback } from 'react'
+
 import Particles from 'react-particles'
 import { loadFull } from 'tsparticles'
 import type { Engine } from 'tsparticles-engine'
+
+import clsx from 'clsx'
 
 import styles from './Background.module.scss'
 
@@ -17,8 +19,8 @@ interface BackgroundProps {
 
 const Background: FC<BackgroundProps> = ({
   mode = 'bubble',
-  quantity = 120,
-  pushQuantity = 4,
+  quantity = 100,
+  pushQuantity = 3,
   particleColor = '#ffffff',
   linkColor = '#ffffff',
   delay = true,

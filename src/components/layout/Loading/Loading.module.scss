@@ -1,5 +1,5 @@
 .overlay {
-  @apply absolute inset-0 z-0 h-full w-full before:absolute before:inset-0 before:z-0 before:bg-gradient-to-r before:from-sapphire-blue/70 before:to-dark-cornflower-blue/70;
+  @apply absolute inset-0 z-0 h-[100vh] w-full before:absolute before:inset-0 before:z-0 before:bg-gradient-to-r before:from-sapphire-blue/70 before:to-dark-cornflower-blue/70;
 }
 
 .image {

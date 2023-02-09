@@ -4,14 +4,18 @@ import { Typography } from '@material-tailwind/react'
 
 import styles from './Effect.module.scss'
 
-const Effect: FC<PropsWithChildren> = ({ children }) => {
+interface EffectProps extends PropsWithChildren {
+  title?: string
+}
+
+const Effect: FC<EffectProps> = ({ title, children }) => {
   return (
     <div className={styles.wrapper}>
       <Typography
         variant='h4'
         color='blue-gray'
       >
-        Эффект проекта (PE)
+        {title}
       </Typography>
 
       {children}

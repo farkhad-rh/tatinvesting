@@ -1,11 +1,17 @@
 .row {
   @apply flex gap-4;
+
+  input {
+    @apply text-base;
+
+    line-height: normal;
+  }
 }
 
 .checkbox {
   @apply w-full min-w-[200px];
 
   label {
-    @apply text-sm font-normal text-blue-gray-500;
+    @apply font-normal text-blue-gray-500;
   }
 }
