@@ -666,7 +666,7 @@ const Dev = () => {
 
           <Single
             label='Внутренняя норма рентабельности (IRR)'
-            value={`${formatNumber(IRR)}%`}
+            value={`${formatNumber(IRR?.value)}%`}
           />
 
           <Single

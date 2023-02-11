@@ -32,7 +32,7 @@ export const initialCalculateState: ICalculate = {
 
   SDFCFF: {} as ICalculateSingle,
   NPV: {} as ICalculateSingle,
-  IRR: 0,
+  IRR: {} as ICalculate['IRR'],
   PP: 0,
   DPP: 0,
 }
