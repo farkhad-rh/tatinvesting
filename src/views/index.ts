@@ -1,8 +1,8 @@
 export { default as Auth } from './Auth'
 
-export { default as Config } from './Config'
+export { default as Configs } from './Configs'
 
-export { default as Result } from './Result'
+export { default as Results } from './Results'
 export { default as Dev } from './Dev'
 
-export { default as Chart } from './Chart'
+export { default as Charts } from './Charts'

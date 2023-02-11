@@ -14,8 +14,8 @@ export const initialParamsState: IParams = {
   ITXD: 20,
   RETD: 2,
   RMCD: 2,
-  WACC: NaN,
-  WCD: 23,
+  WACC: 14.62,
+  WCD: 10.5,
   TV_enabled: false,
 }
 

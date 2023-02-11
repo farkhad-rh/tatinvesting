@@ -73,8 +73,8 @@ const Dev = () => {
     DPP,
   } = calculate
 
-  const handleBack = () => navigate(`/${Routes.CONFIG}`)
-  const handleChart = () => navigate(`/${Routes.CHART}`)
+  const handleBack = () => navigate(`/${Routes.CONFIGS}`)
+  const handleChart = () => navigate(`/${Routes.CHARTS}`)
 
   return (
     <>

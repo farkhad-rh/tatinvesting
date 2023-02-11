@@ -1,0 +1,67 @@
+.wrapper {
+  @apply relative flex h-8 w-full cursor-pointer items-center justify-center text-black/70 shadow-sm;
+
+  font-size: 13px;
+  line-height: normal;
+  transition: color 0.2s 0.4s linear, box-shadow 0.2s 0.4s linear;
+
+  &:hover {
+    @apply text-black shadow-lg;
+
+    transition-delay: 0s;
+
+    span {
+      @apply scale-125;
+    }
+  }
+
+  span {
+    transition: transform 0.2s linear;
+  }
+}
+
+.main,
+.head,
+.body {
+  @apply pointer-events-none border-dashed border-white/25 text-xs text-white/70 shadow-none;
+
+  line-height: normal;
+}
+
+.main {
+  @apply border-b text-white;
+
+  &:not(:last-child) {
+    @apply border-r;
+  }
+}
+
+.head {
+  &:not(:last-child) {
+    @apply border-r;
+  }
+}
+
+.body {
+  &:first-child {
+    @apply border-r;
+  }
+
+  &:not(:last-child) {
+    @apply border-b;
+  }
+}
+
+.tooltip {
+  @apply flex flex-col gap-2 text-xs;
+
+  line-height: normal;
+
+  p {
+    @apply flex gap-2;
+  }
+
+  span {
+    @apply font-semibold;
+  }
+}

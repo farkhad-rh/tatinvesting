@@ -1,7 +1,11 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { SAM } from '@constants'
+
 import { Currencies, CurrenciesString, Powers, PowersString } from '@enums'
+
+import { formatPercent } from '@utils'
 
 import { useFinanceService, IFinance } from '@services'
 
@@ -18,12 +22,19 @@ export const useFinanceController = () => {
         const currency = CAPEX?.currency || 'RUB'
         const measure = `${PowersString[power]} ${CurrenciesString[currency]}`
 
-        const calculation = (CAPEX?.value || 0) * Powers[power] * Currencies[currency] || 0
+        const calculation = (CAPEX?.value || 0) * Powers[power] * Currencies[currency]
+
+        const matrix = SAM.map(SAR => {
+          return SAR.map(percent => {
+            return calculation + calculation * formatPercent(percent)
+          })
+        })
 
         createCAPEX({
           ...CAPEX,
           measure,
           calculation,
+          matrix,
         })
       }
 
@@ -32,8 +43,12 @@ export const useFinanceController = () => {
         const KRvalue = KR?.value?.map(number => {
           const KRvalidate =
             (KR?.value
-              ?.map(number => (number || 0) * 10)
-              .reduce((a, b) => (a || 0) + (b || 0), 0) || 0) /
+              ?.map(number => {
+                return (number || 0) * 10
+              })
+              .reduce((a, b) => {
+                return (a || 0) + (b || 0)
+              }, 0) || 0) /
               10 >
             1
 
@@ -45,8 +60,12 @@ export const useFinanceController = () => {
         const KRlimit =
           (10 -
             (KR?.value
-              ?.map(number => (number || 0) * 10)
-              .reduce((a, b) => (a || 0) + (b || 0), 0) || 0)) /
+              ?.map(number => {
+                return (number || 0) * 10
+              })
+              .reduce((a, b) => {
+                return (a || 0) + (b || 0)
+              }, 0) || 0)) /
           10
 
         // План финансирования без НДС (FP)
@@ -54,11 +73,23 @@ export const useFinanceController = () => {
         const FPcurrency = CAPEX?.currency || 'RUB'
         const FPmeasure = `${PowersString[FPpower]} ${CurrenciesString[FPcurrency]}`
 
-        const FPvalue = KRvalue?.map(
-          number => (CAPEX?.value || 0) * Powers[FPpower] * Currencies[FPcurrency] * (number || 0)
-        )
+        const FPcalculation = (CAPEX?.value || 0) * Powers[FPpower] * Currencies[FPcurrency]
 
-        const FPcollection = KRvalue?.map(number => (CAPEX?.value || 0) * (number || 0))
+        const FPvalue = KRvalue?.map(number => {
+          return FPcalculation * (number || 0)
+        })
+
+        const FPcollection = KRvalue?.map(number => {
+          return (CAPEX?.value || 0) * (number || 0)
+        })
+
+        const FPmatrix = SAM?.map(SAR => {
+          return SAR?.map(percent => {
+            return KRvalue?.map(number => {
+              return (FPcalculation + FPcalculation * formatPercent(percent)) * (number || 0)
+            })
+          })
+        })
 
         createKR({ value: KRvalue, limit: KRlimit })
         createFP({
@@ -67,6 +98,7 @@ export const useFinanceController = () => {
           currency: FPcurrency,
           measure: FPmeasure,
           collection: FPcollection,
+          matrix: FPmatrix,
         })
       }
     })

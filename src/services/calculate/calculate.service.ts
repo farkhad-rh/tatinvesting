@@ -130,7 +130,7 @@ export const useCalculateService = (): [ICalculate, ICalculateActions] => {
 
   const createIRR = (payload: ICalculate['IRR']) =>
     setCalculate(prev => {
-      return { ...prev, IRR: payload }
+      return { ...prev, IRR: { ...prev?.IRR, ...payload } }
     })
 
   const createPP = (payload: ICalculate['PP']) =>

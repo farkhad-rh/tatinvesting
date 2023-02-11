@@ -3,15 +3,15 @@ import { useNavigate } from 'react-router-dom'
 import { Typography, Button } from '@material-tailwind/react'
 
 import { Routes } from '@routes/routes.enum'
-
+Routes.CHARTS
 import { FormPeriod, FormEffect, FormFinance, FormParams } from '@components/forms'
 
-import styles from './Config.module.scss'
+import styles from './Configs.module.scss'
 
-const Config = () => {
+const Configs = () => {
   const navigate = useNavigate()
 
-  const handleResult = () => navigate(`/${Routes.RESULT}`)
+  const handleResults = () => navigate(`/${Routes.RESULTS}`)
 
   return (
     <>
@@ -33,7 +33,7 @@ const Config = () => {
         className={styles.button}
         variant='gradient'
         size='lg'
-        onClick={handleResult}
+        onClick={handleResults}
       >
         Рассчитать
       </Button>
@@ -41,4 +41,4 @@ const Config = () => {
   )
 }
 
-export default Config
+export default Configs

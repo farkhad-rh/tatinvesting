@@ -110,7 +110,7 @@ const FormEffect = () => {
                 <Input
                   type='number'
                   min={0}
-                  label='Стоимость продукций'
+                  label='Стоимость продукции'
                   size='lg'
                   defaultValue={PC?.value || ''}
                   {...register(`PE.NPE${n}.PC.value`, { valueAsNumber: true })}

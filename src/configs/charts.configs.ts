@@ -52,12 +52,22 @@ export const сhartConfig: ApexOptions = {
       right: 20,
     },
   },
+  states: {
+    active: {
+      filter: {
+        type: 'none',
+      },
+    },
+  },
   fill: {
     opacity: 0.8,
   },
   tooltip: {
     theme: 'dark',
     x: {
+      show: false,
+    },
+    marker: {
       show: false,
     },
   },

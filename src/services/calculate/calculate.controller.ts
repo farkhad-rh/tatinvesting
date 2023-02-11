@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { KDVG, KDVGV } from '@constants'
+import { KDVG, KDVGV, SAM, SAR } from '@constants'
 
 import { Currencies, CurrenciesString, Powers, PowersString } from '@enums'
 
@@ -99,6 +99,45 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            let value = 0
+
+            effectCount?.forEach(indexNPE => {
+              const NPE = PE?.[`NPE${indexNPE}`]
+
+              value =
+                ((NPE?.NPET?.matrix?.[indexSAM]?.[indexSAR]?.[n] || 0) *
+                  (NPE?.PC?.calculation?.[n] || 0) +
+                  value) *
+                SHRR[n]
+            })
+
+            return value
+          })
+        })
+      }),
+      matrixPC: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            let value = 0
+
+            effectCount?.forEach(indexNPE => {
+              const NPE = PE?.[`NPE${indexNPE}`]
+
+              value =
+                ((NPE?.NPET?.calculation?.[n] || 0) *
+                  (NPE?.PC?.matrix?.[indexSAM]?.[indexSAR]?.[n] || 0) +
+                  value) *
+                SHRR[n]
+            })
+
+            return value
+          })
+        })
+      }),
     }
     const RVmeasure = `${PowersString?.[RV?.power || 'MLN']} ${
       CurrenciesString?.[RV?.currency || 'RUB']
@@ -131,6 +170,43 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            let value = 0
+
+            effectCount?.forEach(indexNPE => {
+              const NPE = PE?.[`NPE${indexNPE}`]
+
+              value =
+                ((NPE?.NPET?.matrix?.[indexSAM]?.[indexSAR]?.[n] || 0) *
+                  (NPE?.EPP?.calculation?.[n] || 0) +
+                  value) *
+                SHRR[n]
+            })
+
+            return value
+          })
+        })
+      }),
+      matrixPC: SAM.map(SAR => {
+        return SAR.map(() => {
+          return ST?.map(n => {
+            let value = 0
+
+            effectCount?.forEach(indexNPE => {
+              const NPE = PE?.[`NPE${indexNPE}`]
+
+              value =
+                ((NPE?.NPET?.calculation?.[n] || 0) * (NPE?.EPP?.calculation?.[n] || 0) + value) *
+                SHRR[n]
+            })
+
+            return value
+          })
+        })
+      }),
     }
     const RACHmeasure = `${PowersString?.[RACH?.power || 'MLN']} ${
       CurrenciesString?.[RACH?.currency || 'RUB']
@@ -161,6 +237,37 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            if (getYear(SY[n]) < getYear(PIDDC)) {
+              return 0
+            }
+
+            if (getYear(SY[n]) >= getYear(PIDDC) && n - PHD < Number(PH)) {
+              return (CAPEX?.matrix?.[indexSAM]?.[indexSAR] || 0) / AMOR
+            }
+
+            return 0
+          })
+        })
+      }),
+      matrixPC: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            if (getYear(SY[n]) < getYear(PIDDC)) {
+              return 0
+            }
+
+            if (getYear(SY[n]) >= getYear(PIDDC) && n - PHD < Number(PH)) {
+              return (CAPEX?.matrix?.[indexSAM]?.[indexSAR] || 0) / AMOR
+            }
+
+            return 0
+          })
+        })
+      }),
     }
     const DPRmeasure = `${PowersString?.[DPR?.power || 'MLN']} ${
       CurrenciesString?.[DPR?.currency || 'RUB']
@@ -181,6 +288,9 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM?.map(SAR => SAR.map(() => [])),
+      matrixPC: SAM?.map(SAR => SAR.map(() => [])),
     }
 
     // Остаточная стоимость на конец периода (RVATP)
@@ -192,19 +302,99 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM?.map(SAR => SAR.map(() => [])),
+      matrixPC: SAM?.map(SAR => SAR.map(() => [])),
     }
 
     // (RVATB) и (RVATP)
     ST?.forEach(n => {
       if (getYear(SY[n]) < getYear(PIDDC)) {
         RVATB?.value?.push(0)
+      }
+
+      if (getYear(SY[n]) < getYear(PIDDC) - 1) {
+        RVATP?.value?.push(0)
+      }
+
+      if (getYear(SY[n]) === getYear(PIDDC) - 1) {
         RVATP?.value?.push(CAPEX?.calculation || 0)
       }
 
       if (getYear(SY[n]) >= getYear(PIDDC)) {
         RVATB?.value?.push(RVATP?.value?.[n - 1] || 0)
-        RVATP?.value?.push((RVATB?.value?.[n] || 0) - (DPR?.value?.[n] || 0))
+        RVATP?.value?.push(
+          (RVATB?.value?.[n] || 0) - (DPR?.value?.[n] || 0) > 0
+            ? (RVATB?.value?.[n] || 0) - (DPR?.value?.[n] || 0)
+            : 0
+        )
       }
+    })
+    SAM.forEach((SAR, indexSAM) => {
+      SAR.forEach((_, indexSAR) => {
+        ST?.forEach(n => {
+          if (getYear(SY[n]) < getYear(PIDDC)) {
+            RVATB?.matrixNPET?.[indexSAM]?.[indexSAR]?.push(0)
+          }
+
+          if (getYear(SY[n]) < getYear(PIDDC) - 1) {
+            RVATP?.matrixNPET?.[indexSAM]?.[indexSAR]?.push(0)
+          }
+
+          if (getYear(SY[n]) === getYear(PIDDC) - 1) {
+            RVATP?.matrixNPET?.[indexSAM]?.[indexSAR]?.push(
+              CAPEX?.matrix?.[indexSAM]?.[indexSAR] || 0
+            )
+          }
+
+          if (getYear(SY[n]) >= getYear(PIDDC)) {
+            RVATB?.matrixNPET?.[indexSAM]?.[indexSAR]?.push(
+              RVATP?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n - 1] || 0
+            )
+            RVATP?.matrixNPET?.[indexSAM]?.[indexSAR]?.push(
+              (RVATB?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+                (DPR?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) >
+                0
+                ? (RVATB?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+                    (DPR?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0)
+                : 0
+            )
+          }
+        })
+      })
+    })
+    SAM.forEach((SAR, indexSAM) => {
+      SAR.forEach((_, indexSAR) => {
+        ST?.forEach(n => {
+          if (getYear(SY[n]) < getYear(PIDDC)) {
+            RVATB?.matrixPC?.[indexSAM]?.[indexSAR]?.push(0)
+          }
+
+          if (getYear(SY[n]) < getYear(PIDDC) - 1) {
+            RVATP?.matrixPC?.[indexSAM]?.[indexSAR]?.push(0)
+          }
+
+          if (getYear(SY[n]) === getYear(PIDDC) - 1) {
+            RVATP?.matrixPC?.[indexSAM]?.[indexSAR]?.push(
+              CAPEX?.matrix?.[indexSAM]?.[indexSAR] || 0
+            )
+          }
+
+          if (getYear(SY[n]) >= getYear(PIDDC)) {
+            RVATB?.matrixPC?.[indexSAM]?.[indexSAR]?.push(
+              RVATP?.matrixPC?.[indexSAM]?.[indexSAR]?.[n - 1] || 0
+            )
+            RVATP?.matrixPC?.[indexSAM]?.[indexSAR]?.push(
+              (RVATB?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+                (DPR?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) >
+                0
+                ? (RVATB?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+                    (DPR?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0)
+                : 0
+            )
+          }
+        })
+      })
     })
 
     const RVATBmeasure = `${PowersString?.[RVATB?.power || 'MLN']} ${
@@ -246,6 +436,33 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            return (
+              (((RVATB?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) +
+                (RVATP?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0)) /
+                2) *
+              formatPercent(RETD || 0) *
+              SHRR[n]
+            )
+          })
+        })
+      }),
+      matrixPC: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            return (
+              (((RVATB?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) +
+                (RVATP?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0)) /
+                2) *
+              formatPercent(RETD || 0) *
+              SHRR[n]
+            )
+          })
+        })
+      }),
     }
     const RETRmeasure = `${PowersString?.[RETR?.power || 'MLN']} ${
       CurrenciesString?.[RETR?.currency || 'RUB']
@@ -286,6 +503,57 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            if (getYear(SY[n]) < getYear(PIDDC)) {
+              return 0
+            }
+
+            if (getYear(SY[n]) >= getYear(PIDDC)) {
+              if (n === 0) {
+                return formatPercent(RMCD || 0) * (CAPEX?.matrix?.[indexSAM]?.[indexSAR] || 0)
+              }
+
+              if (n > 0) {
+                return (
+                  formatPercent(RMCD || 0) *
+                  (CAPEX?.matrix?.[indexSAM]?.[indexSAR] || 0) *
+                  (1 + formatPercent(DEF || 0) * n)
+                )
+              }
+            }
+
+            return 0
+          })
+        })
+      }),
+      matrixPC: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            if (getYear(SY[n]) < getYear(PIDDC)) {
+              return 0
+            }
+
+            if (getYear(SY[n]) >= getYear(PIDDC)) {
+              if (n === 0) {
+                return formatPercent(RMCD || 0) * (CAPEX?.matrix?.[indexSAM]?.[indexSAR] || 0)
+              }
+
+              if (n > 0) {
+                return (
+                  formatPercent(RMCD || 0) *
+                  (CAPEX?.matrix?.[indexSAM]?.[indexSAR] || 0) *
+                  (1 + formatPercent(DEF || 0) * n)
+                )
+              }
+            }
+
+            return 0
+          })
+        })
+      }),
     }
     const RMCRmeasure = `${PowersString?.[RMCR?.power || 'MLN']} ${
       CurrenciesString?.[RMCR?.currency || 'RUB']
@@ -313,6 +581,31 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            return (
+              (RV?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+              (RMCR?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+              (RETR?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+              (RACH?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0)
+            )
+          })
+        })
+      }),
+      matrixPC: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            return (
+              (RV?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+              (RMCR?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+              (RETR?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+              (RACH?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0)
+            )
+          })
+        })
+      }),
     }
     const EBITDAmeasure = `${PowersString?.[EBITDA?.power || 'MLN']} ${
       CurrenciesString?.[EBITDA?.currency || 'RUB']
@@ -337,6 +630,27 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            return (
+              (EBITDA?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+              (DPR?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0)
+            )
+          })
+        })
+      }),
+      matrixPC: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            return (
+              (EBITDA?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+              (DPR?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0)
+            )
+          })
+        })
+      }),
     }
     const EBITmeasure = `${PowersString?.[EBIT?.power || 'MLN']} ${
       CurrenciesString?.[EBIT?.currency || 'RUB']
@@ -359,6 +673,21 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            return (EBIT?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) * formatPercent(ITXD || 0)
+          })
+        })
+      }),
+      matrixPC: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            return (EBIT?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) * formatPercent(ITXD || 0)
+          })
+        })
+      }),
     }
     const ITXRmeasure = `${PowersString?.[ITXR?.power || 'MLN']} ${
       CurrenciesString?.[ITXR?.currency || 'RUB']
@@ -381,6 +710,27 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            return (
+              (EBIT?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+              (ITXR?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0)
+            )
+          })
+        })
+      }),
+      matrixPC: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            return (
+              (EBIT?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+              (ITXR?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0)
+            )
+          })
+        })
+      }),
     }
     const ENPmeasure = `${PowersString?.[ENP?.power || 'MLN']} ${
       CurrenciesString?.[ENP?.currency || 'RUB']
@@ -403,6 +753,31 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            return (
+              (DPR?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) +
+              (ENP?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+              (FP?.matrix?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+              WCR
+            )
+          })
+        })
+      }),
+      matrixPC: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            return (
+              (DPR?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) +
+              (ENP?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+              (FP?.matrix?.[indexSAM]?.[indexSAR]?.[n] || 0) -
+              WCR
+            )
+          })
+        })
+      }),
     }
     const FCFFmeasure = `${PowersString?.[FCFF?.power || 'MLN']} ${
       CurrenciesString?.[FCFF?.currency || 'RUB']
@@ -435,6 +810,21 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            return (FCFF?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) * DCFCR?.[n]
+          })
+        })
+      }),
+      matrixPC: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            return (FCFF?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) * DCFCR?.[n]
+          })
+        })
+      }),
     }
     const PVFCFFmeasure = `${PowersString?.[PVFCFF?.power || 'MLN']} ${
       CurrenciesString?.[PVFCFF?.currency || 'RUB']
@@ -457,6 +847,9 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM?.map(SAR => SAR.map(() => [])),
+      matrixPC: SAM?.map(SAR => SAR.map(() => [])),
     }
     ST?.forEach(n => {
       if (n === 0) {
@@ -466,6 +859,42 @@ export const useCalculateController = () => {
       if (n > 0) {
         ACF?.value?.push((FCFF?.value?.[n] || 0) + ACF?.value?.[n - 1])
       }
+    })
+    SAM.forEach((SAR, indexSAM) => {
+      SAR.forEach((_, indexSAR) => {
+        ST?.forEach(n => {
+          if (n === 0) {
+            ACF?.matrixNPET?.[indexSAM]?.[indexSAR]?.push(
+              FCFF?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0
+            )
+          }
+
+          if (n > 0) {
+            ACF?.matrixNPET?.[indexSAM]?.[indexSAR]?.push(
+              (FCFF?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) +
+                ACF?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n - 1]
+            )
+          }
+        })
+      })
+    })
+    SAM.forEach((SAR, indexSAM) => {
+      SAR.forEach((_, indexSAR) => {
+        ST?.forEach(n => {
+          if (n === 0) {
+            ACF?.matrixPC?.[indexSAM]?.[indexSAR]?.push(
+              FCFF?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0
+            )
+          }
+
+          if (n > 0) {
+            ACF?.matrixPC?.[indexSAM]?.[indexSAR]?.push(
+              (FCFF?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) +
+                ACF?.matrixPC?.[indexSAM]?.[indexSAR]?.[n - 1]
+            )
+          }
+        })
+      })
     })
     const ACFmeasure = `${PowersString?.[ACF?.power || 'MLN']} ${
       CurrenciesString?.[ACF?.currency || 'RUB']
@@ -486,6 +915,9 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM?.map(SAR => SAR.map(() => [])),
+      matrixPC: SAM?.map(SAR => SAR.map(() => [])),
     }
     ST?.forEach(n => {
       if (n === 0) {
@@ -495,6 +927,42 @@ export const useCalculateController = () => {
       if (n > 0) {
         ADCF?.value?.push((PVFCFF?.value?.[n] || 0) + ADCF?.value?.[n - 1])
       }
+    })
+    SAM.forEach((SAR, indexSAM) => {
+      SAR.forEach((_, indexSAR) => {
+        ST?.forEach(n => {
+          if (n === 0) {
+            ADCF?.matrixNPET?.[indexSAM]?.[indexSAR]?.push(
+              PVFCFF?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0
+            )
+          }
+
+          if (n > 0) {
+            ADCF?.matrixNPET?.[indexSAM]?.[indexSAR]?.push(
+              (PVFCFF?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) +
+                ADCF?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n - 1]
+            )
+          }
+        })
+      })
+    })
+    SAM.forEach((SAR, indexSAM) => {
+      SAR.forEach((_, indexSAR) => {
+        ST?.forEach(n => {
+          if (n === 0) {
+            ADCF?.matrixPC?.[indexSAM]?.[indexSAR]?.push(
+              PVFCFF?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0
+            )
+          }
+
+          if (n > 0) {
+            ADCF?.matrixPC?.[indexSAM]?.[indexSAR]?.push(
+              (PVFCFF?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) +
+                ADCF?.matrixPC?.[indexSAM]?.[indexSAR]?.[n - 1]
+            )
+          }
+        })
+      })
     })
     const ADCFmeasure = `${PowersString?.[ADCF?.power || 'MLN']} ${
       CurrenciesString?.[ADCF?.currency || 'RUB']
@@ -520,6 +988,29 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: 0,
+
+      matrixNPET: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return TV_enabled
+            ? (((FCFF?.matrixNPET?.[indexSAM]?.[indexSAR]?.[ST?.length - 1] || 0) *
+                (1 + formatPercent(GRT || 0)) -
+                (DPR?.matrixNPET?.[indexSAM]?.[indexSAR]?.[ST?.length - 1] || 0)) /
+                (formatPercent(WACC || 0) - formatPercent(GRT || 0))) *
+                DCFCR?.[ST?.length - 1]
+            : 0
+        })
+      }),
+      matrixPC: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return TV_enabled
+            ? (((FCFF?.matrixPC?.[indexSAM]?.[indexSAR]?.[ST?.length - 1] || 0) *
+                (1 + formatPercent(GRT || 0)) -
+                (DPR?.matrixPC?.[indexSAM]?.[indexSAR]?.[ST?.length - 1] || 0)) /
+                (formatPercent(WACC || 0) - formatPercent(GRT || 0))) *
+                DCFCR?.[ST?.length - 1]
+            : 0
+        })
+      }),
     }
     const TVmeasure = `${PowersString?.[TV?.power || 'MLN']} ${
       CurrenciesString?.[TV?.currency || 'RUB']
@@ -542,6 +1033,37 @@ export const useCalculateController = () => {
       measure: '',
 
       collection: [],
+
+      matrixNPET: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            if (n === ST?.length - 1) {
+              return (
+                (FCFF?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0) +
+                (TV?.matrixNPET?.[indexSAM]?.[indexSAR] || 0) /
+                  (PVFCFF?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0)
+              )
+            }
+
+            return FCFF?.matrixNPET?.[indexSAM]?.[indexSAR]?.[n] || 0
+          })
+        })
+      }),
+      matrixPC: SAM.map((SAR, indexSAM) => {
+        return SAR.map((_, indexSAR) => {
+          return ST?.map(n => {
+            if (n === ST?.length - 1) {
+              return (
+                (FCFF?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0) +
+                (TV?.matrixPC?.[indexSAM]?.[indexSAR] || 0) /
+                  (PVFCFF?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0)
+              )
+            }
+
+            return FCFF?.matrixPC?.[indexSAM]?.[indexSAR]?.[n] || 0
+          })
+        })
+      }),
     }
     const NCFTVmeasure = `${PowersString?.[NCFTV?.power || 'MLN']} ${
       CurrenciesString?.[NCFTV?.currency || 'RUB']
@@ -587,6 +1109,7 @@ export const useCalculateController = () => {
     const NPVcollection =
       (NPV?.value || 0) / Powers[NPV?.power || 'MLN'] / Currencies[NPV?.currency || 'RUB']
 
+    // Внутренняя норма рентабельности (IRR)
     const IRR = (values = NCFTV?.value, guess = 0.01) => {
       // Calculates the resulting amount
       const irrResult = (values: number[], dates: number[], rate: number) => {
@@ -654,6 +1177,16 @@ export const useCalculateController = () => {
       // Return internal rate of return
       return resultRate * 100
     }
+    const IRRmatrixNPET = SAM.map((SAR, indexSAM) => {
+      return SAR?.map((_, indexSAR) => {
+        return IRR(NCFTV?.matrixNPET?.[indexSAM]?.[indexSAR])
+      })
+    })
+    const IRRmatrixPC = SAM.map((SAR, indexSAM) => {
+      return SAR?.map((_, indexSAR) => {
+        return IRR(NCFTV?.matrixPC?.[indexSAM]?.[indexSAR])
+      })
+    })
 
     // Простой срок окупаемости с даты начала реализации (PP)
     const PP = () => {
@@ -780,7 +1313,11 @@ export const useCalculateController = () => {
       measure: NPVmeasure,
       collection: NPVcollection,
     })
-    createIRR(IRR())
+    createIRR({
+      value: IRR(),
+      matrixNPET: IRRmatrixNPET,
+      matrixPC: IRRmatrixPC,
+    })
     createPP(PP())
     createDPP(DPP())
   }, [])

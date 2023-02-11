@@ -1,0 +1,23 @@
+.wrapper {
+  @apply w-[calc(100%_/_11)];
+
+  &:first-child {
+    div {
+      &:last-child {
+        @apply rounded-bl-xl;
+      }
+    }
+  }
+
+  &:last-child {
+    div {
+      &:last-child {
+        @apply rounded-br-xl;
+      }
+    }
+  }
+}
+
+.body {
+  @apply w-16;
+}

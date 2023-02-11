@@ -9,11 +9,24 @@ export interface ICalculateMeasure {
 export interface ICalculateArray extends ICalculateMeasure {
   value?: number[]
   collection?: number[]
+
+  matrixNPET?: number[][][]
+  matrixPC?: number[][][]
 }
 
 export interface ICalculateSingle extends ICalculateMeasure {
   value?: number
   collection?: number
+
+  matrixNPET?: number[][]
+  matrixPC?: number[][]
+}
+
+export interface iIRR {
+  value: number
+
+  matrixNPET: number[][]
+  matrixPC: number[][]
 }
 
 export interface ICalculate {
@@ -40,7 +53,7 @@ export interface ICalculate {
 
   SDFCFF: ICalculateSingle
   NPV: ICalculateSingle
-  IRR: number
+  IRR: iIRR
   PP: number
   DPP: number
 }

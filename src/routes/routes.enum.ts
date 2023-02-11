@@ -1,7 +1,7 @@
 export enum Routes {
   AUTH = 'auth',
-  CONFIG = 'config',
-  RESULT = 'result',
+  CONFIGS = 'configs',
+  RESULTS = 'results',
   DEV = 'dev',
-  CHART = 'chart',
+  CHARTS = 'charts',
 }

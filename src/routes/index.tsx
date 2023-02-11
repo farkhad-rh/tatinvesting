@@ -5,7 +5,7 @@ import { Routes } from './routes.enum'
 import { Area } from '@components/layout'
 import { PrivateRoute } from '@components/routing'
 
-import { Auth, Config, Result, Dev, Chart } from '@views'
+import { Auth, Configs, Results, Dev, Charts } from '@views'
 
 export const routes: NonIndexRouteObject[] = [
   { path: Routes.AUTH, element: <Auth /> },
@@ -20,22 +20,22 @@ export const routes: NonIndexRouteObject[] = [
             index: true,
             element: (
               <Navigate
-                to={Routes.CONFIG}
+                to={Routes.CONFIGS}
                 replace
               />
             ),
           },
-          { path: Routes.CONFIG, element: <Config /> },
-          { path: Routes.RESULT, element: <Result /> },
+          { path: Routes.CONFIGS, element: <Configs /> },
+          { path: Routes.RESULTS, element: <Results /> },
           { path: Routes.DEV, element: <Dev /> },
-          { path: Routes.CHART, element: <Chart /> },
+          { path: Routes.CHARTS, element: <Charts /> },
         ],
       },
       {
         path: '*',
         element: (
           <Navigate
-            to={Routes.CONFIG}
+            to={Routes.CONFIGS}
             replace
           />
         ),

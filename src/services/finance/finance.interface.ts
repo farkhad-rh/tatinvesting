@@ -8,6 +8,8 @@ export interface iCAPEX {
   measure?: string
 
   calculation?: number
+
+  matrix?: number[][]
 }
 
 export interface iKR {
@@ -23,6 +25,8 @@ export interface iFP {
   measure?: string
 
   collection?: number[]
+
+  matrix?: (number[] | undefined)[][]
 }
 
 export interface IFinance {

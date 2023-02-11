@@ -1,0 +1,26 @@
+.wrapper {
+  @apply flex rounded-xl p-4;
+}
+
+.table {
+  @apply w-full;
+}
+
+.head {
+  @apply flex flex-col;
+}
+
+.row {
+  @apply flex;
+}
+
+.body {
+  @apply flex w-full rounded-xl;
+
+  background: linear-gradient(
+    16deg,
+    rgba(76, 175, 80, 1) 0%,
+    rgba(255, 235, 59, 1) 50%,
+    rgba(244, 67, 54, 1) 100%
+  );
+}

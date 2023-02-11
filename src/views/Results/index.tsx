@@ -27,9 +27,9 @@ import {
   EffectCell,
 } from '@components/results'
 
-import styles from './Result.module.scss'
+import styles from './Results.module.scss'
 
-const Result = () => {
+const Results = () => {
   const navigate = useNavigate()
 
   const { calculate } = useCalculateController()
@@ -72,8 +72,8 @@ const Result = () => {
     DPP,
   } = calculate
 
-  const handleBack = () => navigate(`/${Routes.CONFIG}`)
-  const handleChart = () => navigate(`/${Routes.CHART}`)
+  const handleBack = () => navigate(`/${Routes.CONFIGS}`)
+  const handleCharts = () => navigate(`/${Routes.CHARTS}`)
 
   return (
     <>
@@ -423,7 +423,7 @@ const Result = () => {
 
           <Single
             label='Внутренняя норма рентабельности'
-            value={`${formatNumber(IRR)}%`}
+            value={`${formatNumber(IRR?.value)}%`}
           />
 
           <Single
@@ -641,7 +641,7 @@ const Result = () => {
           className={styles.button}
           variant='gradient'
           size='lg'
-          onClick={handleChart}
+          onClick={handleCharts}
         >
           Графики
         </Button>
@@ -650,4 +650,4 @@ const Result = () => {
   )
 }
 
-export default Result
+export default Results

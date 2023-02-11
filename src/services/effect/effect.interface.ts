@@ -10,6 +10,8 @@ export interface IEffectParams {
 
   collection?: (number | undefined)[]
   calculation?: (number | undefined)[]
+
+  matrix?: (((number | undefined)[] | undefined)[] | undefined)[]
 }
 
 export interface iNPE {

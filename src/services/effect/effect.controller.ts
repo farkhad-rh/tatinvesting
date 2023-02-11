@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { SAM } from '@constants'
+
 import {
   Currencies,
   CurrenciesString,
@@ -66,12 +68,22 @@ export const useEffectController = () => {
         const unit = NPET?.unit || 'TONNE'
         const measure = `${PowersString[power]} ${WeightUnitsString[unit]}`
 
-        const collection = ST?.map(() => NPET?.value || 0)
-        const calculation = ST?.map(
-          () => (NPET?.value || 0) * Powers[power] * WeightUnits[unit] || 0
-        )
+        const collection = ST?.map(() => {
+          return NPET?.value || 0
+        })
+        const calculation = ST?.map(() => {
+          return (NPET?.value || 0) * Powers[power] * WeightUnits[unit] || 0
+        })
 
-        createNPET({ ...NPET, measure, calculation, collection }, index)
+        const matrix = SAM.map((SAR, indexSAM) => {
+          return SAR.map(() => {
+            return calculation?.map(value => {
+              return value + value * formatPercent(SAR[indexSAM])
+            })
+          })
+        })
+
+        createNPET({ ...NPET, measure, collection, calculation, matrix }, index)
       }
 
       // Cтоимость продукций (PC)
@@ -83,11 +95,19 @@ export const useEffectController = () => {
         const collection = ST?.map(indexST => {
           return (PC?.value || 0) * Math.pow(1 + formatPercent(DEF || 0), indexST) || 0
         })
-        const calculation = ST?.map(
-          indexST => collection[indexST] * Powers[power] * Currencies[currency] || 0
-        )
+        const calculation = ST?.map(indexST => {
+          return collection[indexST] * Powers[power] * Currencies[currency] || 0
+        })
 
-        createPC({ ...PC, measure, calculation, collection }, index)
+        const matrix = SAM.map((SAR, indexSAM) => {
+          return SAR.map(() => {
+            return calculation?.map(value => {
+              return value + value * formatPercent(SAR[indexSAM])
+            })
+          })
+        })
+
+        createPC({ ...PC, measure, collection, calculation, matrix }, index)
       }
 
       // Процессинг производства (EPP)
@@ -99,9 +119,9 @@ export const useEffectController = () => {
         const collection = ST?.map(indexST => {
           return (EPP?.value || 0) * Math.pow(1 + formatPercent(DEF || 0), indexST) || 0
         })
-        const calculation = ST?.map(
-          indexST => collection[indexST] * Powers[power] * Currencies[currency] || 0
-        )
+        const calculation = ST?.map(indexST => {
+          return collection[indexST] * Powers[power] * Currencies[currency] || 0
+        })
 
         createEPP({ ...EPP, measure, calculation, collection }, index)
       }
