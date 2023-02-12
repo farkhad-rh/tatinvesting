@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
 import { Button, Typography } from '@material-tailwind/react'
 
@@ -31,6 +32,7 @@ import styles from './Dev.module.scss'
 
 const Dev = () => {
   const navigate = useNavigate()
+  const [ref]: any = useOutletContext()
 
   const { calculate } = useCalculateController()
 
@@ -75,6 +77,10 @@ const Dev = () => {
 
   const handleBack = () => navigate(`/${Routes.CONFIGS}`)
   const handleChart = () => navigate(`/${Routes.CHARTS}`)
+
+  useEffect(() => {
+    ref?.current?.complete()
+  }, [])
 
   return (
     <>

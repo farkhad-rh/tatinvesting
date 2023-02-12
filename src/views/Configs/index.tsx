@@ -1,17 +1,23 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
 import { Typography, Button } from '@material-tailwind/react'
 
 import { Routes } from '@routes/routes.enum'
-Routes.CHARTS
+
 import { FormPeriod, FormEffect, FormFinance, FormParams } from '@components/forms'
 
 import styles from './Configs.module.scss'
+import { useEffect } from 'react'
 
 const Configs = () => {
   const navigate = useNavigate()
+  const [ref]: any = useOutletContext()
 
   const handleResults = () => navigate(`/${Routes.RESULTS}`)
+
+  useEffect(() => {
+    ref?.current?.complete()
+  }, [])
 
   return (
     <>
