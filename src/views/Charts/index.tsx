@@ -13,7 +13,7 @@ import {
   usePeriodService,
 } from '@services'
 
-import { Block, Chart, Heatmap } from '@components/charts'
+import { Block, Chart, Heatmap, Stack } from '@components/charts'
 
 import styles from './Charts.module.scss'
 
@@ -74,6 +74,20 @@ const Charts = () => {
           matrix={IRR?.matrixPC}
         />
       </Block>
+
+      {effectCount?.length > 1 && (
+        <Block
+          title='Доля каждой продукции при формировании валовой выручки'
+          description={`(${ADCF.measure})`}
+          color='blue-gray'
+        >
+          <Stack
+            data={RV?.stack}
+            years={SY?.map(date => getYear(date))}
+            measure={RV?.measure}
+          />
+        </Block>
+      )}
 
       <Block
         title='Зависимость валовой выручки от горизонта планирования'

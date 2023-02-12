@@ -85,10 +85,9 @@ export const useCalculateController = () => {
 
         effectCount?.forEach(indexNPE => {
           const NPE = PE?.[`NPE${indexNPE}`]
+          const { NPET, PC } = NPE || {}
 
-          value =
-            ((NPE?.NPET?.calculation?.[n] || 0) * (NPE?.PC?.calculation?.[n] || 0) + value) *
-            SHRR[n]
+          value = ((NPET?.calculation?.[n] || 0) * (PC?.calculation?.[n] || 0) + value) * SHRR[n]
         })
 
         return value
@@ -100,6 +99,8 @@ export const useCalculateController = () => {
 
       collection: [],
 
+      stack: [],
+
       matrixNPET: SAM.map((SAR, indexSAM) => {
         return SAR.map((_, indexSAR) => {
           return ST?.map(n => {
@@ -107,10 +108,10 @@ export const useCalculateController = () => {
 
             effectCount?.forEach(indexNPE => {
               const NPE = PE?.[`NPE${indexNPE}`]
+              const { NPET, PC } = NPE || {}
 
               value =
-                ((NPE?.NPET?.matrix?.[indexSAM]?.[indexSAR]?.[n] || 0) *
-                  (NPE?.PC?.calculation?.[n] || 0) +
+                ((NPET?.matrix?.[indexSAM]?.[indexSAR]?.[n] || 0) * (PC?.calculation?.[n] || 0) +
                   value) *
                 SHRR[n]
             })
@@ -126,10 +127,10 @@ export const useCalculateController = () => {
 
             effectCount?.forEach(indexNPE => {
               const NPE = PE?.[`NPE${indexNPE}`]
+              const { NPET, PC } = NPE || {}
 
               value =
-                ((NPE?.NPET?.calculation?.[n] || 0) *
-                  (NPE?.PC?.matrix?.[indexSAM]?.[indexSAR]?.[n] || 0) +
+                ((NPET?.calculation?.[n] || 0) * (PC?.matrix?.[indexSAM]?.[indexSAR]?.[n] || 0) +
                   value) *
                 SHRR[n]
             })
@@ -148,6 +149,24 @@ export const useCalculateController = () => {
 
       return collection
     })
+    const RVstack = effectCount?.map(indexNPE => {
+      const NPE = PE?.[`NPE${indexNPE}`]
+      const { NP, NPET, PC } = NPE || {}
+
+      return {
+        name: NP,
+        value: ST?.map(n => {
+          return (NPET?.calculation?.[n] || 0) * (PC?.calculation?.[n] || 0) * SHRR[n]
+        }),
+        collection: ST?.map(n => {
+          return (
+            ((NPET?.calculation?.[n] || 0) * (PC?.calculation?.[n] || 0) * SHRR[n]) /
+            Powers[RV?.power || 'MLN'] /
+            Currencies[RV?.currency || 'RUB']
+          )
+        }),
+      }
+    })
 
     // Процессинг производства (расходы) (RACH)
     const RACH: ICalculateArray = {
@@ -156,10 +175,9 @@ export const useCalculateController = () => {
 
         effectCount?.forEach(indexNPE => {
           const NPE = PE?.[`NPE${indexNPE}`]
+          const { NPET, EPP } = NPE || {}
 
-          value =
-            ((NPE?.NPET?.calculation?.[n] || 0) * (NPE?.EPP?.calculation?.[n] || 0) + value) *
-            SHRR[n]
+          value = ((NPET?.calculation?.[n] || 0) * (EPP?.calculation?.[n] || 0) + value) * SHRR[n]
         })
 
         return value
@@ -178,10 +196,10 @@ export const useCalculateController = () => {
 
             effectCount?.forEach(indexNPE => {
               const NPE = PE?.[`NPE${indexNPE}`]
+              const { NPET, EPP } = NPE || {}
 
               value =
-                ((NPE?.NPET?.matrix?.[indexSAM]?.[indexSAR]?.[n] || 0) *
-                  (NPE?.EPP?.calculation?.[n] || 0) +
+                ((NPET?.matrix?.[indexSAM]?.[indexSAR]?.[n] || 0) * (EPP?.calculation?.[n] || 0) +
                   value) *
                 SHRR[n]
             })
@@ -197,10 +215,10 @@ export const useCalculateController = () => {
 
             effectCount?.forEach(indexNPE => {
               const NPE = PE?.[`NPE${indexNPE}`]
+              const { NPET, EPP } = NPE || {}
 
               value =
-                ((NPE?.NPET?.calculation?.[n] || 0) * (NPE?.EPP?.calculation?.[n] || 0) + value) *
-                SHRR[n]
+                ((NPET?.calculation?.[n] || 0) * (EPP?.calculation?.[n] || 0) + value) * SHRR[n]
             })
 
             return value
@@ -791,7 +809,7 @@ export const useCalculateController = () => {
 
     // Период дисконтирования (DPRD)
     const DPRD = ST?.map(n => {
-      return diffDate(DCFR[n], PID, 'day') / (leapYear(SY[n]) ? KDVGV : KDVG)
+      return diffDate(DCFR[n], PIDDC, 'day') / (leapYear(SY[n]) ? KDVGV : KDVG)
     })
 
     // Фактор дисконтирования (DCFCR)
@@ -1219,6 +1237,7 @@ export const useCalculateController = () => {
       ...RV,
       measure: RVmeasure,
       collection: RVcollection,
+      stack: RVstack,
     })
     createDPR({
       ...DPR,

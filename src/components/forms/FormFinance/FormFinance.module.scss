@@ -11,6 +11,12 @@
 
 .table {
   @apply flex justify-between gap-3 overflow-x-auto rounded-md pb-2;
+
+  input {
+    @apply text-base;
+
+    line-height: normal;
+  }
 }
 
 .col {

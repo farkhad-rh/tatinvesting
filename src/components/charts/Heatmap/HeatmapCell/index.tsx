@@ -21,7 +21,7 @@ const HeatmapCell: FC<HeatmapCellProps> = ({ type, label, rangeX, rangeY }) => {
 
   return (
     <Tooltip
-      className='bg-black/80'
+      className='bg-black/70'
       offset={10}
       content={
         <div className={styles.tooltip}>

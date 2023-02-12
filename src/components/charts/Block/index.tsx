@@ -15,6 +15,7 @@ const Block: FC<BlockProps> = ({ title, description, color = 'blue', children })
   return (
     <Card className={styles.wrapper}>
       <CardHeader
+        className={color === 'blue-gray' ? styles.head : ''}
         variant='gradient'
         color={color}
       >

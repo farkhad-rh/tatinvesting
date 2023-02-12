@@ -1,7 +1,6 @@
 import { Controller } from 'react-hook-form'
 
 import { Input, Select, Option } from '@material-tailwind/react'
-import dayjs from 'dayjs'
 
 import { TimeUnits } from '@constants'
 

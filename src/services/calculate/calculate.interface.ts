@@ -6,9 +6,17 @@ export interface ICalculateMeasure {
   measure?: string
 }
 
+export interface ICalculateStack {
+  name?: string
+  value?: number[]
+  collection?: number[]
+}
+
 export interface ICalculateArray extends ICalculateMeasure {
   value?: number[]
   collection?: number[]
+
+  stack?: ICalculateStack[]
 
   matrixNPET?: number[][][]
   matrixPC?: number[][][]
@@ -17,6 +25,8 @@ export interface ICalculateArray extends ICalculateMeasure {
 export interface ICalculateSingle extends ICalculateMeasure {
   value?: number
   collection?: number
+
+  stack?: ICalculateStack[]
 
   matrixNPET?: number[][]
   matrixPC?: number[][]

@@ -2,6 +2,10 @@ div {
   .wrapper {
     @apply relative z-[1] w-full bg-opacity-80 backdrop-blur-sm backdrop-saturate-200;
   }
+
+  .head {
+    @apply bg-gradient-to-br from-blue-gray-500 to-blue-gray-600;
+  }
 }
 
 .body {
