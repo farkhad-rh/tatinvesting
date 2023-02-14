@@ -6,3 +6,5 @@ export { default as Results } from './Results'
 export { default as Dev } from './Dev'
 
 export { default as Charts } from './Charts'
+
+export { default as Checklist } from './Checklist'

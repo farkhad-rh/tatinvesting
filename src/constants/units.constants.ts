@@ -13,7 +13,7 @@ export const WeightUnits = [
   },
 ]
 
-export type WeightUnitsType = 'GRAM' | 'KG' | 'TONNE'
+export type TWeightUnits = 'GRAM' | 'KG' | 'TONNE'
 
 export const TimeUnits = [
   {
@@ -30,4 +30,4 @@ export const TimeUnits = [
   },
 ]
 
-export type TimeUnitsType = 'day' | 'month' | 'year'
+export type TTimeUnits = 'day' | 'month' | 'year'

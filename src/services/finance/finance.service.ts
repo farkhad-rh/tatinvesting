@@ -8,27 +8,27 @@ export const useFinanceService = (): [IFinance, IFinanceActions] => {
   const [finance, setFinance] = useRecoilState(financeState)
   const financeValue = useRecoilValue(financeState)
 
-  const createFinance = (payload: IFinance) =>
+  const createFinance: IFinanceActions['createFinance'] = payload =>
     setFinance(prev => {
       return { ...prev, ...payload }
     })
 
-  const createCAPEX = (payload: IFinance['CAPEX']) =>
+  const createCAPEX: IFinanceActions['createCAPEX'] = payload =>
     setFinance(prev => {
       return { ...prev, CAPEX: { ...prev?.CAPEX, ...payload } }
     })
 
-  const createKR = (payload: IFinance['KR']) =>
+  const createKR: IFinanceActions['createKR'] = payload =>
     setFinance(prev => {
       return { ...prev, KR: { ...prev?.KR, ...payload } }
     })
 
-  const createFP = (payload: IFinance['FP']) =>
+  const createFP: IFinanceActions['createFP'] = payload =>
     setFinance(prev => {
       return { ...prev, FP: { ...prev?.FP, ...payload } }
     })
 
-  const deleteFinance = () => setFinance(initialFinanceState)
+  const deleteFinance: IFinanceActions['deleteFinance'] = () => setFinance(initialFinanceState)
 
   return [
     finance ?? financeValue,

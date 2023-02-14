@@ -1,3 +1,4 @@
+import { lazy } from 'react'
 import { Navigate, NonIndexRouteObject } from 'react-router-dom'
 
 import { Routes } from './routes.enum'
@@ -5,7 +6,10 @@ import { Routes } from './routes.enum'
 import { Area } from '@components/layout'
 import { PrivateRoute } from '@components/routing'
 
-import { Auth, Configs, Results, Dev, Charts } from '@views'
+import { Auth, Configs, Results, Dev, Charts, Checklist } from '@views'
+
+const LazyResults = lazy(() => import('@views/Results'))
+const LazyCharts = lazy(() => import('@views/Charts'))
 
 export const routes: NonIndexRouteObject[] = [
   { path: Routes.AUTH, element: <Auth /> },
@@ -28,7 +32,8 @@ export const routes: NonIndexRouteObject[] = [
           { path: Routes.CONFIGS, element: <Configs /> },
           { path: Routes.RESULTS, element: <Results /> },
           { path: Routes.DEV, element: <Dev /> },
-          { path: Routes.CHARTS, element: <Charts /> },
+          { path: Routes.CHARTS, element: <LazyCharts /> },
+          { path: Routes.CHECKLIST, element: <Checklist /> },
         ],
       },
       {

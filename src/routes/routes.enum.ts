@@ -4,4 +4,5 @@ export enum Routes {
   RESULTS = 'results',
   DEV = 'dev',
   CHARTS = 'charts',
+  CHECKLIST = 'checklist',
 }

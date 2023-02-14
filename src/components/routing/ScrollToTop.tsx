@@ -8,6 +8,7 @@ const ScrollToTop: FC<PropsWithChildren> = ({ children }) => {
     document.documentElement.scrollTo({
       top: 0,
       left: 0,
+      // behavior: 'smooth',
     })
   }, [pathname])
 

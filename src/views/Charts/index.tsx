@@ -8,7 +8,7 @@ import { Routes } from '@routes/routes.enum'
 import { getYear } from '@utils'
 
 import {
-  useCalculateController,
+  useCalculateService,
   useEffectService,
   useFinanceService,
   usePeriodService,
@@ -22,27 +22,18 @@ const Charts = () => {
   const navigate = useNavigate()
   const [ref]: any = useOutletContext()
 
-  const { calculate } = useCalculateController()
-
   const [period] = usePeriodService()
   const [effect] = useEffectService()
   const [finance] = useFinanceService()
+  const [calculate] = useCalculateService()
 
   const { SY } = period
   const { count: effectCount } = effect
   const { CAPEX } = finance
-
-  const {
-    RV,
-    EBITDA,
-    ENP,
-    ACF,
-    ADCF,
-
-    IRR,
-  } = calculate
+  const { RV, EBITDA, ENP, ACF, ADCF, IRR } = calculate
 
   const handleBack = () => navigate(`/${Routes.RESULTS}`)
+  const handleChecklist = () => navigate(`/${Routes.CHECKLIST}`)
 
   useEffect(() => {
     ref?.current?.complete()
@@ -155,14 +146,25 @@ const Charts = () => {
         />
       </Block>
 
-      <Button
-        className={styles.button}
-        variant='gradient'
-        size='lg'
-        onClick={handleBack}
-      >
-        Назад
-      </Button>
+      <div className={styles.buttons}>
+        <Button
+          className={styles.button}
+          variant='gradient'
+          size='lg'
+          onClick={handleBack}
+        >
+          Назад
+        </Button>
+
+        <Button
+          className={styles.button}
+          variant='gradient'
+          size='lg'
+          onClick={handleChecklist}
+        >
+          Чек-лист
+        </Button>
+      </div>
     </>
   )
 }

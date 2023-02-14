@@ -1,0 +1,11 @@
+.wrapper {
+  @apply flex flex-col gap-6;
+
+  h4 {
+    @apply text-center;
+  }
+}
+
+.quetions {
+  @apply flex flex-col gap-14;
+}

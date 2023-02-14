@@ -2,28 +2,28 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { initialEffectState, effectState } from '@store'
 
-import { iNPE, IEffect, IEffectActions } from './effect.interface'
+import { IEffect, IEffectActions } from './effect.interface'
 
 export const useEffectService = (): [IEffect, IEffectActions] => {
   const [effect, setEffect] = useRecoilState(effectState)
   const effectValue = useRecoilValue(effectState)
 
-  const createEffect = (payload: IEffect) =>
+  const createEffect: IEffectActions['createEffect'] = payload =>
     setEffect(prev => {
       return { ...prev, ...payload }
     })
 
-  const createPE = (payload: IEffect['PE']) =>
+  const createPE: IEffectActions['createPE'] = payload =>
     setEffect(prev => {
       return { ...prev, PE: { ...prev?.PE, ...payload } }
     })
 
-  const createCount = (payload: number) =>
+  const createCount: IEffectActions['createCount'] = payload =>
     setEffect(prev => {
       return { ...prev, count: [...Array(payload).keys()] }
     })
 
-  const createNP = (payload: iNPE['NP'], index: number) =>
+  const createNP: IEffectActions['createNP'] = (payload, index) =>
     setEffect(prev => {
       return {
         ...prev,
@@ -31,7 +31,7 @@ export const useEffectService = (): [IEffect, IEffectActions] => {
       }
     })
 
-  const createNPET = (payload: iNPE['NPET'], index: number) =>
+  const createNPET: IEffectActions['createNPET'] = (payload, index) =>
     setEffect(prev => {
       return {
         ...prev,
@@ -48,7 +48,7 @@ export const useEffectService = (): [IEffect, IEffectActions] => {
       }
     })
 
-  const createPC = (payload: iNPE['PC'], index: number) =>
+  const createPC: IEffectActions['createPC'] = (payload, index) =>
     setEffect(prev => {
       return {
         ...prev,
@@ -65,7 +65,7 @@ export const useEffectService = (): [IEffect, IEffectActions] => {
       }
     })
 
-  const createEPP = (payload: iNPE['EPP'], index: number) =>
+  const createEPP: IEffectActions['createEPP'] = (payload, index) =>
     setEffect(prev => {
       return {
         ...prev,
@@ -82,7 +82,7 @@ export const useEffectService = (): [IEffect, IEffectActions] => {
       }
     })
 
-  const deleteEffect = () => setEffect(initialEffectState)
+  const deleteEffect: IEffectActions['deleteEffect'] = () => setEffect(initialEffectState)
 
   return [
     effect ?? effectValue,

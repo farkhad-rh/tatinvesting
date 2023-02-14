@@ -5,4 +5,4 @@ export const Currencies = [
   },
 ]
 
-export type CurrenciesType = 'RUB' | 'USD' | 'EUR'
+export type TCurrencies = 'RUB' | 'USD' | 'EUR'

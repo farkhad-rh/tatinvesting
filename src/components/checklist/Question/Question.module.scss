@@ -1,0 +1,62 @@
+.wrapper {
+  @apply flex flex-wrap gap-8;
+}
+
+.row {
+  @apply flex w-full gap-6;
+
+  .isSuccess {
+    @apply border-green-500 border-t-transparent bg-green-500/5 text-green-500;
+
+    svg {
+      @apply text-green-500;
+    }
+
+    & ~ label {
+      @apply text-green-500;
+
+      &:after,
+      &:before {
+        @apply border-green-500;
+      }
+    }
+  }
+
+  .isDanger {
+    @apply border-red-500 border-t-transparent bg-red-500/5 text-red-500;
+
+    svg {
+      @apply text-red-500;
+    }
+
+    & ~ label {
+      @apply text-red-500;
+
+      &:after,
+      &:before {
+        @apply border-red-500;
+      }
+    }
+  }
+
+  .isAverage {
+    @apply border-orange-500 border-t-transparent bg-orange-500/5 text-orange-500;
+
+    svg {
+      @apply text-orange-500;
+    }
+
+    & ~ label {
+      @apply text-orange-500;
+
+      &:after,
+      &:before {
+        @apply border-orange-500;
+      }
+    }
+  }
+}
+
+.info {
+  @apply flex w-full flex-col gap-6;
+}

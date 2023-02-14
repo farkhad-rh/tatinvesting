@@ -17,4 +17,4 @@ export const Powers = [
   },
 ]
 
-export type PowersType = 'NONE' | 'THOU' | 'MLN' | 'BN' | 'TRLN'
+export type TPowers = 'NONE' | 'THOU' | 'MLN' | 'BN' | 'TRLN'

@@ -1,11 +1,11 @@
-import { CurrenciesType, PowersType, WeightUnitsType } from '@constants'
+import { TCurrencies, TPowers, TWeightUnits } from '@constants'
 
 export interface IEffectParams {
   value?: number
 
-  power?: PowersType
-  unit?: WeightUnitsType
-  currency?: CurrenciesType
+  power?: TPowers
+  unit?: TWeightUnits
+  currency?: TCurrencies
   measure?: string
 
   collection?: (number | undefined)[]

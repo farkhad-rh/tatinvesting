@@ -1,0 +1,25 @@
+.wrapper {
+  @apply relative z-[1];
+
+  .card {
+    @apply mx-3 -mt-16 mb-6 bg-opacity-80 backdrop-blur-sm backdrop-saturate-200 lg:mx-4;
+  }
+}
+
+.background {
+  @apply relative h-56 w-full overflow-hidden rounded-xl;
+}
+
+.overlay {
+  @apply absolute inset-0 flex h-full w-full items-center justify-center bg-gradient-to-r from-sapphire-blue/70 to-dark-cornflower-blue/70 pb-16;
+}
+
+.image {
+  object-position: 0% 15%;
+
+  @apply max-h-[100%] w-full object-cover;
+}
+
+.body {
+  @apply flex flex-col gap-16 p-4;
+}

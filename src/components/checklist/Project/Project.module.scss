@@ -1,0 +1,21 @@
+.wrapper {
+  @apply flex flex-wrap gap-12;
+}
+
+.row {
+  @apply flex w-full flex-wrap gap-6;
+
+  .input {
+    @apply w-[calc(100%_/_3-_16px)];
+  }
+
+  .inputHalf {
+    @apply w-[calc(100%_/_2-_12px)];
+  }
+
+  input {
+    @apply text-base;
+
+    line-height: normal;
+  }
+}

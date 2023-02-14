@@ -8,52 +8,52 @@ export const useParamsService = (): [IParams, IParamsActions] => {
   const [params, setParams] = useRecoilState(paramsState)
   const paramsValue = useRecoilValue(paramsState)
 
-  const createParams = (payload: IParams) =>
+  const createParams: IParamsActions['createParams'] = payload =>
     setParams(prev => {
       return { ...prev, ...payload }
     })
 
-  const createDEF = (payload: IParams['DEF']) =>
+  const createDEF: IParamsActions['createDEF'] = payload =>
     setParams(prev => {
       return { ...prev, DEF: payload }
     })
 
-  const createGRT = (payload: IParams['GRT']) =>
+  const createGRT: IParamsActions['createGRT'] = payload =>
     setParams(prev => {
       return { ...prev, GRT: payload }
     })
 
-  const createITXD = (payload: IParams['ITXD']) =>
+  const createITXD: IParamsActions['createITXD'] = payload =>
     setParams(prev => {
       return { ...prev, ITXD: payload }
     })
 
-  const createRETD = (payload: IParams['RETD']) =>
+  const createRETD: IParamsActions['createRETD'] = payload =>
     setParams(prev => {
       return { ...prev, RETD: payload }
     })
 
-  const createRMCD = (payload: IParams['RMCD']) =>
+  const createRMCD: IParamsActions['createRMCD'] = payload =>
     setParams(prev => {
       return { ...prev, RMCD: payload }
     })
 
-  const createWACC = (payload: IParams['WACC']) =>
+  const createWACC: IParamsActions['createWACC'] = payload =>
     setParams(prev => {
       return { ...prev, WACC: payload }
     })
 
-  const createWCD = (payload: IParams['WCD']) =>
+  const createWCD: IParamsActions['createWCD'] = payload =>
     setParams(prev => {
       return { ...prev, WCD: payload }
     })
 
-  const switchTV = (payload: IParams['TV_enabled']) =>
+  const switchTV: IParamsActions['switchTV'] = payload =>
     setParams(prev => {
       return { ...prev, TV_enabled: payload }
     })
 
-  const deleteParams = () => setParams(initialParamsState)
+  const deleteParams: IParamsActions['deleteParams'] = () => setParams(initialParamsState)
 
   return [
     params ?? paramsValue,

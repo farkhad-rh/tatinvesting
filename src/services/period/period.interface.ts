@@ -1,8 +1,8 @@
-import { TimeUnitsType } from '@constants'
+import { TTimeUnits } from '@constants'
 
 export interface iDCE {
   value?: number
-  unit?: TimeUnitsType
+  unit?: TTimeUnits
   measure?: string
 }
 

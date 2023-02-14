@@ -1,10 +1,10 @@
-import { CurrenciesType, PowersType } from '@constants'
+import { TCurrencies, TPowers } from '@constants'
 
 export interface iCAPEX {
   value?: number
 
-  power?: PowersType
-  currency?: CurrenciesType
+  power?: TPowers
+  currency?: TCurrencies
   measure?: string
 
   calculation?: number
@@ -20,8 +20,8 @@ export interface iKR {
 export interface iFP {
   value?: number[]
 
-  power?: PowersType
-  currency?: CurrenciesType
+  power?: TPowers
+  currency?: TCurrencies
   measure?: string
 
   collection?: number[]

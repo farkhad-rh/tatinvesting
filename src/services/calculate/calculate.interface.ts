@@ -1,8 +1,8 @@
-import { CurrenciesType, PowersType } from '@constants'
+import { TCurrencies, TPowers } from '@constants'
 
 export interface ICalculateMeasure {
-  power?: PowersType
-  currency?: CurrenciesType
+  power?: TPowers
+  currency?: TCurrencies
   measure?: string
 }
 
