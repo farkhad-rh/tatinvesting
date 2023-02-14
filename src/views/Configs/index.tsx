@@ -14,6 +14,7 @@ const Configs = () => {
   const [ref]: any = useOutletContext()
 
   const handleResults = () => navigate(`/${Routes.RESULTS}`)
+  const handleChecklist = () => navigate(`/${Routes.CHECKLIST}`)
 
   useEffect(() => {
     ref?.current?.complete()
@@ -35,14 +36,25 @@ const Configs = () => {
       <FormFinance />
       <FormParams />
 
-      <Button
-        className={styles.button}
-        variant='gradient'
-        size='lg'
-        onClick={handleResults}
-      >
-        Рассчитать
-      </Button>
+      <div className={styles.buttons}>
+        <Button
+          className={styles.button}
+          variant='gradient'
+          size='lg'
+          onClick={handleResults}
+        >
+          Рассчитать
+        </Button>
+
+        <Button
+          className={styles.button}
+          variant='gradient'
+          size='lg'
+          onClick={handleChecklist}
+        >
+          Чек-лист
+        </Button>
+      </div>
     </>
   )
 }

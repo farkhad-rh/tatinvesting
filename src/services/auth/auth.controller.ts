@@ -11,6 +11,7 @@ import {
   useEffectService,
   useParamsService,
   useCalculateService,
+  useChecklistService,
 } from '@services'
 
 export const useAuthController = () => {
@@ -27,6 +28,7 @@ export const useAuthController = () => {
   const [, { deleteEffect }] = useEffectService()
   const [, { deleteParams }] = useParamsService()
   const [, { deleteCalculate }] = useCalculateService()
+  const [, { deleteChecklist }] = useChecklistService()
 
   const [isErorr, setError] = useState(false)
 
@@ -55,6 +57,7 @@ export const useAuthController = () => {
     await deleteEffect()
     await deleteParams()
     await deleteCalculate()
+    await deleteChecklist()
   }
 
   return { register, handleSubmit, handleLogin, handleLogout, errors, isErorr, setError }

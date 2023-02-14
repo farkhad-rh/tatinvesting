@@ -121,7 +121,7 @@ const Question: FC<QuestionProps> = ({ index, questions, question, filling, coor
             color='blue'
             textGradient
           >
-            Подтверждающий при согласовании в КИС (приложено согласование)
+            Подтверждающий при согласовании
           </Typography>
 
           {coordinating?.map(coordinat => (

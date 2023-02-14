@@ -2,6 +2,10 @@
   @apply relative z-[1] text-center;
 }
 
+.buttons {
+  @apply relative z-[1] m-auto flex items-center justify-center gap-12;
+}
+
 .button {
-  @apply relative z-[1] m-auto w-80;
+  @apply w-80;
 }
