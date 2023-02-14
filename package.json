@@ -12,7 +12,7 @@
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
-    "preview": "vite preview",
+    "preview": "vite preview --host",
     "https-preview": "PORT=4433 serve build",
     "lint": "pnpm lint:ptt && pnpm lint:es && pnpm lint:styles",
     "lint:ptt": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
@@ -27,6 +27,7 @@
     "clsx": "^1.2.1",
     "dayjs": "^1.11.7",
     "js-base64": "^3.7.4",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-dom": "^18.2.0",
@@ -35,6 +36,7 @@
     "react-particles": "^2.8.0",
     "react-router-dom": "^6.7.0",
     "react-top-loading-bar": "^2.3.1",
+    "react-type-animation": "^2.1.2",
     "recoil": "^0.7.6",
     "recoil-persist": "^4.2.0",
     "tsparticles": "^2.8.0"

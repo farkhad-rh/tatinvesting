@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
-import { LOGIN, PASSWORD } from '@constants'
+import { ADMIN, ADMINPASS, USER, USERPASS } from '@constants'
 import {
   useAuthService,
   useUserService,
@@ -31,7 +31,9 @@ export const useAuthController = () => {
   const [isErorr, setError] = useState(false)
 
   const handleLogin: SubmitHandler<IUser> = async user => {
-    const authValidate = user?.login === LOGIN && user?.password === PASSWORD
+    const authValidate =
+      (user?.login === ADMIN && user?.password === ADMINPASS) ||
+      (user?.login === USER && user?.password === USERPASS)
 
     if (authValidate) {
       await login()

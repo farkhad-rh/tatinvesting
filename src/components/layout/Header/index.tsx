@@ -1,3 +1,5 @@
+import { TypeAnimation } from 'react-type-animation'
+
 import { Button, Switch } from '@material-tailwind/react'
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 
@@ -18,6 +20,22 @@ const Header = () => {
         src={ImgLogo}
         alt='TiNG'
       />
+
+      <div className={styles.developed}>
+        <TypeAnimation
+          sequence={[
+            'Разработано: Идрисов А.Р.',
+            2000,
+            'Разработано: Ризванов Ф.Х.',
+            2000,
+            'Разработано: Садыков Д.М.',
+            2000,
+          ]}
+          speed={50}
+          wrapper='h2'
+          repeat={Infinity}
+        />
+      </div>
 
       <div className={styles.toggle}>
         <Switch

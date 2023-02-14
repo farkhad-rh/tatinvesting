@@ -1,9 +1,16 @@
 .header {
-  @apply sticky top-4 z-40 flex w-full max-w-full justify-between gap-6 rounded-xl border border-white/80 bg-white bg-opacity-80 px-4 py-3 text-white shadow-md shadow-blue-gray-500/5 backdrop-blur-sm backdrop-saturate-200;
+  @apply sticky top-4 z-40 flex w-full max-w-full items-center justify-between gap-6 rounded-xl border border-white/80 bg-white bg-opacity-80 px-4 py-3 text-white shadow-md shadow-blue-gray-500/5 backdrop-blur-sm backdrop-saturate-200;
 }
 
 .logo {
   @apply h-12 w-12;
+}
+
+.developed {
+  @apply pl-6 pr-6 pt-1 text-sm font-light text-sapphire-blue;
+
+  font-family: 'Courier New', Courier, monospace;
+  line-height: normal;
 }
 
 .toggle {

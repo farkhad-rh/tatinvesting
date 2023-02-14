@@ -23,6 +23,7 @@ specifiers:
   postcss: ^8.4.21
   prettier: ^2.8.3
   prettier-plugin-tailwindcss: ^0.1.13
+  prop-types: ^15.8.1
   react: ^18.2.0
   react-apexcharts: ^1.4.0
   react-dom: ^18.2.0
@@ -31,6 +32,7 @@ specifiers:
   react-particles: ^2.8.0
   react-router-dom: ^6.7.0
   react-top-loading-bar: ^2.3.1
+  react-type-animation: ^2.1.2
   recoil: ^0.7.6
   recoil-persist: ^4.2.0
   sass: ^1.57.1
@@ -56,6 +58,7 @@ dependencies:
   clsx: 1.2.1
   dayjs: 1.11.7
   js-base64: 3.7.4
+  prop-types: 15.8.1
   react: 18.2.0
   react-apexcharts: 1.4.0_biej67c4ah34dlf2pfz4joq77a
   react-dom: 18.2.0_react@18.2.0
@@ -64,6 +67,7 @@ dependencies:
   react-particles: 2.8.0_react@18.2.0
   react-router-dom: 6.7.0_biqbaboplfbrettd7655fr4n2y
   react-top-loading-bar: 2.3.1_react@18.2.0
+  react-type-animation: 2.1.2_v2m5e27vhdewzwhryxwfaorcca
   recoil: 0.7.6_biqbaboplfbrettd7655fr4n2y
   recoil-persist: 4.2.0_recoil@0.7.6
   tsparticles: 2.8.0
@@ -5022,6 +5026,18 @@ packages:
       react: ^16 || ^17 || ^18
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /react-type-animation/2.1.2_v2m5e27vhdewzwhryxwfaorcca:
+    resolution: {integrity: sha512-6/t4Whl87sLR0c8kzvJngTrCV6OVy3jEeUZoe2svVu9VaYr951VD7OeUie1rIyeD8JfpBIqZGYrPFHZQ04XHrw==}
+    peerDependencies:
+      prop-types: ^15.5.4
+      react: '>= 15.0.0'
+      react-dom: '>= 15.0.0'
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react/18.2.0:

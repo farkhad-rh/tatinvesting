@@ -1,6 +1,9 @@
 // Авторизация
-export const LOGIN = import.meta.env.VITE_LOGIN
-export const PASSWORD = import.meta.env.VITE_PASSWORD
+export const ADMIN = import.meta.env.VITE_ADMIN
+export const ADMINPASS = import.meta.env.VITE_ADMINPASS
+
+export const USER = import.meta.env.VITE_USER
+export const USERPASS = import.meta.env.VITE_USERPASS
 
 // Количество дней в году
 export const KDVG = 365

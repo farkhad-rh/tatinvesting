@@ -10,9 +10,9 @@ tatinvesting-app
 
 To run this project, you will need to add the following environment variables to your .env file
 
-`VITE_LOGIN`
+`VITE_ADMIN`
 
-`VITE_PASSWORD`
+`VITE_ADMINPASS`
 
 ## Usage
 
