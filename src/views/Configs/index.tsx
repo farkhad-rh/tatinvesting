@@ -1,4 +1,4 @@
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom'
 
 import { Typography, Button } from '@material-tailwind/react'
 
@@ -11,10 +11,11 @@ import { useEffect } from 'react'
 
 const Configs = () => {
   const navigate = useNavigate()
+  const { pathname } = useLocation()
   const [ref]: any = useOutletContext()
 
-  const handleResults = () => navigate(`/${Routes.RESULTS}`)
-  const handleChecklist = () => navigate(`/${Routes.CHECKLIST}`)
+  const handleChecklist = () => navigate(`/${Routes.CHECKLIST}`, { state: { prevPath: pathname } })
+  const handleResults = () => navigate(`/${Routes.RESULTS}`, { state: { prevPath: pathname } })
 
   useEffect(() => {
     ref?.current?.complete()
@@ -41,18 +42,18 @@ const Configs = () => {
           className={styles.button}
           variant='gradient'
           size='lg'
-          onClick={handleResults}
+          onClick={handleChecklist}
         >
-          Рассчитать
+          Чек-лист
         </Button>
 
         <Button
           className={styles.button}
           variant='gradient'
           size='lg'
-          onClick={handleChecklist}
+          onClick={handleResults}
         >
-          Чек-лист
+          Рассчитать
         </Button>
       </div>
     </>

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom'
 
 import { Button, Typography } from '@material-tailwind/react'
 
@@ -20,6 +20,7 @@ import styles from './Charts.module.scss'
 
 const Charts = () => {
   const navigate = useNavigate()
+  const { state, pathname } = useLocation()
   const [ref]: any = useOutletContext()
 
   const [period] = usePeriodService()
@@ -32,8 +33,8 @@ const Charts = () => {
   const { CAPEX } = finance
   const { RV, EBITDA, ENP, ACF, ADCF, IRR } = calculate
 
-  const handleBack = () => navigate(`/${Routes.RESULTS}`)
-  const handleChecklist = () => navigate(`/${Routes.CHECKLIST}`)
+  const handleBack = () => navigate(state?.prevPath || -1)
+  const handleChecklist = () => navigate(`/${Routes.CHECKLIST}`, { state: { prevPath: pathname } })
 
   useEffect(() => {
     ref?.current?.complete()

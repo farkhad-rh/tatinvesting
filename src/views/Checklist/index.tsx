@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom'
 
 import { Button, Typography } from '@material-tailwind/react'
 
@@ -22,13 +22,14 @@ import styles from './Checklist.module.scss'
 
 const Checklist = () => {
   const navigate = useNavigate()
+  const { state } = useLocation()
   const [ref]: any = useOutletContext()
 
   const [checklist] = useChecklistService()
 
   const { project } = checklist
 
-  const handleBack = () => navigate(`/${Routes.CHARTS}`)
+  const handleBack = () => navigate(state?.prevPath || -1)
   const handleConfigs = () => navigate(`/${Routes.CONFIGS}`)
 
   useEffect(() => {
@@ -140,14 +141,16 @@ const Checklist = () => {
           Назад
         </Button>
 
-        <Button
-          className={styles.button}
-          variant='gradient'
-          size='lg'
-          onClick={handleConfigs}
-        >
-          Исходные данные
-        </Button>
+        {state?.prevPath !== `/${Routes.CONFIGS}` && (
+          <Button
+            className={styles.button}
+            variant='gradient'
+            size='lg'
+            onClick={handleConfigs}
+          >
+            Исходные данные
+          </Button>
+        )}
       </div>
     </>
   )

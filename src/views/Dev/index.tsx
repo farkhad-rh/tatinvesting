@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom'
 
 import { Button, Typography } from '@material-tailwind/react'
 
@@ -32,6 +32,7 @@ import styles from './Dev.module.scss'
 
 const Dev = () => {
   const navigate = useNavigate()
+  const { state, pathname } = useLocation()
   const [ref]: any = useOutletContext()
 
   const { calculate } = useCalculateController()
@@ -75,8 +76,8 @@ const Dev = () => {
     DPP,
   } = calculate
 
-  const handleBack = () => navigate(`/${Routes.CONFIGS}`)
-  const handleChart = () => navigate(`/${Routes.CHARTS}`)
+  const handleBack = () => navigate(state?.prevPath || -1)
+  const handleCharts = () => navigate(`/${Routes.CHARTS}`, { state: { prevPath: pathname } })
 
   useEffect(() => {
     ref?.current?.complete()
@@ -701,7 +702,7 @@ const Dev = () => {
           className={styles.button}
           variant='gradient'
           size='lg'
-          onClick={handleChart}
+          onClick={handleCharts}
         >
           Графики
         </Button>
