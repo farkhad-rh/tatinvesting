@@ -1,6 +1,8 @@
 import { Suspense } from 'react'
 import { useRoutes } from 'react-router-dom'
 
+import { Analytics } from '@vercel/analytics/react'
+
 import { routes } from '@routes'
 
 import { ScrollToTop } from '@components/routing'
@@ -11,9 +13,12 @@ const Routing = () => {
   const routing = useRoutes(routes)
 
   return (
-    <Suspense fallback={<Loading />}>
-      <ScrollToTop>{routing}</ScrollToTop>
-    </Suspense>
+    <>
+      <Suspense fallback={<Loading />}>
+        <ScrollToTop>{routing}</ScrollToTop>
+      </Suspense>
+      <Analytics mode={'production'} />;
+    </>
   )
 }
 
