@@ -8,11 +8,12 @@ import { Tooltip } from '@material-tailwind/react'
 interface HeatmapCellProps {
   type?: 'main' | 'head' | 'body'
   label?: string | number
+  tooltip?: 'Объем производства' | 'Стоимость продукции'
   rangeX?: number
   rangeY?: number
 }
 
-const HeatmapCell: FC<HeatmapCellProps> = ({ type, label, rangeX, rangeY }) => {
+const HeatmapCell: FC<HeatmapCellProps> = ({ type, label, tooltip, rangeX, rangeY }) => {
   const classes = {
     [styles.main]: type === 'main',
     [styles.head]: type === 'head',
@@ -29,7 +30,7 @@ const HeatmapCell: FC<HeatmapCellProps> = ({ type, label, rangeX, rangeY }) => {
             {'Капитальные затраты без НДС:'} <span>{`${rangeX}%`}</span>
           </p>
           <p>
-            {'Объем производства:'} <span>{`${rangeY}%`}</span>
+            {`${tooltip}:`} <span>{`${rangeY}%`}</span>
           </p>
         </div>
       }

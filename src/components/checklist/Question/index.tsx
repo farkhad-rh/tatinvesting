@@ -80,7 +80,6 @@ const Question: FC<QuestionProps> = ({ index, questions, question, filling, coor
               ref={ref}
               label='Подтверждение согласующего'
               size='lg'
-              color={value === 'YES' ? 'green' : value === 'NO' ? 'red' : 'amber'}
               value={value}
               onChange={onChange}
             >

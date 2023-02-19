@@ -17,9 +17,10 @@ interface HeatmapProps extends PropsWithChildren {
   capex: iCAPEX
   irr: number
   matrix: number[][]
+  tooltip?: 'Объем производства' | 'Стоимость продукции'
 }
 
-const Heatmap: FC<HeatmapProps> = ({ capex, irr, matrix }) => {
+const Heatmap: FC<HeatmapProps> = ({ capex, irr, matrix, tooltip }) => {
   const power = capex?.power || 'NONE'
   const currency = capex?.currency || 'RUB'
   const measure = `${PowersString[power]} ${CurrenciesString[currency]}`
@@ -72,6 +73,7 @@ const Heatmap: FC<HeatmapProps> = ({ capex, irr, matrix }) => {
                 <HeatmapCell
                   key={indexSAR}
                   label={`${formatNumber(matrix?.[indexSAR]?.[indexSAM])}%`}
+                  tooltip={tooltip}
                   rangeX={range[indexSAM]}
                   rangeY={range[indexSAR]}
                 />

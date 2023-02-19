@@ -59,6 +59,7 @@ const Charts = () => {
           capex={CAPEX}
           irr={IRR?.value}
           matrix={IRR?.matrixNPET}
+          tooltip='Объем производства'
         />
       </Block>
 
@@ -70,6 +71,7 @@ const Charts = () => {
           capex={CAPEX}
           irr={IRR?.value}
           matrix={IRR?.matrixPC}
+          tooltip='Стоимость продукции'
         />
       </Block>
 
