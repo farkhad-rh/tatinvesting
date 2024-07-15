@@ -1,11 +1,16 @@
-import { ADMIN, ADMINPASS } from '@constants'
+import { ADMIN, ADMINPASS, USER, USERPASS } from '@constants'
 import { useAuthService, useUserService } from '@services'
 
 export const useAuthGuard = () => {
   const [auth] = useAuthService()
   const [{ login, password }] = useUserService()
 
-  const authGuard = auth && login === ADMIN && password === ADMINPASS
+  const authAdmin = login === ADMIN && password === ADMINPASS
+  const authUser = login === USER && password === USERPASS
+  const authGuard = auth && (authAdmin || authUser)
 
-  return authGuard
+  return {
+    authAdmin,
+    authGuard,
+  }
 }

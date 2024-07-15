@@ -31,7 +31,14 @@ export const routes: NonIndexRouteObject[] = [
           },
           { path: Routes.CONFIGS, element: <Configs /> },
           { path: Routes.RESULTS, element: <Results /> },
-          { path: Routes.DEV, element: <Dev /> },
+          {
+            path: Routes.DEV,
+            element: (
+              <PrivateRoute>
+                <Dev />
+              </PrivateRoute>
+            ),
+          },
           { path: Routes.CHARTS, element: <LazyCharts /> },
           { path: Routes.CHECKLIST, element: <Checklist /> },
         ],

@@ -17,6 +17,7 @@ const Routing = () => {
       <Suspense fallback={<Loading />}>
         <ScrollToTop>{routing}</ScrollToTop>
       </Suspense>
+
       <Analytics mode={'production'} />
     </>
   )

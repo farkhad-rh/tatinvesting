@@ -17,7 +17,7 @@ import { useAuthGuard, useAuthController } from '@services'
 import styles from './FormAuth.module.scss'
 
 const FormAuth = () => {
-  const authGuard = useAuthGuard()
+  const { authGuard } = useAuthGuard()
   const { register, handleSubmit, handleLogin, errors, isErorr, setError } = useAuthController()
 
   if (authGuard) {

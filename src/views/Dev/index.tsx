@@ -91,7 +91,7 @@ const Dev = () => {
         color='blue'
         textGradient
       >
-        Результат вычислений
+        Режим разработки
       </Typography>
 
       <Section title='Модуль 1'>

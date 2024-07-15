@@ -14,7 +14,7 @@ const Configs = () => {
   const { pathname } = useLocation()
   const [ref]: any = useOutletContext()
 
-  const handleChecklist = () => navigate(`/${Routes.CHECKLIST}`, { state: { prevPath: pathname } })
+  // const handleChecklist = () => navigate(`/${Routes.CHECKLIST}`, { state: { prevPath: pathname } })
   const handleResults = () => navigate(`/${Routes.RESULTS}`, { state: { prevPath: pathname } })
 
   useEffect(() => {
@@ -38,14 +38,14 @@ const Configs = () => {
       <FormParams />
 
       <div className={styles.buttons}>
-        <Button
+        {/* <Button
           className={styles.button}
           variant='gradient'
           size='lg'
           onClick={handleChecklist}
         >
           Чек-лист
-        </Button>
+        </Button> */}
 
         <Button
           className={styles.button}

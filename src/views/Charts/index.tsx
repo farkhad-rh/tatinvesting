@@ -34,7 +34,8 @@ const Charts = () => {
   const { RV, EBITDA, ENP, ACF, ADCF, IRR } = calculate
 
   const handleBack = () => navigate(state?.prevPath || -1)
-  const handleChecklist = () => navigate(`/${Routes.CHECKLIST}`, { state: { prevPath: pathname } })
+  const handleConfigs = () => navigate(`/${Routes.CONFIGS}`)
+  // const handleChecklist = () => navigate(`/${Routes.CHECKLIST}`, { state: { prevPath: pathname } })
 
   useEffect(() => {
     ref?.current?.complete()
@@ -163,10 +164,19 @@ const Charts = () => {
           className={styles.button}
           variant='gradient'
           size='lg'
+          onClick={handleConfigs}
+        >
+          Исходные данные
+        </Button>
+
+        {/* <Button
+          className={styles.button}
+          variant='gradient'
+          size='lg'
           onClick={handleChecklist}
         >
           Чек-лист
-        </Button>
+        </Button> */}
       </div>
     </>
   )
