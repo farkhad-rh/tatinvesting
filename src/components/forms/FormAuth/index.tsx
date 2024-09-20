@@ -18,7 +18,7 @@ import styles from './FormAuth.module.scss'
 
 const FormAuth = () => {
   const { authGuard } = useAuthGuard()
-  const { register, handleSubmit, handleLogin, errors, isErorr, setError } = useAuthController()
+  const { register, handleSubmit, handleLogin, errors, isError, setError } = useAuthController()
 
   if (authGuard) {
     return (
@@ -74,7 +74,7 @@ const FormAuth = () => {
                 className={styles.icon}
               />
             }
-            show={isErorr}
+            show={isError}
             dismissible={{
               onClose: () => setError(false),
             }}

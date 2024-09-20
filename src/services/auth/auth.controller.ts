@@ -30,7 +30,7 @@ export const useAuthController = () => {
   const [, { deleteCalculate }] = useCalculateService()
   const [, { deleteChecklist }] = useChecklistService()
 
-  const [isErorr, setError] = useState(false)
+  const [isError, setError] = useState(false)
 
   const handleLogin: SubmitHandler<IUser> = async user => {
     const authValidate =
@@ -60,5 +60,5 @@ export const useAuthController = () => {
     await deleteChecklist()
   }
 
-  return { register, handleSubmit, handleLogin, handleLogout, errors, isErorr, setError }
+  return { register, handleSubmit, handleLogin, handleLogout, errors, isError, setError }
 }
