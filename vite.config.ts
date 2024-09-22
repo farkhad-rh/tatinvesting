@@ -50,7 +50,6 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         charset: false,
-        silenceDeprecations: ['legacy-js-api'],
       },
     },
     modules: {
