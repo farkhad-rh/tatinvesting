@@ -639,6 +639,7 @@ const Results = () => {
           className={styles.button}
           variant='gradient'
           size='lg'
+          color='blue'
           onClick={handleBack}
         >
           Назад
@@ -648,6 +649,7 @@ const Results = () => {
           className={styles.button}
           variant='gradient'
           size='lg'
+          color='blue'
           onClick={handleCharts}
         >
           Графики

@@ -155,6 +155,7 @@ const Charts = () => {
           className={styles.button}
           variant='gradient'
           size='lg'
+          color='blue'
           onClick={handleBack}
         >
           Назад
@@ -164,6 +165,7 @@ const Charts = () => {
           className={styles.button}
           variant='gradient'
           size='lg'
+          color='blue'
           onClick={handleConfigs}
         >
           Исходные данные
@@ -173,6 +175,7 @@ const Charts = () => {
           className={styles.button}
           variant='gradient'
           size='lg'
+          color='blue'
           onClick={handleChecklist}
         >
           Чек-лист

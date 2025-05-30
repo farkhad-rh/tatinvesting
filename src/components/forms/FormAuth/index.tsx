@@ -53,6 +53,7 @@ const FormAuth = () => {
             type='text'
             label='Логин'
             size='lg'
+            color='blue'
             error={Boolean(errors?.login)}
             onInput={() => setError(false)}
             {...register('login', { required: true })}
@@ -62,6 +63,7 @@ const FormAuth = () => {
             type='password'
             label='Пароль'
             size='lg'
+            color='blue'
             error={Boolean(errors?.password)}
             onInput={() => setError(false)}
             {...register('password', { required: true })}
@@ -74,10 +76,8 @@ const FormAuth = () => {
                 className={styles.icon}
               />
             }
-            show={isError}
-            dismissible={{
-              onClose: () => setError(false),
-            }}
+            open={isError}
+            onClose={() => setError(false)}
             color='red'
           >
             Пользователь не найден
@@ -88,6 +88,7 @@ const FormAuth = () => {
           <Button
             type='submit'
             variant='gradient'
+            color='blue'
             fullWidth
           >
             Войти

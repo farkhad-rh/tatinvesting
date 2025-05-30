@@ -22,6 +22,7 @@ const FormParams = () => {
           min={0}
           label='Инфляция в РФ, %'
           size='lg'
+          color='blue'
           defaultValue={DEF || ''}
           {...register('DEF', { valueAsNumber: true })}
         />
@@ -31,6 +32,7 @@ const FormParams = () => {
           min={0}
           label='Инфляция в США, %'
           size='lg'
+          color='blue'
           defaultValue={GRT || ''}
           readOnly
           {...register('GRT', { valueAsNumber: true })}
@@ -39,6 +41,7 @@ const FormParams = () => {
         <div className={styles.checkbox}>
           <Checkbox
             label='Учитывать терминальную стоимость?'
+            color='blue'
             defaultChecked={TV_enabled}
             {...register('TV_enabled')}
           />
@@ -51,6 +54,7 @@ const FormParams = () => {
           min={0}
           label='Средневзвешенная стоимость капитала, %'
           size='lg'
+          color='blue'
           defaultValue={WACC || ''}
           {...register('WACC', { valueAsNumber: true })}
         />
@@ -60,6 +64,7 @@ const FormParams = () => {
           min={0}
           label='Рабочий капитал, %'
           size='lg'
+          color='blue'
           defaultValue={WCD || ''}
           {...register('WCD', { valueAsNumber: true })}
         />
@@ -69,6 +74,7 @@ const FormParams = () => {
           min={0}
           label='Затраты на ремонт и ТО, %'
           size='lg'
+          color='blue'
           defaultValue={RMCD || ''}
           {...register('RMCD', { valueAsNumber: true })}
         />
@@ -80,6 +86,7 @@ const FormParams = () => {
           min={0}
           label='Налог на прибыль, %'
           size='lg'
+          color='blue'
           defaultValue={ITXD || ''}
           {...register('ITXD', { valueAsNumber: true })}
         />
@@ -89,6 +96,7 @@ const FormParams = () => {
           min={0}
           label='Налог на недвижимое имущество, %'
           size='lg'
+          color='blue'
           defaultValue={RETD || ''}
           {...register('RETD', { valueAsNumber: true })}
         />

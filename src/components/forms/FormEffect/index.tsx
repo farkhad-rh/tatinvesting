@@ -40,6 +40,7 @@ const FormEffect = () => {
                   type='text'
                   label='Наименование продукции'
                   size='lg'
+                  color='blue'
                   defaultValue={NP}
                   {...register(`PE.NPE${n}.NP`)}
                 />
@@ -51,6 +52,7 @@ const FormEffect = () => {
                   min={0}
                   label='Объем производства'
                   size='lg'
+                  color='blue'
                   defaultValue={NPET?.value || ''}
                   {...register(`PE.NPE${n}.NPET.value`, { valueAsNumber: true })}
                 />
@@ -65,6 +67,7 @@ const FormEffect = () => {
                       ref={ref}
                       label='Разрядность'
                       size='lg'
+                      color='blue'
                       value={value}
                       onChange={onChange}
                     >
@@ -90,6 +93,7 @@ const FormEffect = () => {
                       ref={ref}
                       label='Ед. измерения'
                       size='lg'
+                      color='blue'
                       value={value}
                       onChange={onChange}
                     >
@@ -112,6 +116,7 @@ const FormEffect = () => {
                   min={0}
                   label='Стоимость продукции'
                   size='lg'
+                  color='blue'
                   defaultValue={PC?.value || ''}
                   {...register(`PE.NPE${n}.PC.value`, { valueAsNumber: true })}
                 />
@@ -126,6 +131,7 @@ const FormEffect = () => {
                       ref={ref}
                       label='Разрядность'
                       size='lg'
+                      color='blue'
                       value={value}
                       onChange={onChange}
                     >
@@ -151,6 +157,7 @@ const FormEffect = () => {
                       ref={ref}
                       label='Валюта'
                       size='lg'
+                      color='blue'
                       value={value}
                       onChange={onChange}
                     >
@@ -173,6 +180,7 @@ const FormEffect = () => {
                   min={0}
                   label='Процессинг'
                   size='lg'
+                  color='blue'
                   defaultValue={EPP?.value || ''}
                   {...register(`PE.NPE${n}.EPP.value`, { valueAsNumber: true })}
                 />
@@ -187,6 +195,7 @@ const FormEffect = () => {
                       ref={ref}
                       label='Разрядность'
                       size='lg'
+                      color='blue'
                       value={value}
                       onChange={onChange}
                     >
@@ -212,6 +221,7 @@ const FormEffect = () => {
                       ref={ref}
                       label='Валюта'
                       size='lg'
+                      color='blue'
                       value={value}
                       onChange={onChange}
                     >

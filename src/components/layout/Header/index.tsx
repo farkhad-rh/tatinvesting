@@ -42,6 +42,7 @@ const Header = () => {
       <div className={styles.toggle}>
         <Switch
           label='Фон'
+          color='blue'
           defaultChecked={user?.background}
           labelProps={{
             className: styles.label,
@@ -53,6 +54,7 @@ const Header = () => {
       <Button
         className={styles.button}
         variant='text'
+        color='blue'
         onClick={handleLogout}
       >
         <UserCircleIcon

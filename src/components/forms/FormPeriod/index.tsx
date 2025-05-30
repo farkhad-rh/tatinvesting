@@ -26,6 +26,7 @@ const FormPeriod = () => {
             type='date'
             label='Дата реализации проекта'
             size='lg'
+            color='blue'
             defaultValue={PID}
             {...register('PID')}
           />
@@ -37,6 +38,7 @@ const FormPeriod = () => {
             min={0}
             label='Период реализации проекта'
             size='lg'
+            color='blue'
             defaultValue={DCE?.value || ''}
             {...register('DCE.value', { valueAsNumber: true })}
           />
@@ -51,6 +53,7 @@ const FormPeriod = () => {
                 ref={ref}
                 label='Ед. измерения'
                 size='lg'
+                color='blue'
                 value={value}
                 onChange={onChange}
               >
@@ -73,6 +76,7 @@ const FormPeriod = () => {
           type='date'
           label='Дата получения эффекта проекта'
           size='lg'
+          color='blue'
           value={PIDDC}
           readOnly
         />
@@ -87,6 +91,7 @@ const FormPeriod = () => {
               ref={ref}
               label='Горизонт планирования'
               size='lg'
+              color='blue'
               value={value}
               onChange={onChange}
             >

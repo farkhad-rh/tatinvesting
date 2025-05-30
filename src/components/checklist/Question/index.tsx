@@ -44,6 +44,7 @@ const Question: FC<QuestionProps> = ({ index, questions, question, filling, coor
               ref={ref}
               label='Ответ заполняющего'
               size='lg'
+              color='blue'
               value={value}
               onChange={onChange}
             >
@@ -58,6 +59,7 @@ const Question: FC<QuestionProps> = ({ index, questions, question, filling, coor
           type='text'
           label='Обосновыващий комментарий заполняющего'
           size='lg'
+          color='blue'
           defaultValue={checklist?.[questions]?.[index]?.comment}
           {...register(`${questions}.${index}.comment`)}
         />
@@ -80,6 +82,7 @@ const Question: FC<QuestionProps> = ({ index, questions, question, filling, coor
               ref={ref}
               label='Подтверждение согласующего'
               size='lg'
+              color='blue'
               value={value}
               onChange={onChange}
             >
@@ -108,6 +111,7 @@ const Question: FC<QuestionProps> = ({ index, questions, question, filling, coor
               label={checklist?.[fill]?.position}
               variant='standard'
               size='lg'
+              color='blue'
               value={checklist?.[fill]?.fullname || ''}
               readOnly
             />
@@ -130,6 +134,7 @@ const Question: FC<QuestionProps> = ({ index, questions, question, filling, coor
               label={checklist?.[coordinat]?.position}
               variant='standard'
               size='lg'
+              color='blue'
               value={checklist?.[coordinat]?.fullname || ''}
               readOnly
             />

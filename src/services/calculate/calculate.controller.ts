@@ -1211,7 +1211,7 @@ export const useCalculateController = () => {
       let value = 0
 
       ST?.forEach(n => {
-        if ((value === 0 && (ACF?.value?.[n] || 0)) > 0) {
+        if (value === 0 && (ACF?.value?.[n] || 0) > 0) {
           value = n + Math.abs((ACF?.value?.[n - 1] || 0) / (FCFF?.value?.[n] || 0))
         }
       })
@@ -1224,7 +1224,7 @@ export const useCalculateController = () => {
       let value = 0
 
       ST?.forEach(n => {
-        if ((value === 0 && (ADCF?.value?.[n] || 0)) > 0) {
+        if (value === 0 && (ADCF?.value?.[n] || 0) > 0) {
           value = n + Math.abs((ADCF?.value?.[n - 1] || 0) / (FCFF?.value?.[n] || 0))
         }
       })

@@ -20,6 +20,8 @@ const FormFinance = () => {
   const { ST, SY } = period
   const { CAPEX, KR, FP } = finance
 
+  console.log(SY)
+
   return (
     <FormConfig
       title='Finance'
@@ -31,6 +33,7 @@ const FormFinance = () => {
           min={0}
           label='CAPEX'
           size='lg'
+          color='blue'
           defaultValue={CAPEX?.value || ''}
           {...register('CAPEX.value', { valueAsNumber: true })}
         />
@@ -45,6 +48,7 @@ const FormFinance = () => {
               ref={ref}
               label='Разрядность'
               size='lg'
+              color='blue'
               value={value}
               onChange={onChange}
             >
@@ -70,6 +74,7 @@ const FormFinance = () => {
               ref={ref}
               label='Валюта'
               size='lg'
+              color='blue'
               value={value}
               onChange={onChange}
             >
@@ -89,6 +94,7 @@ const FormFinance = () => {
           type='number'
           label='Лимит коэффициента распределения'
           size='lg'
+          color='blue'
           value={KR?.limit}
           readOnly
         />
@@ -110,6 +116,7 @@ const FormFinance = () => {
               step={0.1}
               label='Коэффициент'
               size='lg'
+              color='blue'
               defaultValue={KR?.value?.[n] || 0}
               containerProps={{
                 className: `${styles.coeff}`,

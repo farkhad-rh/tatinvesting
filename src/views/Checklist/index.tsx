@@ -136,6 +136,7 @@ const Checklist = () => {
           className={styles.button}
           variant='gradient'
           size='lg'
+          color='blue'
           onClick={handleBack}
         >
           Назад
@@ -146,6 +147,7 @@ const Checklist = () => {
             className={styles.button}
             variant='gradient'
             size='lg'
+            color='blue'
             onClick={handleConfigs}
           >
             Исходные данные

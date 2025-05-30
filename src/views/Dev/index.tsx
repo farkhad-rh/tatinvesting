@@ -693,6 +693,7 @@ const Dev = () => {
           className={styles.button}
           variant='gradient'
           size='lg'
+          color='blue'
           onClick={handleBack}
         >
           Назад
@@ -702,6 +703,7 @@ const Dev = () => {
           className={styles.button}
           variant='gradient'
           size='lg'
+          color='blue'
           onClick={handleCharts}
         >
           Графики

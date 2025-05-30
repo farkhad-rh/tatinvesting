@@ -1,11 +1,11 @@
-import { defineConfig, splitVendorChunkPlugin } from 'vite'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
 import { optimizeCssModules } from 'vite-plugin-optimize-css-modules'
 import viteCompression from 'vite-plugin-compression'
 
-import manifest from './manifest.json'
+import manifest from './manifest'
 
 export default defineConfig({
   build: {
@@ -13,9 +13,11 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          store: ['recoil', 'recoil-persist'],
-          particles: ['react-particles', 'tsparticles'],
+          vendor: ['react', 'react-dom'],
+          'react-router': ['react-router-dom'],
+          recoil: ['recoil', 'recoil-persist'],
+          particles: ['@tsparticles/react', '@tsparticles/all', '@tsparticles/engine'],
+          charts: ['apexcharts', 'react-apexcharts'],
           utils: ['react-error-boundary', 'react-hook-form', 'clsx', 'dayjs', 'js-base64'],
         },
       },
@@ -24,11 +26,9 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    splitVendorChunkPlugin(),
     VitePWA({
       manifest,
       includeAssets: ['favicon.svg', 'favicon.ico', 'apple-touch-icon.png'],
-      // switch to 'true' to enable sw on development
       devOptions: {
         enabled: false,
       },
@@ -50,6 +50,7 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         charset: false,
+        silenceDeprecations: ['legacy-js-api'],
       },
     },
     modules: {

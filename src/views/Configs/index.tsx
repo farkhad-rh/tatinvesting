@@ -42,6 +42,7 @@ const Configs = () => {
           className={styles.button}
           variant='gradient'
           size='lg'
+          color='blue'
           onClick={handleChecklist}
         >
           Чек-лист
@@ -51,6 +52,7 @@ const Configs = () => {
           className={styles.button}
           variant='gradient'
           size='lg'
+          color='blue'
           onClick={handleResults}
         >
           Рассчитать

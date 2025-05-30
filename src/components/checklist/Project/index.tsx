@@ -17,6 +17,7 @@ const Project = () => {
           label='Главный технолог'
           variant='standard'
           size='lg'
+          color='blue'
           defaultValue={CT?.fullname}
           containerProps={{
             className: styles.input,
@@ -29,6 +30,7 @@ const Project = () => {
           label='ЗГИ по производству'
           variant='standard'
           size='lg'
+          color='blue'
           defaultValue={DCE?.fullname}
           containerProps={{
             className: styles.input,
@@ -41,6 +43,7 @@ const Project = () => {
           label='Руководитель СУН'
           variant='standard'
           size='lg'
+          color='blue'
           defaultValue={HRMS?.fullname}
           containerProps={{
             className: styles.input,
@@ -53,6 +56,7 @@ const Project = () => {
           label='Бизнес партнер ФЭС'
           variant='standard'
           size='lg'
+          color='blue'
           defaultValue={BPESF?.fullname}
           containerProps={{
             className: styles.input,
@@ -65,6 +69,7 @@ const Project = () => {
           label='Руководитель СУОФ'
           variant='standard'
           size='lg'
+          color='blue'
           defaultValue={HFAMS?.fullname}
           containerProps={{
             className: styles.input,
@@ -77,6 +82,7 @@ const Project = () => {
           label='Директор по персоналу'
           variant='standard'
           size='lg'
+          color='blue'
           defaultValue={HRD?.fullname}
           containerProps={{
             className: styles.input,
@@ -89,6 +95,7 @@ const Project = () => {
           label='Главный эксперт ФЭС'
           variant='standard'
           size='lg'
+          color='blue'
           defaultValue={SEESF?.fullname}
           containerProps={{
             className: styles.input,
@@ -103,6 +110,7 @@ const Project = () => {
           label='Предприятие'
           variant='standard'
           size='lg'
+          color='blue'
           defaultValue={company}
           containerProps={{
             className: styles.inputHalf,
@@ -115,6 +123,7 @@ const Project = () => {
           label='ФИО ответственного за проработку:'
           variant='standard'
           size='lg'
+          color='blue'
           defaultValue={LET?.fullname}
           containerProps={{
             className: styles.inputHalf,
@@ -127,6 +136,7 @@ const Project = () => {
           label='Наименование проекта'
           variant='standard'
           size='lg'
+          color='blue'
           defaultValue={project}
           containerProps={{
             className: styles.inputHalf,
@@ -139,6 +149,7 @@ const Project = () => {
           label='ФИО эксперта пред.проектной проработки:'
           variant='standard'
           size='lg'
+          color='blue'
           defaultValue={PDE?.fullname}
           containerProps={{
             className: styles.inputHalf,
